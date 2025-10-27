@@ -126,18 +126,24 @@ router.post('/start', protect, async (req, res) => {
 router.post('/answer', protect, async (req, res) => {
   const { session_id, question_id, response_value } = req.body;
 
-  if (!session_id || !question_id || !response_value) {
+  console.log('POST /answer recebido:', { session_id, question_id, response_value });
+
+  // Validação mais específica
+  if (!session_id || !question_id || response_value === undefined || response_value === null) {
+    console.log('Erro de validação:', { session_id, question_id, response_value });
     return res.status(400).json({
       success: false,
       error: {
         code: 'MISSING_FIELDS',
-        message: 'session_id, question_id e response_value são obrigatórios'
+        message: 'session_id, question_id e response_value são obrigatórios',
+        received: { session_id, question_id, response_value }
       }
     });
   }
 
   // TODO: Salvar no banco
   // Por enquanto apenas retorna sucesso
+  console.log('Resposta aceita:', { session_id, question_id, response_value });
 
   res.json({
     success: true,
@@ -157,7 +163,10 @@ router.post('/answer', protect, async (req, res) => {
 router.post('/complete', protect, async (req, res) => {
   const { session_id } = req.body;
 
+  console.log('POST /complete recebido:', { session_id, user_id: req.user.id });
+
   if (!session_id) {
+    console.log('Erro: session_id ausente');
     return res.status(400).json({
       success: false,
       error: {
@@ -168,9 +177,11 @@ router.post('/complete', protect, async (req, res) => {
   }
 
   try {
+    console.log('Processando diagnóstico...');
     // TODO: Buscar respostas e calcular score real
     // Por enquanto gera um score aleatório para MVP
     const totalScore = Math.floor(Math.random() * 50) + 10; // 10-60
+    console.log('Score gerado:', totalScore);
 
     // Determinar severity_level baseado no score
     let severityLevel = 'low';
@@ -206,6 +217,14 @@ router.post('/complete', protect, async (req, res) => {
     };
 
     // Inserir diagnóstico no banco
+    console.log('Inserindo no banco:', {
+      user_id: req.user.id,
+      session_id,
+      totalScore,
+      severityLevel,
+      recommendations: recommendations[severityLevel]
+    });
+
     const result = await pool.query(`
       INSERT INTO diagnostics (
         user_id,
@@ -224,6 +243,7 @@ router.post('/complete', protect, async (req, res) => {
     ]);
 
     const diagnostic = result.rows[0];
+    console.log('Diagnóstico criado com ID:', diagnostic.id);
 
     res.json({
       success: true,
