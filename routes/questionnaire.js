@@ -167,25 +167,86 @@ router.post('/complete', protect, async (req, res) => {
     });
   }
 
-  // TODO: Buscar respostas, calcular score, aplicar regras
-  // Por enquanto retorna diagnóstico mocado
+  try {
+    // TODO: Buscar respostas e calcular score real
+    // Por enquanto gera um score aleatório para MVP
+    const totalScore = Math.floor(Math.random() * 50) + 10; // 10-60
 
-  res.json({
-    success: true,
-    data: {
-      session_id,
-      diagnostic_id: Math.floor(Math.random() * 1000000),
-      diagnostic_text: "Com base nas suas respostas, identificamos que você apresenta um padrão de sono irregular e possíveis sinais de fadiga. Recomendamos o Plano Avançado com dosagens otimizadas de magnésio, melatonina e vitaminas do complexo B para melhorar a qualidade do seu sono e níveis de energia.",
-      recommended_product: {
-        id: 2,
-        name: "Plano Avançado",
-        slug: "plano-avancado",
-        description: "Doses otimizadas e ativos exclusivos",
-        price: 797.00,
-        checkout_url: `${process.env.CHECKOUT_BASE_URL || 'https://checkout.exemplo.com'}/avancado`
-      }
+    // Determinar severity_level baseado no score
+    let severityLevel = 'low';
+    if (totalScore >= 40) {
+      severityLevel = 'high';
+    } else if (totalScore >= 25) {
+      severityLevel = 'moderate';
     }
-  });
+
+    // Categorias avaliadas (mockado por enquanto)
+    const categories = ['Sono', 'Energia', 'Digestão', 'Estresse', 'Imunidade'];
+
+    // Recomendações baseadas no nível
+    const recommendations = {
+      low: [
+        'Mantenha uma alimentação equilibrada e rica em nutrientes',
+        'Continue praticando exercícios físicos regulares',
+        'Durma de 7 a 9 horas por noite',
+        'Considere suplementação básica para otimizar resultados'
+      ],
+      moderate: [
+        'Aumente a ingestão de vegetais e frutas',
+        'Considere suplementação de vitaminas e minerais',
+        'Melhore a qualidade do sono com rotina regular',
+        'Pratique técnicas de gerenciamento de estresse'
+      ],
+      high: [
+        'Consulte um profissional de saúde',
+        'Implemente suplementação completa e direcionada',
+        'Revise seus hábitos alimentares com urgência',
+        'Priorize o descanso e recuperação adequados'
+      ]
+    };
+
+    // Inserir diagnóstico no banco
+    const result = await pool.query(`
+      INSERT INTO diagnostics (
+        user_id,
+        session_id,
+        total_score,
+        severity_level,
+        categories,
+        recommendations
+      ) VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING id, user_id, session_id, total_score, severity_level, categories, recommendations, created_at
+    `, [
+      req.user.id,
+      session_id,
+      totalScore,
+      severityLevel,
+      JSON.stringify(categories),
+      JSON.stringify(recommendations[severityLevel])
+    ]);
+
+    const diagnostic = result.rows[0];
+
+    res.json({
+      success: true,
+      data: {
+        session_id,
+        diagnostic_id: diagnostic.id,
+        total_score: diagnostic.total_score,
+        severity_level: diagnostic.severity_level
+      }
+    });
+
+  } catch (error) {
+    console.error('Erro ao completar questionário:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'DIAGNOSTIC_CREATION_ERROR',
+        message: 'Erro ao gerar diagnóstico'
+      }
+    });
+  }
 });
 
 module.exports = router;
