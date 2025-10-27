@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sintomas Gerais - Ocea Supplements</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary-color: #2C5F2D;
+            --secondary-color: #97BC62;
+            --accent-color: #FFB81C;
+            --neutral-bg: #F7F4EF;
+            --text-dark: #2c2c2c;
+            --brown-detail: #8B7355;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--neutral-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header fixo */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .user-greeting {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .btn-logout {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: var(--primary-color);
+        }
+
+        /* Imagem de capa */
+        .cover-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            margin-top: 70px;
+        }
+
+        @media (min-width: 1024px) {
+            .cover-image {
+                height: 500px;
+            }
+        }
+
+        /* Barra de progresso */
+        .progress-container {
+            background: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-wrapper {
+            position: relative;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: visible;
+        }
+
+        .progress-bar-custom {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .progress-thumb {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Questionário */
+        .questionnaire-section {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1rem 5rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-description {
+            color: #666;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .question-block {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .question-number {
+            color: var(--secondary-color);
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Checkboxes estilizados */
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .checkbox-option {
+            background: var(--neutral-bg);
+            border: 3px solid transparent;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .checkbox-option:hover {
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .checkbox-option.selected {
+            border-color: var(--primary-color);
+            background: #e8f5e9;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-color);
+        }
+
+        .checkbox-option label {
+            cursor: pointer;
+            font-size: 0.95rem;
+            flex: 1;
+        }
+
+        /* Contador de sintomas */
+        .symptoms-counter {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .symptoms-counter .count {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .symptoms-counter .label {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Botões de navegação */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+            gap: 1rem;
+        }
+
+        .btn-navigation {
+            padding: 1rem 3rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-prev {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-prev:hover {
+            background: #5a6268;
+            transform: translateX(-5px);
+        }
+
+        .btn-finish {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: 0 5px 15px rgba(44, 95, 45, 0.3);
+        }
+
+        .btn-finish:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(44, 95, 45, 0.4);
+        }
+
+        .btn-finish:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .question-block {
+                padding: 1.5rem;
+            }
+
+            .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+            }
+
+            .btn-navigation {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header fixo -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="bi bi-heart-pulse-fill text-danger"></i>
+                Ocea Supplements
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <span class="user-greeting" id="user-greeting"></span>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="bi bi-box-arrow-right"></i> Sair
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Imagem de capa -->
+    <picture>
+        <source media="(min-width: 1024px)" srcset="/assets/images/questionario/headers/7-sintomas.jpg">
+        <img src="/assets/images/questionario/headers/7-sintomas-mobile.jpg" alt="Sintomas Gerais" class="cover-image">
+    </picture>
+
+    <!-- Barra de progresso -->
+    <div class="progress-container">
+        <div class="container">
+            <div class="progress-wrapper">
+                <div class="progress-bar-custom" id="progress-bar" style="width: 100%">
+                    <div class="progress-thumb">100%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Questionário -->
+    <section class="questionnaire-section">
+
+        <h1 class="section-title">
+            📋 Sintomas Gerais
+        </h1>
+        <p class="section-description">
+            Última etapa! Marque todos os sintomas que você sente frequentemente.
+        </p>
+
+        <!-- Contador de sintomas -->
+        <div class="symptoms-counter">
+            <div class="count" id="symptoms-count">0</div>
+            <div class="label">sintomas selecionados</div>
+        </div>
+
+        <form id="sintomas-form">
+
+            <div class="question-block">
+                <div class="question-text">Selecione todos os sintomas que você experimenta com frequência:</div>
+                <div class="checkbox-grid" id="symptoms-grid">
+                    <!-- Sintomas serão carregados aqui -->
+                </div>
+            </div>
+
+        </form>
+
+        <!-- Botões de navegação -->
+        <div class="navigation-buttons">
+            <button type="button" class="btn-navigation btn-prev" onclick="goBack()">
+                <i class="bi bi-arrow-left"></i> Voltar
+            </button>
+            <button type="button" class="btn-navigation btn-finish" id="btn-finish" onclick="finishQuestionnaire()">
+                <i class="bi bi-check-circle me-2"></i> Finalizar Anamnese
+            </button>
+        </div>
+
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- API Client -->
+    <script src="/js/api.js"></script>
+
+    <script>
+        // =============================================
+        // LISTA DE SINTOMAS
+        // =============================================
+
+        const SINTOMAS = [
+            'Fadiga constante',
+            'Dores de cabeça frequentes',
+            'Insônia ou sono não reparador',
+            'Ansiedade',
+            'Irritabilidade',
+            'Mudanças de humor',
+            'Dificuldade de concentração',
+            'Esquecimento',
+            'Queda de cabelo',
+            'Unhas fracas',
+            'Pele seca',
+            'Acne',
+            'Inchaço',
+            'Retenção de líquidos',
+            'Ganho de peso inexplicável',
+            'Dificuldade para perder peso',
+            'Falta de apetite',
+            'Compulsão alimentar',
+            'Cãibras musculares',
+            'Dores articulares',
+            'Formigamento nas extremidades',
+            'Mãos e pés frios',
+            'Suor excessivo',
+            'Olheiras',
+            'Alergias frequentes',
+            'Resfriados constantes',
+            'Cicatrização lenta',
+            'Nenhum dos sintomas acima'
+        ];
+
+        // =============================================
+        // INICIALIZAÇÃO
+        // =============================================
+
+        function init() {
+            // Verificar autenticação
+            if (!API.Auth.isAuthenticated()) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Exibir nome do usuário
+            const userData = API.Auth.getUserData();
+            if (userData && userData.nome) {
+                const firstName = userData.nome.split(' ')[0];
+                document.getElementById('user-greeting').textContent = `Olá, ${firstName}`;
+            }
+
+            // Renderizar sintomas
+            renderSymptoms();
+
+            // Carregar dados salvos (se houver)
+            loadSavedData();
+
+            // Configurar event listeners
+            setupEventListeners();
+        }
+
+        // =============================================
+        // RENDERIZAR SINTOMAS
+        // =============================================
+
+        function renderSymptoms() {
+            const grid = document.getElementById('symptoms-grid');
+            grid.innerHTML = '';
+
+            SINTOMAS.forEach((sintoma, index) => {
+                const checkboxHtml = `
+                    <div class="checkbox-option" data-symptom="${sintoma}">
+                        <input type="checkbox" name="sintomas" value="${sintoma}" id="sintoma_${index}">
+                        <label for="sintoma_${index}">${sintoma}</label>
+                    </div>
+                `;
+                grid.innerHTML += checkboxHtml;
+            });
+        }
+
+        // =============================================
+        // EVENT LISTENERS
+        // =============================================
+
+        function setupEventListeners() {
+            // Checkboxes - adicionar classe selected
+            document.querySelectorAll('.checkbox-option').forEach(option => {
+                option.addEventListener('click', function(e) {
+                    if (e.target.tagName !== 'INPUT') {
+                        const checkbox = this.querySelector('input[type="checkbox"]');
+                        checkbox.checked = !checkbox.checked;
+                    }
+
+                    const checkbox = this.querySelector('input[type="checkbox"]');
+
+                    if (checkbox.checked) {
+                        this.classList.add('selected');
+                    } else {
+                        this.classList.remove('selected');
+                    }
+
+                    // Se selecionar "Nenhum dos sintomas acima", desmarcar outras
+                    if (checkbox.value === 'Nenhum dos sintomas acima' && checkbox.checked) {
+                        document.querySelectorAll('input[name="sintomas"]').forEach(cb => {
+                            if (cb.value !== 'Nenhum dos sintomas acima') {
+                                cb.checked = false;
+                                cb.closest('.checkbox-option').classList.remove('selected');
+                            }
+                        });
+                    } else if (checkbox.checked && checkbox.value !== 'Nenhum dos sintomas acima') {
+                        // Se selecionar qualquer outro sintoma, desmarcar "Nenhum"
+                        const nenhumCheckbox = document.querySelector('input[value="Nenhum dos sintomas acima"]');
+                        if (nenhumCheckbox) {
+                            nenhumCheckbox.checked = false;
+                            nenhumCheckbox.closest('.checkbox-option').classList.remove('selected');
+                        }
+                    }
+
+                    updateCounter();
+                });
+            });
+        }
+
+        // =============================================
+        // ATUALIZAR CONTADOR
+        // =============================================
+
+        function updateCounter() {
+            const selectedCheckboxes = document.querySelectorAll('input[name="sintomas"]:checked');
+            const count = selectedCheckboxes.length;
+            document.getElementById('symptoms-count').textContent = count;
+
+            // Habilitar botão de finalizar (sempre pode finalizar, mesmo sem sintomas)
+            document.getElementById('btn-finish').disabled = false;
+        }
+
+        // =============================================
+        // COLETAR DADOS DO FORMULÁRIO
+        // =============================================
+
+        function getFormData() {
+            const sintomas = [];
+            document.querySelectorAll('input[name="sintomas"]:checked').forEach(checkbox => {
+                sintomas.push(checkbox.value);
+            });
+            return { sintomas };
+        }
+
+        // =============================================
+        // FINALIZAR QUESTIONÁRIO
+        // =============================================
+
+        async function finishQuestionnaire() {
+            const btnFinish = document.getElementById('btn-finish');
+            btnFinish.disabled = true;
+            btnFinish.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processando...';
+
+            try {
+                // Coletar dados desta seção
+                const sintomasData = getFormData();
+                localStorage.setItem('anamnese_sintomas', JSON.stringify(sintomasData));
+
+                // Coletar TODOS os dados das seções anteriores
+                const introData = JSON.parse(localStorage.getItem('anamnese_intro') || '{}');
+                const nutricaoData = JSON.parse(localStorage.getItem('anamnese_nutricao') || '{}');
+                const digestivaData = JSON.parse(localStorage.getItem('anamnese_digestiva') || '{}');
+                const fisicaData = JSON.parse(localStorage.getItem('anamnese_fisica') || '{}');
+                const sonoData = JSON.parse(localStorage.getItem('anamnese_sono') || '{}');
+                const mentalData = JSON.parse(localStorage.getItem('anamnese_mental') || '{}');
+                const hormonalData = JSON.parse(localStorage.getItem('anamnese_hormonal') || '{}');
+
+                const anamneseCompleta = {
+                    intro: introData,
+                    nutricao: nutricaoData,
+                    digestiva: digestivaData,
+                    fisica: fisicaData,
+                    sono: sonoData,
+                    mental: mentalData,
+                    hormonal: hormonalData,
+                    sintomas: sintomasData
+                };
+
+                console.log('Anamnese completa:', anamneseCompleta);
+
+                // TODO: Enviar para API quando estiver implementada
+                // const response = await API.Anamnese.finalizar(anamneseCompleta);
+
+                // Por enquanto, simular sucesso e redirecionar para processamento
+                alert('Anamnese finalizada com sucesso! Estamos processando seus resultados...');
+
+                // Redirecionar para página de processamento (a ser criada)
+                // window.location.href = '/questionario/processando.html';
+
+                // Temporariamente, redirecionar para dashboard
+                window.location.href = '/dashboard.html';
+
+            } catch (error) {
+                console.error('Erro ao finalizar anamnese:', error);
+                alert('Erro ao finalizar anamnese. Tente novamente.\n' + error.message);
+                btnFinish.disabled = false;
+                btnFinish.innerHTML = '<i class="bi bi-check-circle me-2"></i> Finalizar Anamnese';
+            }
+        }
+
+        // =============================================
+        // CARREGAR DADOS SALVOS
+        // =============================================
+
+        function loadSavedData() {
+            const savedData = localStorage.getItem('anamnese_sintomas');
+            if (!savedData) return;
+
+            try {
+                const data = JSON.parse(savedData);
+
+                // Restaurar checkboxes
+                if (data.sintomas && data.sintomas.length > 0) {
+                    data.sintomas.forEach(value => {
+                        const checkbox = document.querySelector(`input[name="sintomas"][value="${value}"]`);
+                        if (checkbox) {
+                            checkbox.checked = true;
+                            checkbox.closest('.checkbox-option').classList.add('selected');
+                        }
+                    });
+                }
+
+                updateCounter();
+            } catch (error) {
+                console.error('Erro ao carregar dados salvos:', error);
+            }
+        }
+
+        // =============================================
+        // NAVEGAÇÃO
+        // =============================================
+
+        function goBack() {
+            window.location.href = '/questionario/6-hormonal.html';
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair? Seu progresso será salvo.')) {
+                API.Auth.logout();
+            }
+        }
+
+        // =============================================
+        // INICIAR AO CARREGAR PÁGINA
+        // =============================================
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+
+</body>
+</html>

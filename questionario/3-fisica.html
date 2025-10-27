@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atividade Física - Ocea Supplements</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary-color: #2C5F2D;
+            --secondary-color: #97BC62;
+            --accent-color: #FFB81C;
+            --neutral-bg: #F7F4EF;
+            --text-dark: #2c2c2c;
+            --brown-detail: #8B7355;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--neutral-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header fixo */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .user-greeting {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .btn-logout {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: var(--primary-color);
+        }
+
+        /* Imagem de capa */
+        .cover-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            margin-top: 70px;
+        }
+
+        @media (min-width: 1024px) {
+            .cover-image {
+                height: 500px;
+            }
+        }
+
+        /* Barra de progresso */
+        .progress-container {
+            background: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-wrapper {
+            position: relative;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: visible;
+        }
+
+        .progress-bar-custom {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .progress-thumb {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Questionário */
+        .questionnaire-section {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-description {
+            color: #666;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .question-block {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .question-number {
+            color: var(--secondary-color);
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Radio buttons estilizados */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .radio-option {
+            background: var(--neutral-bg);
+            border: 3px solid transparent;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .radio-option:hover {
+            border-color: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        .radio-option.selected {
+            border-color: var(--primary-color);
+            background: #e8f5e9;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-color);
+        }
+
+        .radio-option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 1rem;
+        }
+
+        /* Botões de navegação */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+            gap: 1rem;
+        }
+
+        .btn-navigation {
+            padding: 1rem 3rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-prev {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-prev:hover {
+            background: #5a6268;
+            transform: translateX(-5px);
+        }
+
+        .btn-next {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-next:hover {
+            background: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        .btn-next:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .question-block {
+                padding: 1.5rem;
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+            }
+
+            .btn-navigation {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header fixo -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="bi bi-heart-pulse-fill text-danger"></i>
+                Ocea Supplements
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <span class="user-greeting" id="user-greeting"></span>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="bi bi-box-arrow-right"></i> Sair
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Imagem de capa -->
+    <picture>
+        <source media="(min-width: 1024px)" srcset="/assets/images/questionario/headers/3-fisica.jpg">
+        <img src="/assets/images/questionario/headers/3-fisica-mobile.jpg" alt="Atividade Física" class="cover-image">
+    </picture>
+
+    <!-- Barra de progresso -->
+    <div class="progress-container">
+        <div class="container">
+            <div class="progress-wrapper">
+                <div class="progress-bar-custom" id="progress-bar" style="width: 42%">
+                    <div class="progress-thumb">42%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Questionário -->
+    <section class="questionnaire-section">
+
+        <h1 class="section-title">
+            💪 Atividade Física
+        </h1>
+        <p class="section-description">
+            Movimento é vida! Entenda como sua rotina física impacta sua saúde.
+        </p>
+
+        <form id="fisica-form">
+
+            <!-- Pergunta 1 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 1 DE 4</div>
+                <div class="question-text">Com que frequência você pratica exercícios físicos?</div>
+                <div class="radio-group">
+                    <div class="radio-option" data-question="frequencia_exercicio">
+                        <input type="radio" name="frequencia_exercicio" value="Sedentário" id="freq_1">
+                        <label for="freq_1">Sedentário (não pratico)</label>
+                    </div>
+                    <div class="radio-option" data-question="frequencia_exercicio">
+                        <input type="radio" name="frequencia_exercicio" value="1-2x/semana" id="freq_2">
+                        <label for="freq_2">1 a 2 vezes por semana</label>
+                    </div>
+                    <div class="radio-option" data-question="frequencia_exercicio">
+                        <input type="radio" name="frequencia_exercicio" value="3-4x/semana" id="freq_3">
+                        <label for="freq_3">3 a 4 vezes por semana</label>
+                    </div>
+                    <div class="radio-option" data-question="frequencia_exercicio">
+                        <input type="radio" name="frequencia_exercicio" value="5+x/semana" id="freq_4">
+                        <label for="freq_4">5 ou mais vezes por semana</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pergunta 2 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 2 DE 4</div>
+                <div class="question-text">Qual seu nível de energia ao longo do dia?</div>
+                <div class="radio-group">
+                    <div class="radio-option" data-question="nivel_energia">
+                        <input type="radio" name="nivel_energia" value="Muito baixo" id="energia_1">
+                        <label for="energia_1">Muito baixo (sempre cansado)</label>
+                    </div>
+                    <div class="radio-option" data-question="nivel_energia">
+                        <input type="radio" name="nivel_energia" value="Baixo" id="energia_2">
+                        <label for="energia_2">Baixo (frequentemente sem energia)</label>
+                    </div>
+                    <div class="radio-option" data-question="nivel_energia">
+                        <input type="radio" name="nivel_energia" value="Moderado" id="energia_3">
+                        <label for="energia_3">Moderado (energia suficiente)</label>
+                    </div>
+                    <div class="radio-option" data-question="nivel_energia">
+                        <input type="radio" name="nivel_energia" value="Alto" id="energia_4">
+                        <label for="energia_4">Alto (muita disposição)</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pergunta 3 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 3 DE 4</div>
+                <div class="question-text">Sente dores musculares ou nas articulações?</div>
+                <div class="radio-group">
+                    <div class="radio-option" data-question="dores_musculares">
+                        <input type="radio" name="dores_musculares" value="Nunca" id="dor_1">
+                        <label for="dor_1">Nunca</label>
+                    </div>
+                    <div class="radio-option" data-question="dores_musculares">
+                        <input type="radio" name="dores_musculares" value="Raramente" id="dor_2">
+                        <label for="dor_2">Raramente</label>
+                    </div>
+                    <div class="radio-option" data-question="dores_musculares">
+                        <input type="radio" name="dores_musculares" value="Às vezes" id="dor_3">
+                        <label for="dor_3">Às vezes</label>
+                    </div>
+                    <div class="radio-option" data-question="dores_musculares">
+                        <input type="radio" name="dores_musculares" value="Frequentemente" id="dor_4">
+                        <label for="dor_4">Frequentemente</label>
+                    </div>
+                    <div class="radio-option" data-question="dores_musculares">
+                        <input type="radio" name="dores_musculares" value="Sempre" id="dor_5">
+                        <label for="dor_5">Sempre (dores crônicas)</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pergunta 4 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 4 DE 4</div>
+                <div class="question-text">Qual é o seu objetivo principal com atividade física?</div>
+                <div class="radio-group">
+                    <div class="radio-option" data-question="objetivo_exercicio">
+                        <input type="radio" name="objetivo_exercicio" value="Perda de peso" id="obj_1">
+                        <label for="obj_1">Perda de peso</label>
+                    </div>
+                    <div class="radio-option" data-question="objetivo_exercicio">
+                        <input type="radio" name="objetivo_exercicio" value="Ganho muscular" id="obj_2">
+                        <label for="obj_2">Ganho de massa muscular</label>
+                    </div>
+                    <div class="radio-option" data-question="objetivo_exercicio">
+                        <input type="radio" name="objetivo_exercicio" value="Saúde geral" id="obj_3">
+                        <label for="obj_3">Saúde e bem-estar geral</label>
+                    </div>
+                    <div class="radio-option" data-question="objetivo_exercicio">
+                        <input type="radio" name="objetivo_exercicio" value="Performance" id="obj_4">
+                        <label for="obj_4">Melhorar performance atlética</label>
+                    </div>
+                    <div class="radio-option" data-question="objetivo_exercicio">
+                        <input type="radio" name="objetivo_exercicio" value="Não tenho" id="obj_5">
+                        <label for="obj_5">Não tenho objetivo específico</label>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        <!-- Botões de navegação -->
+        <div class="navigation-buttons">
+            <button type="button" class="btn-navigation btn-prev" onclick="goBack()">
+                <i class="bi bi-arrow-left"></i> Voltar
+            </button>
+            <button type="button" class="btn-navigation btn-next" id="btn-next" onclick="saveAndContinue()">
+                Continuar <i class="bi bi-arrow-right"></i>
+            </button>
+        </div>
+
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- API Client -->
+    <script src="/js/api.js"></script>
+
+    <script>
+        // =============================================
+        // INICIALIZAÇÃO
+        // =============================================
+
+        function init() {
+            // Verificar autenticação
+            if (!API.Auth.isAuthenticated()) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Exibir nome do usuário
+            const userData = API.Auth.getUserData();
+            if (userData && userData.nome) {
+                const firstName = userData.nome.split(' ')[0];
+                document.getElementById('user-greeting').textContent = `Olá, ${firstName}`;
+            }
+
+            // Carregar dados salvos (se houver)
+            loadSavedData();
+
+            // Configurar event listeners
+            setupEventListeners();
+        }
+
+        // =============================================
+        // EVENT LISTENERS
+        // =============================================
+
+        function setupEventListeners() {
+            // Radio buttons - adicionar classe selected
+            document.querySelectorAll('.radio-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionName = this.dataset.question;
+                    // Remover selected de todas as opções da mesma pergunta
+                    document.querySelectorAll(`.radio-option[data-question="${questionName}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    // Adicionar selected na opção clicada
+                    this.classList.add('selected');
+                    // Marcar o radio
+                    this.querySelector('input[type="radio"]').checked = true;
+
+                    checkFormCompletion();
+                });
+            });
+        }
+
+        // =============================================
+        // VALIDAÇÃO DO FORMULÁRIO
+        // =============================================
+
+        function checkFormCompletion() {
+            const formData = getFormData();
+            const btnNext = document.getElementById('btn-next');
+
+            // Verificar se todas as perguntas foram respondidas
+            const isComplete = formData.frequencia_exercicio &&
+                              formData.nivel_energia &&
+                              formData.dores_musculares &&
+                              formData.objetivo_exercicio;
+
+            btnNext.disabled = !isComplete;
+        }
+
+        // =============================================
+        // COLETAR DADOS DO FORMULÁRIO
+        // =============================================
+
+        function getFormData() {
+            return {
+                frequencia_exercicio: document.querySelector('input[name="frequencia_exercicio"]:checked')?.value || null,
+                nivel_energia: document.querySelector('input[name="nivel_energia"]:checked')?.value || null,
+                dores_musculares: document.querySelector('input[name="dores_musculares"]:checked')?.value || null,
+                objetivo_exercicio: document.querySelector('input[name="objetivo_exercicio"]:checked')?.value || null
+            };
+        }
+
+        // =============================================
+        // SALVAR E CONTINUAR
+        // =============================================
+
+        function saveAndContinue() {
+            const formData = getFormData();
+
+            console.log('Dados de Atividade Física:', formData);
+
+            // Salvar no localStorage temporariamente
+            localStorage.setItem('anamnese_fisica', JSON.stringify(formData));
+
+            // TODO: Salvar na API quando estiver implementada
+            // await API.Anamnese.saveSection('fisica', formData);
+
+            // Redirecionar para próxima seção
+            window.location.href = '/questionario/4-sono.html';
+        }
+
+        // =============================================
+        // CARREGAR DADOS SALVOS
+        // =============================================
+
+        function loadSavedData() {
+            const savedData = localStorage.getItem('anamnese_fisica');
+            if (!savedData) return;
+
+            try {
+                const data = JSON.parse(savedData);
+
+                // Restaurar todas as respostas
+                Object.keys(data).forEach(key => {
+                    if (data[key]) {
+                        const radio = document.querySelector(`input[name="${key}"][value="${data[key]}"]`);
+                        if (radio) {
+                            radio.checked = true;
+                            radio.closest('.radio-option').classList.add('selected');
+                        }
+                    }
+                });
+
+                checkFormCompletion();
+            } catch (error) {
+                console.error('Erro ao carregar dados salvos:', error);
+            }
+        }
+
+        // =============================================
+        // NAVEGAÇÃO
+        // =============================================
+
+        function goBack() {
+            window.location.href = '/questionario/2-digestiva.html';
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair? Seu progresso será salvo.')) {
+                API.Auth.logout();
+            }
+        }
+
+        // =============================================
+        // INICIAR AO CARREGAR PÁGINA
+        // =============================================
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+
+</body>
+</html>

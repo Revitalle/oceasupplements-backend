@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anamnese Digital - Ocea Supplements</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary-color: #2C5F2D;
+            --secondary-color: #97BC62;
+            --accent-color: #FFB81C;
+            --neutral-bg: #F7F4EF;
+            --text-dark: #2c2c2c;
+            --brown-detail: #8B7355;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--neutral-bg);
+            color: var(--text-dark);
+        }
+
+        /* HEADER */
+        header {
+            background: var(--primary-color);
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        header .logo img {
+            max-height: 50px;
+        }
+
+        header .navigation {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        header .user-name {
+            color: white;
+            margin-right: 20px;
+            font-size: 14px;
+        }
+
+        /* COVER IMAGE */
+        .chat-section-cover {
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chat-section-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @media (min-width: 1024px) {
+            .chat-section-cover {
+                height: 700px;
+            }
+        }
+
+        /* PROGRESS BAR */
+        .progress {
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 0;
+        }
+
+        .progress-bar {
+            background-color: var(--primary-color);
+            transition: width 0.5s ease;
+        }
+
+        .progressThumb {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            top: -16px;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        /* CONTENT */
+        .chatHive {
+            background: var(--neutral-bg);
+            padding-bottom: 60px;
+        }
+
+        .chat-section-title {
+            padding: 60px 20px 40px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .chat-section-title h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .chat-section-description {
+            color: var(--text-dark);
+            line-height: 1.8;
+        }
+
+        .chat-section-description h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--brown-detail);
+        }
+
+        /* QUESTIONS */
+        .question-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .question {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .chat-message h4 {
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .chat-message p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* FORM INPUTS */
+        .form-label {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-control, .form-select {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(151, 188, 98, 0.25);
+        }
+
+        /* RADIO BUTTONS */
+        .radio-list {
+            margin-top: 30px;
+        }
+
+        .radio-list input[type="radio"] {
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .radio-list label {
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .radio-list label:hover {
+            background-color: #f8f9fa;
+        }
+
+        .radio-list input[type="radio"]:checked + label {
+            background-color: rgba(151, 188, 98, 0.1);
+            font-weight: 600;
+        }
+
+        /* NAVIGATION BUTTONS */
+        .chat-navigation {
+            max-width: 900px;
+            margin: 60px auto 40px;
+            padding: 0 20px;
+        }
+
+        .btn-purissima {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .btn-purissima:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .back-btn {
+            background: transparent;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1rem;
+            margin-top: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            color: var(--secondary-color);
+        }
+
+        .back-btn img {
+            margin-right: 8px;
+        }
+
+        /* FOOTER */
+        .chatLogoPurissima {
+            padding: 40px 0;
+        }
+
+        .chatLogoPurissima img {
+            max-width: 150px;
+            opacity: 0.6;
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 30px 20px;
+            font-size: 0.85rem;
+            color: #666;
+            background: white;
+            border-top: 1px solid #e9ecef;
+        }
+
+        /* IMC DISPLAY */
+        .imc-result {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(151, 188, 98, 0.1);
+            border-radius: 10px;
+            font-size: 0.95rem;
+        }
+
+        .imc-result strong {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .chat-section-title h1 {
+                font-size: 1.8rem;
+            }
+
+            .question {
+                padding: 25px;
+            }
+
+            .chat-message h4 {
+                font-size: 1.1rem;
+            }
+
+            .btn-purissima {
+                font-size: 1rem;
+                padding: 15px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container" style="max-width: 1280px;">
+            <div class="row align-items-center justify-content-between">
+                <div class="col col-lg-auto logo">
+                    <a href="/">
+                        <img src="/assets/images/logo-ocea-horizontal.svg" alt="Logo Ocea" onerror="this.src='/assets/images/logo192.png'">
+                    </a>
+                </div>
+                <div class="col col-lg-auto navigation">
+                    <span class="user-name" id="user-name">Olá, Usuário</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <div class="Chat">
+            <!-- COVER IMAGE -->
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-12 chat-section-cover">
+                        <picture>
+                            <source media="(min-width: 1024px)" srcset="/assets/images/questionario/headers/intro.jpg">
+                            <img src="/assets/images/questionario/headers/intro-mobile.jpg" alt="Antes de começarmos">
+                        </picture>
+                    </div>
+                </div>
+
+                <!-- PROGRESS BAR -->
+                <div class="row justify-content-center">
+                    <div class="col-12 px-0">
+                        <div class="progress" role="progressbar">
+                            <div class="progress-bar" style="width: 0%;"></div>
+                            <div class="progressThumb" style="left: 0%;">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTENT -->
+            <div class="chatHive position-relative">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-11 col-lg-12 chat-section-title">
+                            <h1><strong>Antes de começarmos</strong></h1>
+                            <div class="chat-section-description">
+                                <h3 class="text-uppercase">Vamos conhecer um pouco sobre você</h3>
+                                <p>Essas informações são essenciais para calcularmos seu perfil de saúde personalizado e criarmos recomendações precisas para suas necessidades.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FORM -->
+                <form id="intro-form">
+                    <div class="container-fluid">
+                        <div class="row justify-content-center">
+                            <div class="col-11 col-lg-12">
+
+                                <!-- NOME COMPLETO -->
+                                <div class="question-container">
+                                    <div class="question">
+                                        <div class="chat-message">
+                                            <h4 class="m-0">Qual é o seu nome completo?</h4>
+                                            <p class="mb-0 mt-1">Como devemos te chamar?</p>
+                                        </div>
+                                        <div class="chat-answer mt-4">
+                                            <input type="text" class="form-control" id="nome_completo" name="nome_completo" placeholder="Digite seu nome completo" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- IDADE -->
+                                <div class="question-container">
+                                    <div class="question">
+                                        <div class="chat-message">
+                                            <h4 class="m-0">Qual é a sua idade?</h4>
+                                            <p class="mb-0 mt-1">Isso nos ajuda a calibrar as referências nutricionais.</p>
+                                        </div>
+                                        <div class="chat-answer mt-4">
+                                            <input type="number" class="form-control" id="idade" name="idade" placeholder="Ex: 35" min="13" max="120" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- SEXO -->
+                                <div class="question-container">
+                                    <div class="question">
+                                        <div class="chat-message">
+                                            <h4 class="m-0">Qual é o seu sexo biológico?</h4>
+                                            <p class="mb-0 mt-1">Essa informação é importante para personalizar as recomendações hormonais.</p>
+                                        </div>
+                                        <div class="chat-answer radio-list">
+                                            <div class="row justify-content-start">
+                                                <div class="col-12 col-lg-6 pt-3 align-items-center d-flex">
+                                                    <input id="sexo-masculino" type="radio" name="sexo" class="form-check-input" value="masculino" required>
+                                                    <label for="sexo-masculino" class="form-check-label">Masculino</label>
+                                                </div>
+                                                <div class="col-12 col-lg-6 pt-3 align-items-center d-flex">
+                                                    <input id="sexo-feminino" type="radio" name="sexo" class="form-check-input" value="feminino">
+                                                    <label for="sexo-feminino" class="form-check-label">Feminino</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- PESO -->
+                                <div class="question-container">
+                                    <div class="question">
+                                        <div class="chat-message">
+                                            <h4 class="m-0">Qual é o seu peso atual?</h4>
+                                            <p class="mb-0 mt-1">Em quilogramas (kg).</p>
+                                        </div>
+                                        <div class="chat-answer mt-4">
+                                            <input type="number" class="form-control" id="peso" name="peso" placeholder="Ex: 70.5" step="0.1" min="30" max="300" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- ALTURA -->
+                                <div class="question-container">
+                                    <div class="question">
+                                        <div class="chat-message">
+                                            <h4 class="m-0">Qual é a sua altura?</h4>
+                                            <p class="mb-0 mt-1">Em centímetros (cm).</p>
+                                        </div>
+                                        <div class="chat-answer mt-4">
+                                            <input type="number" class="form-control" id="altura" name="altura" placeholder="Ex: 175" min="100" max="250" required>
+
+                                            <!-- IMC RESULTADO -->
+                                            <div id="imc-display" class="imc-result" style="display: none;">
+                                                <strong>Seu IMC:</strong> <span id="imc-valor">0</span> - <span id="imc-categoria">-</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NAVIGATION -->
+                    <div class="container chat-navigation">
+                        <div class="row justify-content-center">
+                            <div class="col-10 col-lg-auto">
+                                <button type="submit" class="btn btn-purissima">
+                                    <span class="nextButton m-0">
+                                        <strong class="d-block d-lg-inline">Começar Anamnese</strong>
+                                    </span>
+                                    <span class="mx-2 d-none d-lg-inline-flex">|</span>
+                                    <span style="font-weight: 500;">Nutrição</span>
+                                </button>
+                            </div>
+                            <div class="col-12 text-center">
+                                <button type="button" class="btn back-btn" onclick="window.location.href='/dashboard.html'">
+                                    <i class="bi bi-arrow-left me-2"></i>
+                                    Voltar para minha área
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- LOGO FOOTER -->
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-8 text-center chatLogoPurissima">
+                            <img src="/assets/images/logo-ocea-brown.svg" alt="Logo Ocea" onerror="this.src='/assets/images/logo192.png'">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <p class="copyright">
+        <span class="d-block">© 2025 Ocea Supplements. Todos os direitos reservados.</span>
+        <span class="d-block d-lg-inline">CNPJ: XX.XXX.XXX/XXXX-XX</span>
+    </p>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- API Client -->
+    <script src="/js/api.js"></script>
+
+    <!-- Script -->
+    <script>
+        // Verificar autenticação
+        if (!API.Auth.isAuthenticated()) {
+            window.location.href = '/login.html';
+        }
+
+        // Carregar nome do usuário
+        async function loadUserData() {
+            try {
+                const response = await API.Auth.getCurrentUser();
+                if (response.success && response.data) {
+                    const firstName = response.data.name.split(' ')[0];
+                    document.getElementById('user-name').textContent = `Olá, ${firstName}`;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar usuário:', error);
+            }
+        }
+
+        // Calcular IMC
+        function calcularIMC() {
+            const peso = parseFloat(document.getElementById('peso').value);
+            const altura = parseInt(document.getElementById('altura').value);
+
+            if (peso && altura) {
+                const alturaMetros = altura / 100;
+                const imc = peso / (alturaMetros * alturaMetros);
+                const imcArredondado = imc.toFixed(1);
+
+                let categoria = '';
+                if (imc < 18.5) categoria = 'Abaixo do peso';
+                else if (imc < 25) categoria = 'Peso normal';
+                else if (imc < 30) categoria = 'Sobrepeso';
+                else categoria = 'Obesidade';
+
+                document.getElementById('imc-valor').textContent = imcArredondado;
+                document.getElementById('imc-categoria').textContent = categoria;
+                document.getElementById('imc-display').style.display = 'block';
+
+                return { imc: imcArredondado, categoria };
+            }
+
+            return null;
+        }
+
+        // Listeners para calcular IMC
+        document.getElementById('peso').addEventListener('input', calcularIMC);
+        document.getElementById('altura').addEventListener('input', calcularIMC);
+
+        // Submit do formulário
+        document.getElementById('intro-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                nome_completo: document.getElementById('nome_completo').value,
+                idade: parseInt(document.getElementById('idade').value),
+                sexo: document.querySelector('input[name="sexo"]:checked').value,
+                peso: parseFloat(document.getElementById('peso').value),
+                altura: parseInt(document.getElementById('altura').value)
+            };
+
+            // Calcular IMC
+            const imcData = calcularIMC();
+            if (imcData) {
+                formData.imc = parseFloat(imcData.imc);
+                formData.imc_categoria = imcData.categoria;
+            }
+
+            console.log('Dados da intro:', formData);
+
+            // Salvar no localStorage temporariamente
+            localStorage.setItem('anamnese_intro', JSON.stringify(formData));
+
+            // TODO: Enviar para API depois
+            // const response = await API.Anamnese.iniciar(formData);
+
+            // Redirecionar para próxima seção
+            window.location.href = '/questionario/1-nutricao.html';
+        });
+
+        // Inicializar
+        window.addEventListener('DOMContentLoaded', loadUserData);
+    </script>
+
+</body>
+</html>

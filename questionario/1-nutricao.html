@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrição - Ocea Supplements</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary-color: #2C5F2D;
+            --secondary-color: #97BC62;
+            --accent-color: #FFB81C;
+            --neutral-bg: #F7F4EF;
+            --text-dark: #2c2c2c;
+            --brown-detail: #8B7355;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--neutral-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header fixo */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .user-greeting {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .btn-logout {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: var(--primary-color);
+        }
+
+        /* Imagem de capa */
+        .cover-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            margin-top: 70px;
+        }
+
+        @media (min-width: 1024px) {
+            .cover-image {
+                height: 500px;
+            }
+        }
+
+        /* Barra de progresso */
+        .progress-container {
+            background: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-wrapper {
+            position: relative;
+            height: 30px;
+            background: #e9ecef;
+            border-radius: 15px;
+            overflow: visible;
+        }
+
+        .progress-bar-custom {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .progress-thumb {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Questionário */
+        .questionnaire-section {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-description {
+            color: #666;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .question-block {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .question-number {
+            color: var(--secondary-color);
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Radio buttons estilizados */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .radio-option {
+            background: var(--neutral-bg);
+            border: 3px solid transparent;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .radio-option:hover {
+            border-color: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        .radio-option.selected {
+            border-color: var(--primary-color);
+            background: #e8f5e9;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-color);
+        }
+
+        .radio-option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 1rem;
+        }
+
+        /* Range slider personalizado */
+        .slider-container {
+            padding: 1rem 0;
+        }
+
+        .slider-wrapper {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #e9ecef;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: none;
+        }
+
+        .slider-value {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-top: 0.5rem;
+        }
+
+        /* Checkboxes estilizados */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .checkbox-option {
+            background: var(--neutral-bg);
+            border: 3px solid transparent;
+            border-radius: 12px;
+            padding: 0.75rem 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .checkbox-option:hover {
+            border-color: var(--secondary-color);
+        }
+
+        .checkbox-option.selected {
+            border-color: var(--primary-color);
+            background: #e8f5e9;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-color);
+        }
+
+        .checkbox-option label {
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        /* Botões de navegação */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+            gap: 1rem;
+        }
+
+        .btn-navigation {
+            padding: 1rem 3rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-prev {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-prev:hover {
+            background: #5a6268;
+            transform: translateX(-5px);
+        }
+
+        .btn-next {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-next:hover {
+            background: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        .btn-next:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .question-block {
+                padding: 1.5rem;
+            }
+
+            .navigation-buttons {
+                flex-direction: column;
+            }
+
+            .btn-navigation {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header fixo -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="bi bi-heart-pulse-fill text-danger"></i>
+                Ocea Supplements
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <span class="user-greeting" id="user-greeting"></span>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="bi bi-box-arrow-right"></i> Sair
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Imagem de capa -->
+    <picture>
+        <source media="(min-width: 1024px)" srcset="/assets/images/questionario/headers/1-nutricao.jpg">
+        <img src="/assets/images/questionario/headers/1-nutricao-mobile.jpg" alt="Nutrição" class="cover-image">
+    </picture>
+
+    <!-- Barra de progresso -->
+    <div class="progress-container">
+        <div class="container">
+            <div class="progress-wrapper">
+                <div class="progress-bar-custom" id="progress-bar" style="width: 14%">
+                    <div class="progress-thumb">14%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Questionário -->
+    <section class="questionnaire-section">
+
+        <h1 class="section-title">
+            🍽️ Nutrição
+        </h1>
+        <p class="section-description">
+            Entenda como seus hábitos alimentares impactam sua saúde e bem-estar.
+        </p>
+
+        <form id="nutricao-form">
+
+            <!-- Pergunta 1 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 1 DE 7</div>
+                <div class="question-text">Quantas refeições completas você faz por dia?</div>
+                <div class="radio-group">
+                    <div class="radio-option" data-question="refeicoes_dia">
+                        <input type="radio" name="refeicoes_dia" value="1-2" id="ref_1">
+                        <label for="ref_1">1 a 2 refeições</label>
+                    </div>
+                    <div class="radio-option" data-question="refeicoes_dia">
+                        <input type="radio" name="refeicoes_dia" value="3-4" id="ref_2">
+                        <label for="ref_2">3 a 4 refeições</label>
+                    </div>
+                    <div class="radio-option" data-question="refeicoes_dia">
+                        <input type="radio" name="refeicoes_dia" value="5-6" id="ref_3">
+                        <label for="ref_3">5 a 6 refeições</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pergunta 2 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 2 DE 7</div>
+                <div class="question-text">Costuma sentir fome entre as refeições?</div>
+                <div class="radio-group">
+                    <div class="radio-option" data-question="fome_entre_refeicoes">
+                        <input type="radio" name="fome_entre_refeicoes" value="Nunca" id="fome_1">
+                        <label for="fome_1">Nunca</label>
+                    </div>
+                    <div class="radio-option" data-question="fome_entre_refeicoes">
+                        <input type="radio" name="fome_entre_refeicoes" value="Às vezes" id="fome_2">
+                        <label for="fome_2">Às vezes</label>
+                    </div>
+                    <div class="radio-option" data-question="fome_entre_refeicoes">
+                        <input type="radio" name="fome_entre_refeicoes" value="Frequentemente" id="fome_3">
+                        <label for="fome_3">Frequentemente</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pergunta 3 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 3 DE 7</div>
+                <div class="question-text">Avalie a qualidade geral da sua alimentação</div>
+                <div class="slider-container">
+                    <div class="slider-labels">
+                        <span>0 - Muito ruim</span>
+                        <span>10 - Excelente</span>
+                    </div>
+                    <input type="range" name="qualidade_alimentacao" min="0" max="10" value="5" step="1" id="slider_qualidade">
+                    <div class="slider-value" id="value_qualidade">5</div>
+                </div>
+            </div>
+
+            <!-- Pergunta 4 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 4 DE 7</div>
+                <div class="question-text">Consome frutas e vegetais todos os dias?</div>
+                <div class="radio-group">
+                    <div class="radio-option" data-question="frutas_vegetais">
+                        <input type="radio" name="frutas_vegetais" value="Sim" id="frutas_1">
+                        <label for="frutas_1">Sim</label>
+                    </div>
+                    <div class="radio-option" data-question="frutas_vegetais">
+                        <input type="radio" name="frutas_vegetais" value="Não" id="frutas_2">
+                        <label for="frutas_2">Não</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pergunta 5 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 5 DE 7</div>
+                <div class="question-text">Costuma beber quantos litros de água por dia?</div>
+                <div class="radio-group">
+                    <div class="radio-option" data-question="agua_dia">
+                        <input type="radio" name="agua_dia" value="<1" id="agua_1">
+                        <label for="agua_1">Menos de 1 litro</label>
+                    </div>
+                    <div class="radio-option" data-question="agua_dia">
+                        <input type="radio" name="agua_dia" value="1-2" id="agua_2">
+                        <label for="agua_2">1 a 2 litros</label>
+                    </div>
+                    <div class="radio-option" data-question="agua_dia">
+                        <input type="radio" name="agua_dia" value="2-3" id="agua_3">
+                        <label for="agua_3">2 a 3 litros</label>
+                    </div>
+                    <div class="radio-option" data-question="agua_dia">
+                        <input type="radio" name="agua_dia" value=">3" id="agua_4">
+                        <label for="agua_4">Mais de 3 litros</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pergunta 6 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 6 DE 7</div>
+                <div class="question-text">Usa suplementos atualmente?</div>
+                <div class="radio-group">
+                    <div class="radio-option" data-question="suplementos">
+                        <input type="radio" name="suplementos" value="Não" id="sup_1">
+                        <label for="sup_1">Não uso suplementos</label>
+                    </div>
+                    <div class="radio-option" data-question="suplementos">
+                        <input type="radio" name="suplementos" value="Sim - Básico" id="sup_2">
+                        <label for="sup_2">Sim - Básico (vitaminas, minerais)</label>
+                    </div>
+                    <div class="radio-option" data-question="suplementos">
+                        <input type="radio" name="suplementos" value="Sim - Avançado" id="sup_3">
+                        <label for="sup_3">Sim - Avançado (múltiplos suplementos)</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pergunta 7 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 7 DE 7</div>
+                <div class="question-text">Tem alguma restrição alimentar? (Pode selecionar mais de uma)</div>
+                <div class="checkbox-group">
+                    <div class="checkbox-option" data-question="restricoes">
+                        <input type="checkbox" name="restricoes" value="Lactose" id="rest_1">
+                        <label for="rest_1">Lactose</label>
+                    </div>
+                    <div class="checkbox-option" data-question="restricoes">
+                        <input type="checkbox" name="restricoes" value="Glúten" id="rest_2">
+                        <label for="rest_2">Glúten</label>
+                    </div>
+                    <div class="checkbox-option" data-question="restricoes">
+                        <input type="checkbox" name="restricoes" value="Vegano" id="rest_3">
+                        <label for="rest_3">Vegano</label>
+                    </div>
+                    <div class="checkbox-option" data-question="restricoes">
+                        <input type="checkbox" name="restricoes" value="Peixes e Crustáceos" id="rest_4">
+                        <label for="rest_4">Peixes e Crustáceos</label>
+                    </div>
+                    <div class="checkbox-option" data-question="restricoes">
+                        <input type="checkbox" name="restricoes" value="Nenhuma" id="rest_5">
+                        <label for="rest_5">Nenhuma</label>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        <!-- Botões de navegação -->
+        <div class="navigation-buttons">
+            <button type="button" class="btn-navigation btn-prev" onclick="goBack()">
+                <i class="bi bi-arrow-left"></i> Voltar
+            </button>
+            <button type="button" class="btn-navigation btn-next" id="btn-next" onclick="saveAndContinue()">
+                Continuar <i class="bi bi-arrow-right"></i>
+            </button>
+        </div>
+
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- API Client -->
+    <script src="/js/api.js"></script>
+
+    <script>
+        // =============================================
+        // INICIALIZAÇÃO
+        // =============================================
+
+        function init() {
+            // Verificar autenticação
+            if (!API.Auth.isAuthenticated()) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Exibir nome do usuário
+            const userData = API.Auth.getUserData();
+            if (userData && userData.nome) {
+                const firstName = userData.nome.split(' ')[0];
+                document.getElementById('user-greeting').textContent = `Olá, ${firstName}`;
+            }
+
+            // Carregar dados salvos (se houver)
+            loadSavedData();
+
+            // Configurar event listeners
+            setupEventListeners();
+        }
+
+        // =============================================
+        // EVENT LISTENERS
+        // =============================================
+
+        function setupEventListeners() {
+            // Radio buttons - adicionar classe selected
+            document.querySelectorAll('.radio-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionName = this.dataset.question;
+                    // Remover selected de todas as opções da mesma pergunta
+                    document.querySelectorAll(`.radio-option[data-question="${questionName}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    // Adicionar selected na opção clicada
+                    this.classList.add('selected');
+                    // Marcar o radio
+                    this.querySelector('input[type="radio"]').checked = true;
+
+                    checkFormCompletion();
+                });
+            });
+
+            // Checkboxes - adicionar classe selected
+            document.querySelectorAll('.checkbox-option').forEach(option => {
+                option.addEventListener('click', function(e) {
+                    if (e.target.tagName !== 'INPUT') {
+                        const checkbox = this.querySelector('input[type="checkbox"]');
+                        checkbox.checked = !checkbox.checked;
+                    }
+
+                    if (this.querySelector('input[type="checkbox"]').checked) {
+                        this.classList.add('selected');
+                    } else {
+                        this.classList.remove('selected');
+                    }
+
+                    // Se selecionar "Nenhuma", desmarcar outras
+                    if (this.querySelector('input').value === 'Nenhuma' && this.querySelector('input').checked) {
+                        document.querySelectorAll('input[name="restricoes"]').forEach(cb => {
+                            if (cb.value !== 'Nenhuma') {
+                                cb.checked = false;
+                                cb.closest('.checkbox-option').classList.remove('selected');
+                            }
+                        });
+                    } else if (this.querySelector('input').checked && this.querySelector('input').value !== 'Nenhuma') {
+                        // Se selecionar qualquer outra, desmarcar "Nenhuma"
+                        const nenhumaCheckbox = document.querySelector('input[value="Nenhuma"]');
+                        if (nenhumaCheckbox) {
+                            nenhumaCheckbox.checked = false;
+                            nenhumaCheckbox.closest('.checkbox-option').classList.remove('selected');
+                        }
+                    }
+
+                    checkFormCompletion();
+                });
+            });
+
+            // Slider - atualizar valor exibido
+            const sliderQualidade = document.getElementById('slider_qualidade');
+            const valueQualidade = document.getElementById('value_qualidade');
+
+            sliderQualidade.addEventListener('input', function() {
+                valueQualidade.textContent = this.value;
+                checkFormCompletion();
+            });
+        }
+
+        // =============================================
+        // VALIDAÇÃO DO FORMULÁRIO
+        // =============================================
+
+        function checkFormCompletion() {
+            const formData = getFormData();
+            const btnNext = document.getElementById('btn-next');
+
+            // Verificar se todas as perguntas obrigatórias foram respondidas
+            const isComplete = formData.refeicoes_dia &&
+                              formData.fome_entre_refeicoes &&
+                              formData.qualidade_alimentacao !== null &&
+                              formData.frutas_vegetais &&
+                              formData.agua_dia &&
+                              formData.suplementos &&
+                              formData.restricoes.length > 0;
+
+            btnNext.disabled = !isComplete;
+        }
+
+        // =============================================
+        // COLETAR DADOS DO FORMULÁRIO
+        // =============================================
+
+        function getFormData() {
+            // Coletar restrições alimentares (múltiplas)
+            const restricoes = [];
+            document.querySelectorAll('input[name="restricoes"]:checked').forEach(checkbox => {
+                restricoes.push(checkbox.value);
+            });
+
+            return {
+                refeicoes_dia: document.querySelector('input[name="refeicoes_dia"]:checked')?.value || null,
+                fome_entre_refeicoes: document.querySelector('input[name="fome_entre_refeicoes"]:checked')?.value || null,
+                qualidade_alimentacao: parseInt(document.getElementById('slider_qualidade').value),
+                frutas_vegetais: document.querySelector('input[name="frutas_vegetais"]:checked')?.value || null,
+                agua_dia: document.querySelector('input[name="agua_dia"]:checked')?.value || null,
+                suplementos: document.querySelector('input[name="suplementos"]:checked')?.value || null,
+                restricoes: restricoes
+            };
+        }
+
+        // =============================================
+        // SALVAR E CONTINUAR
+        // =============================================
+
+        function saveAndContinue() {
+            const formData = getFormData();
+
+            console.log('Dados de Nutrição:', formData);
+
+            // Salvar no localStorage temporariamente
+            localStorage.setItem('anamnese_nutricao', JSON.stringify(formData));
+
+            // TODO: Salvar na API quando estiver implementada
+            // await API.Anamnese.saveSection('nutricao', formData);
+
+            // Redirecionar para próxima seção
+            window.location.href = '/questionario/2-digestiva.html';
+        }
+
+        // =============================================
+        // CARREGAR DADOS SALVOS
+        // =============================================
+
+        function loadSavedData() {
+            const savedData = localStorage.getItem('anamnese_nutricao');
+            if (!savedData) return;
+
+            try {
+                const data = JSON.parse(savedData);
+
+                // Restaurar radio buttons
+                if (data.refeicoes_dia) {
+                    const radio = document.querySelector(`input[name="refeicoes_dia"][value="${data.refeicoes_dia}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        radio.closest('.radio-option').classList.add('selected');
+                    }
+                }
+
+                if (data.fome_entre_refeicoes) {
+                    const radio = document.querySelector(`input[name="fome_entre_refeicoes"][value="${data.fome_entre_refeicoes}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        radio.closest('.radio-option').classList.add('selected');
+                    }
+                }
+
+                if (data.frutas_vegetais) {
+                    const radio = document.querySelector(`input[name="frutas_vegetais"][value="${data.frutas_vegetais}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        radio.closest('.radio-option').classList.add('selected');
+                    }
+                }
+
+                if (data.agua_dia) {
+                    const radio = document.querySelector(`input[name="agua_dia"][value="${data.agua_dia}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        radio.closest('.radio-option').classList.add('selected');
+                    }
+                }
+
+                if (data.suplementos) {
+                    const radio = document.querySelector(`input[name="suplementos"][value="${data.suplementos}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        radio.closest('.radio-option').classList.add('selected');
+                    }
+                }
+
+                // Restaurar slider
+                if (data.qualidade_alimentacao !== null) {
+                    document.getElementById('slider_qualidade').value = data.qualidade_alimentacao;
+                    document.getElementById('value_qualidade').textContent = data.qualidade_alimentacao;
+                }
+
+                // Restaurar checkboxes
+                if (data.restricoes && data.restricoes.length > 0) {
+                    data.restricoes.forEach(value => {
+                        const checkbox = document.querySelector(`input[name="restricoes"][value="${value}"]`);
+                        if (checkbox) {
+                            checkbox.checked = true;
+                            checkbox.closest('.checkbox-option').classList.add('selected');
+                        }
+                    });
+                }
+
+                checkFormCompletion();
+            } catch (error) {
+                console.error('Erro ao carregar dados salvos:', error);
+            }
+        }
+
+        // =============================================
+        // NAVEGAÇÃO
+        // =============================================
+
+        function goBack() {
+            window.location.href = '/questionario/intro.html';
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair? Seu progresso será salvo.')) {
+                API.Auth.logout();
+            }
+        }
+
+        // =============================================
+        // INICIAR AO CARREGAR PÁGINA
+        // =============================================
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+
+</body>
+</html>
