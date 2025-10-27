@@ -5,7 +5,12 @@
 const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/auth');
-const pool = require('../config/database');
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+});
 
 // GET /api/v1/diagnostics
 // Listar diagnósticos do usuário
@@ -15,7 +20,6 @@ router.get('/', protect, async (req, res) => {
       SELECT
         id,
         user_id,
-        session_id,
         total_score,
         severity_level,
         recommendations,
@@ -51,7 +55,6 @@ router.get('/:id', protect, async (req, res) => {
       SELECT
         id,
         user_id,
-        session_id,
         total_score,
         severity_level,
         recommendations,

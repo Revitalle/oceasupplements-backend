@@ -216,10 +216,9 @@ router.post('/complete', protect, async (req, res) => {
       ]
     };
 
-    // Inserir diagnóstico no banco
+    // Inserir diagnóstico no banco (sem session_id por enquanto - MVP)
     console.log('Inserindo no banco:', {
       user_id: req.user.id,
-      session_id,
       totalScore,
       severityLevel,
       recommendations: recommendations[severityLevel]
@@ -228,15 +227,13 @@ router.post('/complete', protect, async (req, res) => {
     const result = await pool.query(`
       INSERT INTO diagnostics (
         user_id,
-        session_id,
         total_score,
         severity_level,
         recommendations
-      ) VALUES ($1, $2, $3, $4, $5)
-      RETURNING id, user_id, session_id, total_score, severity_level, recommendations, created_at
+      ) VALUES ($1, $2, $3, $4)
+      RETURNING id, user_id, total_score, severity_level, recommendations, created_at
     `, [
       req.user.id,
-      session_id,
       totalScore,
       severityLevel,
       recommendations[severityLevel]
