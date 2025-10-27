@@ -212,17 +212,15 @@ router.post('/complete', protect, async (req, res) => {
         session_id,
         total_score,
         severity_level,
-        categories,
         recommendations
-      ) VALUES ($1, $2, $3, $4, $5, $6)
-      RETURNING id, user_id, session_id, total_score, severity_level, categories, recommendations, created_at
+      ) VALUES ($1, $2, $3, $4, $5)
+      RETURNING id, user_id, session_id, total_score, severity_level, recommendations, created_at
     `, [
       req.user.id,
       session_id,
       totalScore,
       severityLevel,
-      JSON.stringify(categories),
-      JSON.stringify(recommendations[severityLevel])
+      recommendations[severityLevel]
     ]);
 
     const diagnostic = result.rows[0];

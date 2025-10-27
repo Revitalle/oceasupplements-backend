@@ -18,7 +18,6 @@ router.get('/', protect, async (req, res) => {
         session_id,
         total_score,
         severity_level,
-        categories,
         recommendations,
         created_at
       FROM diagnostics
@@ -55,7 +54,6 @@ router.get('/:id', protect, async (req, res) => {
         session_id,
         total_score,
         severity_level,
-        categories,
         recommendations,
         created_at
       FROM diagnostics
