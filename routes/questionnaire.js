@@ -5,6 +5,12 @@
 const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/auth');
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+});
 
 // =============================================
 // GET /api/v1/questionnaire/categories
@@ -61,66 +67,35 @@ router.get('/categories', async (req, res) => {
 // =============================================
 
 router.get('/questions', async (req, res) => {
-  // Questionário simplificado para MVP
-  res.json({
-    success: true,
-    data: {
-      total_questions: 10,
-      categories: [
-        {
-          id: 1,
-          name: "Sono e Energia",
-          questions: [
-            {
-              id: 1,
-              question_text: "Como você avalia a qualidade do seu sono?",
-              question_type: "multiple_choice",
-              is_required: true,
-              options: [
-                { id: 1, option_text: "Excelente", option_value: "5", score: 5 },
-                { id: 2, option_text: "Bom", option_value: "4", score: 4 },
-                { id: 3, option_text: "Regular", option_value: "3", score: 3 },
-                { id: 4, option_text: "Ruim", option_value: "2", score: 2 },
-                { id: 5, option_text: "Muito ruim", option_value: "1", score: 1 }
-              ]
-            },
-            {
-              id: 2,
-              question_text: "Quantas horas você dorme por noite em média?",
-              question_type: "multiple_choice",
-              is_required: true,
-              options: [
-                { id: 6, option_text: "Mais de 8 horas", option_value: "8+", score: 5 },
-                { id: 7, option_text: "7-8 horas", option_value: "7-8", score: 5 },
-                { id: 8, option_text: "6-7 horas", option_value: "6-7", score: 3 },
-                { id: 9, option_text: "5-6 horas", option_value: "5-6", score: 2 },
-                { id: 10, option_text: "Menos de 5 horas", option_value: "<5", score: 1 }
-              ]
-            }
-          ]
-        },
-        {
-          id: 2,
-          name: "Digestão",
-          questions: [
-            {
-              id: 3,
-              question_text: "Com que frequência você tem problemas digestivos?",
-              question_type: "multiple_choice",
-              is_required: true,
-              options: [
-                { id: 11, option_text: "Nunca", option_value: "nunca", score: 5 },
-                { id: 12, option_text: "Raramente", option_value: "raramente", score: 4 },
-                { id: 13, option_text: "Às vezes", option_value: "as_vezes", score: 3 },
-                { id: 14, option_text: "Frequentemente", option_value: "frequentemente", score: 2 },
-                { id: 15, option_text: "Sempre", option_value: "sempre", score: 1 }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  });
+  try {
+    // Buscar perguntas do banco de dados
+    const result = await pool.query(`
+      SELECT
+        q.id,
+        q.question_text,
+        q.answer_type,
+        q.order_number,
+        c.name as category_name
+      FROM questions q
+      LEFT JOIN health_categories c ON q.category_id = c.id
+      WHERE q.is_active = true
+      ORDER BY q.order_number
+    `);
+
+    res.json({
+      success: true,
+      data: result.rows
+    });
+  } catch (error) {
+    console.error('Erro ao buscar perguntas:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'DATABASE_ERROR',
+        message: 'Erro ao buscar perguntas'
+      }
+    });
+  }
 });
 
 // =============================================
