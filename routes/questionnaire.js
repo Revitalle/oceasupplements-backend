@@ -6,6 +6,7 @@ const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/auth');
 const { Pool } = require('pg');
+const { computeAllScores } = require('../utils/scoring');
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -225,29 +226,18 @@ router.post('/complete', protect, async (req, res) => {
 
   try {
     console.log('Processando diagnóstico...');
-    // TODO: Buscar respostas e calcular score real
-    // Por enquanto gera um score aleatório para MVP
-    const totalScore = Math.floor(Math.random() * 50) + 10; // 10-60
-    console.log('Score gerado:', totalScore);
 
-    // Determinar severity_level baseado no score
-    let severityLevel = 'low';
-    if (totalScore >= 40) {
-      severityLevel = 'high';
-    } else if (totalScore >= 25) {
-      severityLevel = 'moderate';
-    }
-
-    // Categorias avaliadas (mockado por enquanto)
-    const categories = ['Sono', 'Energia', 'Digestão', 'Estresse', 'Imunidade'];
+    // Calcular scores reais usando a lógica implementada
+    const scores = computeAllScores(questionnaire_data || {});
+    console.log('Scores calculados:', scores);
 
     // Recomendações baseadas no nível
     const recommendations = {
       low: [
-        'Mantenha uma alimentação equilibrada e rica em nutrientes',
-        'Continue praticando exercícios físicos regulares',
-        'Durma de 7 a 9 horas por noite',
-        'Considere suplementação básica para otimizar resultados'
+        'Consulte um profissional de saúde',
+        'Implemente suplementação completa e direcionada',
+        'Revise seus hábitos alimentares com urgência',
+        'Priorize o descanso e recuperação adequados'
       ],
       moderate: [
         'Aumente a ingestão de vegetais e frutas',
@@ -256,37 +246,111 @@ router.post('/complete', protect, async (req, res) => {
         'Pratique técnicas de gerenciamento de estresse'
       ],
       high: [
-        'Consulte um profissional de saúde',
-        'Implemente suplementação completa e direcionada',
-        'Revise seus hábitos alimentares com urgência',
-        'Priorize o descanso e recuperação adequados'
+        'Mantenha uma alimentação equilibrada e rica em nutrientes',
+        'Continue praticando exercícios físicos regulares',
+        'Durma de 7 a 9 horas por noite',
+        'Considere suplementação básica para otimizar resultados'
       ]
     };
 
-    // Inserir diagnóstico no banco (sem session_id por enquanto - MVP)
-    console.log('Inserindo no banco:', {
+    // =============================================
+    // ESTRATÉGIA:
+    // 1. Salvar scores no histórico (máximo 4 últimos)
+    // 2. Fazer UPSERT da anamnese atual (substituir se existe)
+    // =============================================
+
+    console.log('Salvando scores e anamnese:', {
       user_id: req.user.id,
-      totalScore,
-      severityLevel,
-      recommendations: recommendations[severityLevel]
+      total_score: scores.total_score,
+      severity_level: scores.severity_level
     });
 
+    // 1. Inserir no histórico (trigger automático limita a 4)
+    await pool.query(`
+      INSERT INTO diagnostic_history (
+        user_id,
+        intro_score,
+        nutrition_score,
+        digestive_score,
+        physical_score,
+        sleep_score,
+        mental_score,
+        hormonal_score,
+        symptoms_score,
+        total_score,
+        severity_level,
+        completed_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW())
+    `, [
+      req.user.id,
+      scores.intro_score,
+      scores.nutrition_score,
+      scores.digestive_score,
+      scores.physical_score,
+      scores.sleep_score,
+      scores.mental_score,
+      scores.hormonal_score,
+      scores.symptoms_score,
+      scores.total_score,
+      scores.severity_level
+    ]);
+
+    console.log('✅ Score salvo no histórico');
+
+    // 2. UPSERT na tabela diagnostics (substituir anamnese anterior)
     const result = await pool.query(`
       INSERT INTO diagnostics (
         user_id,
         total_score,
         severity_level,
+        intro_score,
+        nutrition_score,
+        digestive_score,
+        physical_score,
+        sleep_score,
+        mental_score,
+        hormonal_score,
+        symptoms_score,
         recommendations,
-        questionnaire_data
-      ) VALUES ($1, $2, $3, $4, $5)
-      RETURNING id, user_id, total_score, severity_level, recommendations, created_at
+        questionnaire_data,
+        updated_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, NOW())
+      ON CONFLICT (user_id)
+      DO UPDATE SET
+        total_score = EXCLUDED.total_score,
+        severity_level = EXCLUDED.severity_level,
+        intro_score = EXCLUDED.intro_score,
+        nutrition_score = EXCLUDED.nutrition_score,
+        digestive_score = EXCLUDED.digestive_score,
+        physical_score = EXCLUDED.physical_score,
+        sleep_score = EXCLUDED.sleep_score,
+        mental_score = EXCLUDED.mental_score,
+        hormonal_score = EXCLUDED.hormonal_score,
+        symptoms_score = EXCLUDED.symptoms_score,
+        recommendations = EXCLUDED.recommendations,
+        questionnaire_data = EXCLUDED.questionnaire_data,
+        updated_at = NOW()
+      RETURNING id, user_id, total_score, severity_level,
+                intro_score, nutrition_score, digestive_score, physical_score,
+                sleep_score, mental_score, hormonal_score, symptoms_score,
+                recommendations, created_at, updated_at
     `, [
       req.user.id,
-      totalScore,
-      severityLevel,
-      recommendations[severityLevel],
-      questionnaire_data || null
+      scores.total_score,
+      scores.severity_level,
+      scores.intro_score,
+      scores.nutrition_score,
+      scores.digestive_score,
+      scores.physical_score,
+      scores.sleep_score,
+      scores.mental_score,
+      scores.hormonal_score,
+      scores.symptoms_score,
+      recommendations[scores.severity_level],
+      JSON.stringify(questionnaire_data || {})
     ]);
+
+    console.log('✅ Anamnese atualizada');
 
     const diagnostic = result.rows[0];
     console.log('Diagnóstico criado com ID:', diagnostic.id);
@@ -297,7 +361,18 @@ router.post('/complete', protect, async (req, res) => {
         session_id,
         diagnostic_id: diagnostic.id,
         total_score: diagnostic.total_score,
-        severity_level: diagnostic.severity_level
+        severity_level: diagnostic.severity_level,
+        category_scores: {
+          intro: diagnostic.intro_score,
+          nutrition: diagnostic.nutrition_score,
+          digestive: diagnostic.digestive_score,
+          physical: diagnostic.physical_score,
+          sleep: diagnostic.sleep_score,
+          mental: diagnostic.mental_score,
+          hormonal: diagnostic.hormonal_score,
+          symptoms: diagnostic.symptoms_score
+        },
+        recommendations: diagnostic.recommendations
       }
     });
 

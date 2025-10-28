@@ -13,7 +13,7 @@ const pool = new Pool({
 });
 
 // GET /api/v1/diagnostics
-// Listar diagnósticos do usuário
+// Obter anamnese atual do usuário
 router.get('/', protect, async (req, res) => {
   try {
     const result = await pool.query(`
@@ -22,11 +22,61 @@ router.get('/', protect, async (req, res) => {
         user_id,
         total_score,
         severity_level,
+        intro_score,
+        nutrition_score,
+        digestive_score,
+        physical_score,
+        sleep_score,
+        mental_score,
+        hormonal_score,
+        symptoms_score,
+        questionnaire_data,
         recommendations,
-        created_at
+        created_at,
+        updated_at
       FROM diagnostics
       WHERE user_id = $1
-      ORDER BY created_at DESC
+    `, [req.user.id]);
+
+    res.json({
+      success: true,
+      data: result.rows[0] || null
+    });
+  } catch (error) {
+    console.error('Erro ao buscar diagnóstico:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'DIAGNOSTIC_FETCH_ERROR',
+        message: 'Erro ao buscar diagnóstico'
+      }
+    });
+  }
+});
+
+// GET /api/v1/diagnostics/history
+// Obter histórico das últimas 4 pontuações
+router.get('/history', protect, async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT
+        id,
+        user_id,
+        intro_score,
+        nutrition_score,
+        digestive_score,
+        physical_score,
+        sleep_score,
+        mental_score,
+        hormonal_score,
+        symptoms_score,
+        total_score,
+        severity_level,
+        completed_at
+      FROM diagnostic_history
+      WHERE user_id = $1
+      ORDER BY completed_at DESC
+      LIMIT 4
     `, [req.user.id]);
 
     res.json({
@@ -34,12 +84,12 @@ router.get('/', protect, async (req, res) => {
       data: result.rows
     });
   } catch (error) {
-    console.error('Erro ao buscar diagnósticos:', error);
+    console.error('Erro ao buscar histórico:', error);
     res.status(500).json({
       success: false,
       error: {
-        code: 'DIAGNOSTIC_FETCH_ERROR',
-        message: 'Erro ao buscar diagnósticos'
+        code: 'HISTORY_FETCH_ERROR',
+        message: 'Erro ao buscar histórico de diagnósticos'
       }
     });
   }
@@ -57,6 +107,15 @@ router.get('/:id', protect, async (req, res) => {
         user_id,
         total_score,
         severity_level,
+        intro_score,
+        nutrition_score,
+        digestive_score,
+        physical_score,
+        sleep_score,
+        mental_score,
+        hormonal_score,
+        symptoms_score,
+        questionnaire_data,
         recommendations,
         created_at
       FROM diagnostics

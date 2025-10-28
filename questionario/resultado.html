@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado da Anamnese - Ocea Supplements</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- CSS Customizado -->
+    <link rel="stylesheet" href="estilos-questionario.css?v=7">
+
+    <style>
+        /* Cor padrão Ocea */
+        :root {
+            --ocea-primary: #007c8c;
+            --ocea-dark: #005F6B;
+            --success-green: #4caf50;
+            --warning-yellow: #ffc107;
+            --danger-red: #f44336;
+            --text-dark: #2c2c2c;
+        }
+
+        body {
+            background: #f8f9fa;
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        /* Header com design padrão */
+        .header {
+            background: var(--ocea-primary);
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo img {
+            height: 40px !important;
+            width: auto !important;
+        }
+
+        /* Container principal */
+        .result-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* Card de score total */
+        .total-score-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .total-score-value {
+            font-size: 5rem;
+            font-weight: bold;
+            color: var(--ocea-primary);
+            line-height: 1;
+            margin: 1rem 0;
+        }
+
+        .total-score-label {
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .severity-badge {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .severity-low {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .severity-moderate {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .severity-high {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        /* Cards de categorias */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .category-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .category-icon {
+            font-size: 1.5rem;
+        }
+
+        .category-score {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--ocea-primary);
+        }
+
+        /* Barra de progresso personalizada */
+        .score-bar-container {
+            width: 100%;
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .score-bar {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.6s ease;
+        }
+
+        .score-high { background: linear-gradient(90deg, #4caf50, #66bb6a); }
+        .score-moderate { background: linear-gradient(90deg, #ffc107, #ffb300); }
+        .score-low { background: linear-gradient(90deg, #f44336, #ef5350); }
+
+        /* Card de gráfico de evolução */
+        .evolution-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .card-title i {
+            color: var(--ocea-primary);
+        }
+
+        /* Recomendações */
+        .recommendations-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .recommendation-item {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+        }
+
+        .recommendation-item i {
+            color: var(--ocea-primary);
+            font-size: 1.3rem;
+            margin-top: 0.2rem;
+        }
+
+        /* Botões de ação */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-action {
+            background: var(--ocea-primary);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 124, 140, 0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-action:hover {
+            background: var(--ocea-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 124, 140, 0.4);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--ocea-primary);
+            border: 2px solid var(--ocea-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--ocea-primary);
+            color: white;
+        }
+
+        /* Loading */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            gap: 1rem;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--ocea-primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .total-score-value {
+                font-size: 3.5rem;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-action {
+                width: 100%;
+            }
+        }
+
+        /* Nota explicativa sobre os scores */
+        .score-info {
+            background: #e3f2fd;
+            border-left: 4px solid var(--ocea-primary);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .score-info h5 {
+            color: var(--ocea-primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-info p {
+            margin: 0;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="logo">
+                    <img src="/assets/images/logo-ocea-white.png" alt="Ocea Supplements">
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-white" id="user-greeting">Olá, Usuário</span>
+                    <button class="btn btn-sm btn-light" onclick="logout()">Sair</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="loading-container">
+        <div class="spinner"></div>
+        <p>Carregando seus resultados...</p>
+    </div>
+
+    <!-- Container Principal -->
+    <div id="content" class="result-container" style="display: none;">
+
+        <!-- Score Total -->
+        <div class="total-score-card">
+            <div class="total-score-label">Seu Score de Saúde</div>
+            <div class="total-score-value" id="total-score">--</div>
+            <p style="color: #666;">de 100 pontos</p>
+            <div class="severity-badge" id="severity-badge">--</div>
+        </div>
+
+        <!-- Nota explicativa -->
+        <div class="score-info">
+            <h5><i class="bi bi-info-circle"></i> Como interpretar seu score</h5>
+            <p><strong>70-100:</strong> Excelente! Continue mantendo seus hábitos saudáveis.
+            <strong>40-69:</strong> Moderado. Algumas áreas precisam de atenção.
+            <strong>0-39:</strong> Atenção necessária. Recomendamos consultar um profissional de saúde.</p>
+        </div>
+
+        <!-- Scores por Categoria -->
+        <div class="card-title">
+            <i class="bi bi-clipboard2-pulse"></i>
+            Análise Detalhada por Área
+        </div>
+        <div class="category-grid" id="categories-container">
+            <!-- Categorias serão inseridas via JavaScript -->
+        </div>
+
+        <!-- Gráfico de Evolução -->
+        <div class="evolution-card">
+            <div class="card-title">
+                <i class="bi bi-graph-up-arrow"></i>
+                Sua Evolução (Últimas 4 Anamneses)
+            </div>
+            <canvas id="evolutionChart" height="80"></canvas>
+        </div>
+
+        <!-- Recomendações -->
+        <div class="recommendations-card">
+            <div class="card-title">
+                <i class="bi bi-lightbulb"></i>
+                Recomendações Personalizadas
+            </div>
+            <div id="recommendations-container">
+                <!-- Recomendações serão inseridas via JavaScript -->
+            </div>
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="action-buttons">
+            <a href="/dashboard.html" class="btn-action">
+                <i class="bi bi-house"></i> Ir para Dashboard
+            </a>
+            <a href="/questionario/intro.html" class="btn-action btn-secondary">
+                <i class="bi bi-arrow-clockwise"></i> Refazer Anamnese
+            </a>
+            <button onclick="window.print()" class="btn-action btn-secondary">
+                <i class="bi bi-printer"></i> Imprimir Resultados
+            </button>
+        </div>
+
+    </div>
+
+    <!-- API Client -->
+    <script src="/js/api.js"></script>
+
+    <script>
+        // Ícones e nomes das categorias
+        const CATEGORIES = {
+            intro: { icon: '📊', name: 'IMC e Dados Gerais' },
+            nutrition: { icon: '🍽️', name: 'Nutrição' },
+            digestive: { icon: '🌿', name: 'Saúde Digestiva' },
+            physical: { icon: '💪', name: 'Atividade Física' },
+            sleep: { icon: '💤', name: 'Sono e Descanso' },
+            mental: { icon: '🧘', name: 'Saúde Mental' },
+            hormonal: { icon: '⚖️', name: 'Equilíbrio Hormonal' },
+            symptoms: { icon: '📋', name: 'Sintomas Gerais' }
+        };
+
+        let diagnosticData = null;
+        let historyData = null;
+
+        // =============================================
+        // INICIALIZAÇÃO
+        // =============================================
+        async function init() {
+            try {
+                // Carregar dados do usuário
+                const user = await API.Auth.getCurrentUser();
+                document.getElementById('user-greeting').textContent = `Olá, ${user.name}`;
+
+                // Carregar diagnóstico atual
+                const diagnostic = await API.get('/diagnostics');
+                if (!diagnostic.data) {
+                    alert('Nenhuma anamnese encontrada. Complete o questionário primeiro.');
+                    window.location.href = '/questionario/intro.html';
+                    return;
+                }
+                diagnosticData = diagnostic.data;
+
+                // Carregar histórico
+                const history = await API.get('/diagnostics/history');
+                historyData = history.data || [];
+
+                // Renderizar página
+                renderResults();
+
+                // Mostrar conteúdo
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+
+            } catch (error) {
+                console.error('Erro ao carregar resultados:', error);
+                alert('Erro ao carregar resultados. Tente novamente.');
+            }
+        }
+
+        // =============================================
+        // RENDERIZAR RESULTADOS
+        // =============================================
+        function renderResults() {
+            // Score total
+            const totalScore = diagnosticData.total_score || 0;
+            document.getElementById('total-score').textContent = totalScore;
+
+            // Severity badge
+            const severityLevel = diagnosticData.severity_level || 'moderate';
+            const severityBadge = document.getElementById('severity-badge');
+
+            const severityText = {
+                high: 'Excelente Saúde',
+                moderate: 'Saúde Moderada',
+                low: 'Atenção Necessária'
+            };
+
+            severityBadge.textContent = severityText[severityLevel];
+            severityBadge.className = `severity-badge severity-${severityLevel}`;
+
+            // Scores por categoria
+            renderCategories();
+
+            // Gráfico de evolução
+            renderEvolutionChart();
+
+            // Recomendações
+            renderRecommendations();
+        }
+
+        // =============================================
+        // RENDERIZAR CATEGORIAS
+        // =============================================
+        function renderCategories() {
+            const container = document.getElementById('categories-container');
+            const scores = {
+                intro: diagnosticData.intro_score,
+                nutrition: diagnosticData.nutrition_score,
+                digestive: diagnosticData.digestive_score,
+                physical: diagnosticData.physical_score,
+                sleep: diagnosticData.sleep_score,
+                mental: diagnosticData.mental_score,
+                hormonal: diagnosticData.hormonal_score,
+                symptoms: diagnosticData.symptoms_score
+            };
+
+            container.innerHTML = '';
+
+            for (const [key, value] of Object.entries(scores)) {
+                const category = CATEGORIES[key];
+                const score = value || 0;
+                const scoreClass = score >= 70 ? 'high' : score >= 40 ? 'moderate' : 'low';
+
+                const card = document.createElement('div');
+                card.className = 'category-card';
+                card.innerHTML = `
+                    <div class="category-header">
+                        <div class="category-title">
+                            <span class="category-icon">${category.icon}</span>
+                            <span>${category.name}</span>
+                        </div>
+                        <div class="category-score">${score}</div>
+                    </div>
+                    <div class="score-bar-container">
+                        <div class="score-bar score-${scoreClass}" style="width: ${score}%"></div>
+                    </div>
+                `;
+                container.appendChild(card);
+            }
+        }
+
+        // =============================================
+        // RENDERIZAR GRÁFICO DE EVOLUÇÃO
+        // =============================================
+        function renderEvolutionChart() {
+            const ctx = document.getElementById('evolutionChart').getContext('2d');
+
+            // Preparar dados (do mais antigo para o mais recente)
+            const reversedHistory = [...historyData].reverse();
+            const labels = reversedHistory.map((item, index) => {
+                const date = new Date(item.completed_at);
+                return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+            });
+
+            const totalScores = reversedHistory.map(item => item.total_score);
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Score Total',
+                        data: totalScores,
+                        borderColor: '#007c8c',
+                        backgroundColor: 'rgba(0, 124, 140, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointBackgroundColor: '#007c8c',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: '#007c8c',
+                            padding: 12,
+                            titleFont: { size: 14 },
+                            bodyFont: { size: 16, weight: 'bold' },
+                            displayColors: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20,
+                                callback: function(value) {
+                                    return value + ' pts';
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // =============================================
+        // RENDERIZAR RECOMENDAÇÕES
+        // =============================================
+        function renderRecommendations() {
+            const container = document.getElementById('recommendations-container');
+            const recommendations = diagnosticData.recommendations || [];
+
+            container.innerHTML = '';
+
+            if (recommendations.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #666;">Nenhuma recomendação disponível no momento.</p>';
+                return;
+            }
+
+            recommendations.forEach(rec => {
+                const item = document.createElement('div');
+                item.className = 'recommendation-item';
+                item.innerHTML = `
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span>${rec}</span>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // =============================================
+        // LOGOUT
+        // =============================================
+        function logout() {
+            API.Auth.logout();
+            window.location.href = '/login.html';
+        }
+
+        // Inicializar ao carregar
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+
+</body>
+</html>
