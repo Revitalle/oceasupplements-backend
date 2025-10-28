@@ -363,83 +363,83 @@ input[type="range"]::-moz-range-thumb {
     flex-direction: column;
     align-items: center;
     margin: 3rem 0;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
-/* Botão Principal (Próxima Etapa) */
-.btn-next {
-    background: var(--primary-color);
-    color: white;
-    padding: 1rem 2.5rem;
-    border-radius: 50px;
-    border: none;
-    font-size: 0.95rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(44, 95, 45, 0.3);
-    width: auto;
-    max-width: 600px;
-    white-space: nowrap;
-}
-
-.btn-next:hover {
-    background: #234d24;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(44, 95, 45, 0.4);
-}
-
+/* Botão Principal (Próxima Etapa) - Estilo Puríssima */
+.btn-next,
 .btn-finish {
-    background: var(--primary-color);
-    color: white;
-    padding: 1rem 2.5rem;
-    border-radius: 50px;
+    background: #2A7B4F;
+    color: #FFFFFF;
+    padding: 14px 24px;
+    border-radius: 4px;
     border: none;
-    font-size: 0.95rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px;
     cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 2px 8px rgba(44, 95, 45, 0.3);
+    transition: background-color 0.3s ease;
     width: auto;
     max-width: 600px;
     white-space: nowrap;
+    text-align: center;
+    line-height: 1.5;
 }
 
+.btn-next:hover,
 .btn-finish:hover {
-    background: #234d24;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(44, 95, 45, 0.4);
+    background: #236642;
 }
 
-/* Link Voltar (Editar Respostas Anteriores) */
+.btn-next:disabled,
+.btn-finish:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Texto dentro do botão - "PRÓXIMA ETAPA" em negrito */
+.btn-next .btn-text-bold,
+.btn-finish .btn-text-bold {
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Texto depois do separador - peso normal */
+.btn-next .btn-text-normal,
+.btn-finish .btn-text-normal {
+    font-weight: 400;
+}
+
+/* Link Voltar (Editar Respostas Anteriores) - Estilo Puríssima */
 .btn-prev {
     background: none;
     border: none;
-    color: #8B7355;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    color: #2A7B4F;
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
     cursor: pointer;
-    transition: all 0.3s;
-    padding: 0.5rem 1rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
     text-decoration: none;
+    display: inline-block;
 }
 
 .btn-prev:hover {
-    color: var(--primary-color);
+    text-decoration: underline;
 }
 
-.btn-prev::before {
-    content: '←';
-    font-size: 1rem;
+/* Responsividade */
+@media (max-width: 768px) {
+    .btn-next,
+    .btn-finish {
+        font-size: 14px;
+        padding: 12px 20px;
+        max-width: 100%;
+    }
+
+    .btn-prev {
+        font-size: 14px;
+    }
 }
 
 /* ================================================
