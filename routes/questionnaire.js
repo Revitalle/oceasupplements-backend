@@ -303,11 +303,13 @@ router.post('/complete', protect, async (req, res) => {
 
   } catch (error) {
     console.error('Erro ao completar questionário:', error);
+    console.error('Stack trace:', error.stack);
     res.status(500).json({
       success: false,
       error: {
         code: 'DIAGNOSTIC_CREATION_ERROR',
-        message: 'Erro ao gerar diagnóstico'
+        message: 'Erro ao gerar diagnóstico',
+        details: error.message
       }
     });
   }
