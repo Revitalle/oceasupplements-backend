@@ -370,18 +370,19 @@ input[type="range"]::-moz-range-thumb {
 .btn-next {
     background: var(--primary-color);
     color: white;
-    padding: 1.125rem 3rem;
+    padding: 1rem 2.5rem;
     border-radius: 50px;
     border: none;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0 4px 12px rgba(44, 95, 45, 0.3);
+    box-shadow: 0 2px 8px rgba(44, 95, 45, 0.3);
     width: auto;
     max-width: 600px;
+    white-space: nowrap;
 }
 
 .btn-next:hover {
@@ -393,18 +394,19 @@ input[type="range"]::-moz-range-thumb {
 .btn-finish {
     background: var(--primary-color);
     color: white;
-    padding: 1.125rem 3rem;
+    padding: 1rem 2.5rem;
     border-radius: 50px;
     border: none;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0 4px 12px rgba(44, 95, 45, 0.3);
+    box-shadow: 0 2px 8px rgba(44, 95, 45, 0.3);
     width: auto;
     max-width: 600px;
+    white-space: nowrap;
 }
 
 .btn-finish:hover {
@@ -417,27 +419,27 @@ input[type="range"]::-moz-range-thumb {
 .btn-prev {
     background: none;
     border: none;
-    color: #666;
-    font-size: 0.9rem;
+    color: #8B7355;
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     cursor: pointer;
     transition: all 0.3s;
     padding: 0.5rem 1rem;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.25rem;
+    text-decoration: none;
 }
 
 .btn-prev:hover {
     color: var(--primary-color);
-    transform: translateX(-3px);
 }
 
 .btn-prev::before {
     content: '←';
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 /* ================================================
