@@ -9,6 +9,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
+    <!-- CSS Customizado -->
+    <link rel="stylesheet" href="estilos-questionario.css">
+
     <style>
         :root {
             --primary-color: #2C5F2D;
@@ -239,7 +242,12 @@
             width: 100%;
             height: 8px;
             border-radius: 5px;
-            background: #e9ecef;
+            /* Degradê de verde → amarelo → vermelho */
+            background: linear-gradient(to right,
+                #5CB85C 0%,    /* Verde no 0 */
+                #F0AD4E 50%,   /* Amarelo no 5 */
+                #D9534F 100%   /* Vermelho no 10 */
+            );
             outline: none;
             -webkit-appearance: none;
         }
@@ -266,11 +274,7 @@
         }
 
         .slider-value {
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-top: 0.5rem;
+            display: none; /* Ocultar o número verde */
         }
 
         /* Botões de navegação */
@@ -295,12 +299,12 @@
         }
 
         .btn-prev {
-            background: #6c757d;
+            background: var(--primary-color);
             color: white;
         }
 
         .btn-prev:hover {
-            background: #5a6268;
+            background: var(--secondary-color);
             transform: translateX(-5px);
         }
 
@@ -421,8 +425,11 @@
                         <span>0 - Péssimo</span>
                         <span>10 - Excelente</span>
                     </div>
-                    <input type="range" name="qualidade_sono" min="0" max="10" value="5" step="1" id="slider_qualidade">
-                    <div class="slider-value" id="value_qualidade">5</div>
+                    <div class="slider-markers">
+                        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+                    </div>
+                    <input type="range" name="qualidade_sono" min="0" max="10" value="0" step="1" id="slider_qualidade">
+                    <div class="slider-value" id="value_qualidade">0</div>
                 </div>
             </div>
 
@@ -458,11 +465,11 @@
 
         <!-- Botões de navegação -->
         <div class="navigation-buttons">
-            <button type="button" class="btn-navigation btn-prev" onclick="goBack()">
-                <i class="bi bi-arrow-left"></i> Voltar
+            <button type="button" class="btn-next" onclick="saveAndContinue()">
+                PRÓXIMA ETAPA | SAÚDE MENTAL
             </button>
-            <button type="button" class="btn-navigation btn-next" id="btn-next" onclick="saveAndContinue()">
-                Continuar <i class="bi bi-arrow-right"></i>
+            <button type="button" class="btn-prev" onclick="goBack()">
+                EDITAR RESPOSTAS ANTERIORES
             </button>
         </div>
 
@@ -479,7 +486,7 @@
         // INICIALIZAÇÃO
         // =============================================
 
-        function init() {
+        async function init() {
             // Verificar autenticação
             if (!API.Auth.isAuthenticated()) {
                 window.location.href = '/login.html';
@@ -487,10 +494,14 @@
             }
 
             // Exibir nome do usuário
-            const userData = API.Auth.getUserData();
-            if (userData && userData.nome) {
-                const firstName = userData.nome.split(' ')[0];
-                document.getElementById('user-greeting').textContent = `Olá, ${firstName}`;
+            try {
+                const response = await API.Auth.getCurrentUser();
+                if (response.success && response.data && response.data.name) {
+                    const firstName = response.data.name.split(' ')[0];
+                    document.getElementById('user-greeting').textContent = `Olá, ${firstName}`;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar usuário:', error);
             }
 
             // Carregar dados salvos (se houver)
@@ -517,8 +528,6 @@
                     this.classList.add('selected');
                     // Marcar o radio
                     this.querySelector('input[type="radio"]').checked = true;
-
-                    checkFormCompletion();
                 });
             });
 
@@ -528,7 +537,6 @@
 
             sliderQualidade.addEventListener('input', function() {
                 valueQualidade.textContent = this.value;
-                checkFormCompletion();
             });
         }
 
@@ -536,16 +544,30 @@
         // VALIDAÇÃO DO FORMULÁRIO
         // =============================================
 
-        function checkFormCompletion() {
+        function validateForm() {
             const formData = getFormData();
-            const btnNext = document.getElementById('btn-next');
+            const missingFields = [];
 
-            // Verificar se todas as perguntas foram respondidas
-            const isComplete = formData.horas_sono &&
-                              formData.qualidade_sono !== null &&
-                              formData.dificuldade_dormir;
+            if (!formData.horas_sono) missingFields.push({ name: 'Quantas horas você dorme por noite em média?', element: document.querySelector('input[name="horas_sono"]') });
+            if (!formData.dificuldade_dormir) missingFields.push({ name: 'Tem dificuldade para adormecer ou acorda frequentemente durante a noite?', element: document.querySelector('input[name="dificuldade_dormir"]') });
 
-            btnNext.disabled = !isComplete;
+            if (missingFields.length > 0) {
+                alert(`Por favor, responda a seguinte pergunta antes de continuar:\n\n${missingFields[0].name}`);
+
+                // Scroll até a primeira pergunta não respondida
+                const firstMissingBlock = missingFields[0].element.closest('.question-block');
+                if (firstMissingBlock) {
+                    firstMissingBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstMissingBlock.style.border = '3px solid #F0AD4E';
+                    setTimeout(() => {
+                        firstMissingBlock.style.border = '';
+                    }, 2000);
+                }
+
+                return false;
+            }
+
+            return true;
         }
 
         // =============================================
@@ -565,6 +587,11 @@
         // =============================================
 
         function saveAndContinue() {
+            // Validar formulário antes de continuar
+            if (!validateForm()) {
+                return;
+            }
+
             const formData = getFormData();
 
             console.log('Dados de Sono:', formData);
@@ -612,8 +639,6 @@
                     document.getElementById('slider_qualidade').value = data.qualidade_sono;
                     document.getElementById('value_qualidade').textContent = data.qualidade_sono;
                 }
-
-                checkFormCompletion();
             } catch (error) {
                 console.error('Erro ao carregar dados salvos:', error);
             }

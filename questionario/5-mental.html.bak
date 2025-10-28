@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atividade Física - Ocea Supplements</title>
+    <title>Saúde Mental - Ocea Supplements</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -220,6 +220,58 @@
             font-size: 1rem;
         }
 
+        /* Range slider personalizado */
+        .slider-container {
+            padding: 1rem 0;
+        }
+
+        .slider-wrapper {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #e9ecef;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: none;
+        }
+
+        .slider-value {
+            display: none; /* Ocultar o número verde */
+        }
+
         /* Botões de navegação */
         .navigation-buttons {
             display: flex;
@@ -242,12 +294,12 @@
         }
 
         .btn-prev {
-            background: var(--primary-color);
+            background: #6c757d;
             color: white;
         }
 
         .btn-prev:hover {
-            background: var(--secondary-color);
+            background: #5a6268;
             transform: translateX(-5px);
         }
 
@@ -308,16 +360,16 @@
 
     <!-- Imagem de capa -->
     <picture>
-        <source media="(min-width: 1024px)" srcset="/assets/images/questionario/headers/3-fisica.png">
-        <img src="/assets/images/questionario/headers/3-fisica-mobile.png" alt="Atividade Física" class="cover-image">
+        <source media="(min-width: 1024px)" srcset="/assets/images/questionario/headers/5-mental.png">
+        <img src="/assets/images/questionario/headers/5-mental-mobile.png" alt="Saúde Mental" class="cover-image">
     </picture>
 
     <!-- Barra de progresso -->
     <div class="progress-container">
         <div class="container">
             <div class="progress-wrapper">
-                <div class="progress-bar-custom" id="progress-bar" style="width: 42%">
-                    <div class="progress-thumb">42%</div>
+                <div class="progress-bar-custom" id="progress-bar" style="width: 71%">
+                    <div class="progress-thumb">71%</div>
                 </div>
             </div>
         </div>
@@ -327,58 +379,55 @@
     <section class="questionnaire-section">
 
         <h1 class="section-title">
-            💪 Atividade Física
+            🧘 Saúde Mental
         </h1>
         <p class="section-description">
-            Movimento é vida! Entenda como sua rotina física impacta sua saúde.
+            Seu bem-estar emocional é tão importante quanto sua saúde física.
         </p>
 
-        <form id="fisica-form">
+        <form id="mental-form">
 
             <!-- Pergunta 1 -->
             <div class="question-block">
                 <div class="question-number">PERGUNTA 1 DE 4</div>
-                <div class="question-text">Com que frequência você pratica exercícios físicos?</div>
-                <div class="radio-group">
-                    <div class="radio-option" data-question="frequencia_exercicio">
-                        <input type="radio" name="frequencia_exercicio" value="Sedentário" id="freq_1">
-                        <label for="freq_1">Sedentário (não pratico)</label>
+                <div class="question-text">Como você avalia seu nível de estresse?</div>
+                <div class="slider-container">
+                    <div class="slider-labels">
+                        <span>0 - Sem estresse</span>
+                        <span>10 - Extremamente estressado</span>
                     </div>
-                    <div class="radio-option" data-question="frequencia_exercicio">
-                        <input type="radio" name="frequencia_exercicio" value="1-2x/semana" id="freq_2">
-                        <label for="freq_2">1 a 2 vezes por semana</label>
+                    <div class="slider-markers">
+                        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
                     </div>
-                    <div class="radio-option" data-question="frequencia_exercicio">
-                        <input type="radio" name="frequencia_exercicio" value="3-4x/semana" id="freq_3">
-                        <label for="freq_3">3 a 4 vezes por semana</label>
-                    </div>
-                    <div class="radio-option" data-question="frequencia_exercicio">
-                        <input type="radio" name="frequencia_exercicio" value="5+x/semana" id="freq_4">
-                        <label for="freq_4">5 ou mais vezes por semana</label>
-                    </div>
+                    <input type="range" name="nivel_estresse" min="0" max="10" value="5" step="1" id="slider_estresse">
+                    <div class="slider-value" id="value_estresse">5</div>
                 </div>
             </div>
 
             <!-- Pergunta 2 -->
             <div class="question-block">
                 <div class="question-number">PERGUNTA 2 DE 4</div>
-                <div class="question-text">Qual seu nível de energia ao longo do dia?</div>
+                <div class="question-text">Sente ansiedade ou preocupação excessiva?</div>
                 <div class="radio-group">
-                    <div class="radio-option" data-question="nivel_energia">
-                        <input type="radio" name="nivel_energia" value="Muito baixo" id="energia_1">
-                        <label for="energia_1">Muito baixo (sempre cansado)</label>
+                    <div class="radio-option" data-question="ansiedade">
+                        <input type="radio" name="ansiedade" value="Nunca" id="ans_1">
+                        <label for="ans_1">Nunca</label>
                     </div>
-                    <div class="radio-option" data-question="nivel_energia">
-                        <input type="radio" name="nivel_energia" value="Baixo" id="energia_2">
-                        <label for="energia_2">Baixo (frequentemente sem energia)</label>
+                    <div class="radio-option" data-question="ansiedade">
+                        <input type="radio" name="ansiedade" value="Raramente" id="ans_2">
+                        <label for="ans_2">Raramente</label>
                     </div>
-                    <div class="radio-option" data-question="nivel_energia">
-                        <input type="radio" name="nivel_energia" value="Moderado" id="energia_3">
-                        <label for="energia_3">Moderado (energia suficiente)</label>
+                    <div class="radio-option" data-question="ansiedade">
+                        <input type="radio" name="ansiedade" value="Às vezes" id="ans_3">
+                        <label for="ans_3">Às vezes</label>
                     </div>
-                    <div class="radio-option" data-question="nivel_energia">
-                        <input type="radio" name="nivel_energia" value="Alto" id="energia_4">
-                        <label for="energia_4">Alto (muita disposição)</label>
+                    <div class="radio-option" data-question="ansiedade">
+                        <input type="radio" name="ansiedade" value="Frequentemente" id="ans_4">
+                        <label for="ans_4">Frequentemente</label>
+                    </div>
+                    <div class="radio-option" data-question="ansiedade">
+                        <input type="radio" name="ansiedade" value="Sempre" id="ans_5">
+                        <label for="ans_5">Sempre (ansiedade crônica)</label>
                     </div>
                 </div>
             </div>
@@ -386,27 +435,23 @@
             <!-- Pergunta 3 -->
             <div class="question-block">
                 <div class="question-number">PERGUNTA 3 DE 4</div>
-                <div class="question-text">Sente dores musculares ou nas articulações?</div>
+                <div class="question-text">Tem dificuldade de concentração ou memória?</div>
                 <div class="radio-group">
-                    <div class="radio-option" data-question="dores_musculares">
-                        <input type="radio" name="dores_musculares" value="Nunca" id="dor_1">
-                        <label for="dor_1">Nunca</label>
+                    <div class="radio-option" data-question="concentracao">
+                        <input type="radio" name="concentracao" value="Não" id="conc_1">
+                        <label for="conc_1">Não, meu foco está bom</label>
                     </div>
-                    <div class="radio-option" data-question="dores_musculares">
-                        <input type="radio" name="dores_musculares" value="Raramente" id="dor_2">
-                        <label for="dor_2">Raramente</label>
+                    <div class="radio-option" data-question="concentracao">
+                        <input type="radio" name="concentracao" value="Leve" id="conc_2">
+                        <label for="conc_2">Dificuldade leve</label>
                     </div>
-                    <div class="radio-option" data-question="dores_musculares">
-                        <input type="radio" name="dores_musculares" value="Às vezes" id="dor_3">
-                        <label for="dor_3">Às vezes</label>
+                    <div class="radio-option" data-question="concentracao">
+                        <input type="radio" name="concentracao" value="Moderada" id="conc_3">
+                        <label for="conc_3">Dificuldade moderada</label>
                     </div>
-                    <div class="radio-option" data-question="dores_musculares">
-                        <input type="radio" name="dores_musculares" value="Frequentemente" id="dor_4">
-                        <label for="dor_4">Frequentemente</label>
-                    </div>
-                    <div class="radio-option" data-question="dores_musculares">
-                        <input type="radio" name="dores_musculares" value="Sempre" id="dor_5">
-                        <label for="dor_5">Sempre (dores crônicas)</label>
+                    <div class="radio-option" data-question="concentracao">
+                        <input type="radio" name="concentracao" value="Severa" id="conc_4">
+                        <label for="conc_4">Dificuldade severa</label>
                     </div>
                 </div>
             </div>
@@ -414,27 +459,27 @@
             <!-- Pergunta 4 -->
             <div class="question-block">
                 <div class="question-number">PERGUNTA 4 DE 4</div>
-                <div class="question-text">Qual é o seu objetivo principal com atividade física?</div>
+                <div class="question-text">Como você descreveria seu humor e bem-estar geral?</div>
                 <div class="radio-group">
-                    <div class="radio-option" data-question="objetivo_exercicio">
-                        <input type="radio" name="objetivo_exercicio" value="Perda de peso" id="obj_1">
-                        <label for="obj_1">Perda de peso</label>
+                    <div class="radio-option" data-question="humor_geral">
+                        <input type="radio" name="humor_geral" value="Muito negativo" id="humor_1">
+                        <label for="humor_1">Muito negativo (deprimido, desmotivado)</label>
                     </div>
-                    <div class="radio-option" data-question="objetivo_exercicio">
-                        <input type="radio" name="objetivo_exercicio" value="Ganho muscular" id="obj_2">
-                        <label for="obj_2">Ganho de massa muscular</label>
+                    <div class="radio-option" data-question="humor_geral">
+                        <input type="radio" name="humor_geral" value="Negativo" id="humor_2">
+                        <label for="humor_2">Negativo (frequentemente triste)</label>
                     </div>
-                    <div class="radio-option" data-question="objetivo_exercicio">
-                        <input type="radio" name="objetivo_exercicio" value="Saúde geral" id="obj_3">
-                        <label for="obj_3">Saúde e bem-estar geral</label>
+                    <div class="radio-option" data-question="humor_geral">
+                        <input type="radio" name="humor_geral" value="Neutro" id="humor_3">
+                        <label for="humor_3">Neutro (nem bom nem ruim)</label>
                     </div>
-                    <div class="radio-option" data-question="objetivo_exercicio">
-                        <input type="radio" name="objetivo_exercicio" value="Performance" id="obj_4">
-                        <label for="obj_4">Melhorar performance atlética</label>
+                    <div class="radio-option" data-question="humor_geral">
+                        <input type="radio" name="humor_geral" value="Positivo" id="humor_4">
+                        <label for="humor_4">Positivo (geralmente feliz)</label>
                     </div>
-                    <div class="radio-option" data-question="objetivo_exercicio">
-                        <input type="radio" name="objetivo_exercicio" value="Não tenho" id="obj_5">
-                        <label for="obj_5">Não tenho objetivo específico</label>
+                    <div class="radio-option" data-question="humor_geral">
+                        <input type="radio" name="humor_geral" value="Muito positivo" id="humor_5">
+                        <label for="humor_5">Muito positivo (excelente bem-estar)</label>
                     </div>
                 </div>
             </div>
@@ -443,11 +488,11 @@
 
         <!-- Botões de navegação -->
         <div class="navigation-buttons">
-            <button type="button" class="btn-next" onclick="saveAndContinue()">
-                PRÓXIMA ETAPA | SONO
+            <button type="button" class="btn-navigation btn-prev" onclick="goBack()">
+                <i class="bi bi-arrow-left"></i> Voltar
             </button>
-            <button type="button" class="btn-prev" onclick="goBack()">
-                EDITAR RESPOSTAS ANTERIORES
+            <button type="button" class="btn-navigation btn-next" id="btn-next" onclick="saveAndContinue()">
+                Continuar <i class="bi bi-arrow-right"></i>
             </button>
         </div>
 
@@ -506,7 +551,18 @@
                     this.classList.add('selected');
                     // Marcar o radio
                     this.querySelector('input[type="radio"]').checked = true;
+
+                    checkFormCompletion();
                 });
+            });
+
+            // Slider - atualizar valor exibido
+            const sliderEstresse = document.getElementById('slider_estresse');
+            const valueEstresse = document.getElementById('value_estresse');
+
+            sliderEstresse.addEventListener('input', function() {
+                valueEstresse.textContent = this.value;
+                checkFormCompletion();
             });
         }
 
@@ -514,32 +570,17 @@
         // VALIDAÇÃO DO FORMULÁRIO
         // =============================================
 
-        function validateForm() {
+        function checkFormCompletion() {
             const formData = getFormData();
-            const missingFields = [];
+            const btnNext = document.getElementById('btn-next');
 
-            if (!formData.frequencia_exercicio) missingFields.push({ name: 'Com que frequência você pratica exercícios físicos?', element: document.querySelector('input[name="frequencia_exercicio"]') });
-            if (!formData.nivel_energia) missingFields.push({ name: 'Qual seu nível de energia ao longo do dia?', element: document.querySelector('input[name="nivel_energia"]') });
-            if (!formData.dores_musculares) missingFields.push({ name: 'Sente dores musculares ou nas articulações?', element: document.querySelector('input[name="dores_musculares"]') });
-            if (!formData.objetivo_exercicio) missingFields.push({ name: 'Qual é o seu objetivo principal com atividade física?', element: document.querySelector('input[name="objetivo_exercicio"]') });
+            // Verificar se todas as perguntas foram respondidas
+            const isComplete = formData.nivel_estresse !== null &&
+                              formData.ansiedade &&
+                              formData.concentracao &&
+                              formData.humor_geral;
 
-            if (missingFields.length > 0) {
-                alert(`Por favor, responda a seguinte pergunta antes de continuar:\n\n${missingFields[0].name}`);
-
-                // Scroll até a primeira pergunta não respondida
-                const firstMissingBlock = missingFields[0].element.closest('.question-block');
-                if (firstMissingBlock) {
-                    firstMissingBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    firstMissingBlock.style.border = '3px solid #F0AD4E';
-                    setTimeout(() => {
-                        firstMissingBlock.style.border = '';
-                    }, 2000);
-                }
-
-                return false;
-            }
-
-            return true;
+            btnNext.disabled = !isComplete;
         }
 
         // =============================================
@@ -548,10 +589,10 @@
 
         function getFormData() {
             return {
-                frequencia_exercicio: document.querySelector('input[name="frequencia_exercicio"]:checked')?.value || null,
-                nivel_energia: document.querySelector('input[name="nivel_energia"]:checked')?.value || null,
-                dores_musculares: document.querySelector('input[name="dores_musculares"]:checked')?.value || null,
-                objetivo_exercicio: document.querySelector('input[name="objetivo_exercicio"]:checked')?.value || null
+                nivel_estresse: parseInt(document.getElementById('slider_estresse').value),
+                ansiedade: document.querySelector('input[name="ansiedade"]:checked')?.value || null,
+                concentracao: document.querySelector('input[name="concentracao"]:checked')?.value || null,
+                humor_geral: document.querySelector('input[name="humor_geral"]:checked')?.value || null
             };
         }
 
@@ -560,23 +601,18 @@
         // =============================================
 
         function saveAndContinue() {
-            // Validar formulário antes de continuar
-            if (!validateForm()) {
-                return;
-            }
-
             const formData = getFormData();
 
-            console.log('Dados de Atividade Física:', formData);
+            console.log('Dados de Saúde Mental:', formData);
 
             // Salvar no localStorage temporariamente
-            localStorage.setItem('anamnese_fisica', JSON.stringify(formData));
+            localStorage.setItem('anamnese_mental', JSON.stringify(formData));
 
             // TODO: Salvar na API quando estiver implementada
-            // await API.Anamnese.saveSection('fisica', formData);
+            // await API.Anamnese.saveSection('mental', formData);
 
-            // Redirecionar para próxima seção
-            window.location.href = '/questionario/4-sono.html';
+            // Redirecionar para próxima seção (hormonal)
+            window.location.href = '/questionario/6-hormonal.html';
         }
 
         // =============================================
@@ -584,14 +620,20 @@
         // =============================================
 
         function loadSavedData() {
-            const savedData = localStorage.getItem('anamnese_fisica');
+            const savedData = localStorage.getItem('anamnese_mental');
             if (!savedData) return;
 
             try {
                 const data = JSON.parse(savedData);
 
-                // Restaurar todas as respostas
-                Object.keys(data).forEach(key => {
+                // Restaurar slider
+                if (data.nivel_estresse !== null) {
+                    document.getElementById('slider_estresse').value = data.nivel_estresse;
+                    document.getElementById('value_estresse').textContent = data.nivel_estresse;
+                }
+
+                // Restaurar radio buttons
+                ['ansiedade', 'concentracao', 'humor_geral'].forEach(key => {
                     if (data[key]) {
                         const radio = document.querySelector(`input[name="${key}"][value="${data[key]}"]`);
                         if (radio) {
@@ -600,6 +642,8 @@
                         }
                     }
                 });
+
+                checkFormCompletion();
             } catch (error) {
                 console.error('Erro ao carregar dados salvos:', error);
             }
@@ -610,7 +654,7 @@
         // =============================================
 
         function goBack() {
-            window.location.href = '/questionario/2-digestiva.html';
+            window.location.href = '/questionario/4-sono.html';
         }
 
         function logout() {

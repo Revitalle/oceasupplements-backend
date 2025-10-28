@@ -9,306 +9,108 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
+    <!-- Estilos globais do questionário -->
+    <link rel="stylesheet" href="estilos-questionario.css">
+
     <style>
-        :root {
-            --primary-color: #2C5F2D;
-            --secondary-color: #97BC62;
-            --accent-color: #FFB81C;
-            --neutral-bg: #F7F4EF;
-            --text-dark: #2c2c2c;
-            --brown-detail: #8B7355;
+        /* Estilos específicos para textarea */
+        .textarea-container {
+            margin: 1.5rem 0;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .textarea-wrapper {
+            position: relative;
         }
 
-        body {
+        textarea.form-textarea {
+            width: 100%;
+            min-height: 250px;
+            padding: 1.5rem;
+            border: 3px solid var(--neutral-bg);
+            border-radius: 12px;
+            font-size: 1rem;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--neutral-bg);
             color: var(--text-dark);
             line-height: 1.6;
+            resize: vertical;
+            transition: border-color 0.3s;
+            background-color: var(--neutral-bg);
         }
 
-        /* Header fixo */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1000;
-        }
-
-        .header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .user-greeting {
-            color: var(--text-dark);
-            font-size: 0.95rem;
-        }
-
-        .btn-logout {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .btn-logout:hover {
-            background: var(--primary-color);
-        }
-
-        /* Imagem de capa */
-        .cover-image {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            margin-top: 70px;
-        }
-
-        @media (min-width: 1024px) {
-            .cover-image {
-                height: 500px;
-            }
-        }
-
-        /* Barra de progresso */
-        .progress-container {
-            background: white;
-            padding: 2rem 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .progress-wrapper {
-            position: relative;
-            height: 30px;
-            background: #e9ecef;
-            border-radius: 15px;
-            overflow: visible;
-        }
-
-        .progress-bar-custom {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            border-radius: 15px;
-            transition: width 0.3s ease;
-            position: relative;
-        }
-
-        .progress-thumb {
-            position: absolute;
-            right: -20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 50px;
-            height: 50px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 0.85rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
-
-        /* Questionário */
-        .questionnaire-section {
-            max-width: 900px;
-            margin: 3rem auto;
-            padding: 0 1rem 5rem;
-        }
-
-        .section-title {
-            color: var(--primary-color);
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .section-description {
-            color: #666;
-            margin-bottom: 3rem;
-            font-size: 1.1rem;
-        }
-
-        .question-block {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .question-number {
-            color: var(--secondary-color);
-            font-weight: bold;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .question-text {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 1.5rem;
-        }
-
-        /* Checkboxes estilizados */
-        .checkbox-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-
-        .checkbox-option {
-            background: var(--neutral-bg);
-            border: 3px solid transparent;
-            border-radius: 12px;
-            padding: 1rem 1.25rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .checkbox-option:hover {
-            border-color: var(--secondary-color);
-            transform: translateY(-2px);
-        }
-
-        .checkbox-option.selected {
+        textarea.form-textarea:focus {
+            outline: none;
             border-color: var(--primary-color);
-            background: #e8f5e9;
+            background-color: white;
         }
 
-        .checkbox-option input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            accent-color: var(--primary-color);
+        textarea.form-textarea::placeholder {
+            color: #999;
         }
 
-        .checkbox-option label {
-            cursor: pointer;
-            font-size: 0.95rem;
-            flex: 1;
-        }
-
-        /* Contador de sintomas */
-        .symptoms-counter {
+        /* Contador de palavras */
+        .word-counter {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.75rem;
+            padding: 0.5rem 1rem;
             background: white;
-            padding: 1.5rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            text-align: center;
+            border-radius: 8px;
+            font-size: 0.9rem;
         }
 
-        .symptoms-counter .count {
-            font-size: 3rem;
-            font-weight: bold;
+        .word-count {
+            font-weight: 600;
             color: var(--primary-color);
         }
 
-        .symptoms-counter .label {
+        .word-count.warning {
+            color: #F0AD4E;
+        }
+
+        .word-count.error {
+            color: #D9534F;
+        }
+
+        .word-limit-info {
             color: #666;
+            font-size: 0.85rem;
+        }
+
+        /* Instruções adicionais */
+        .textarea-instructions {
+            background: #e8f5e9;
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .textarea-instructions h4 {
+            color: var(--primary-color);
             font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
         }
 
-        /* Botões de navegação */
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin: 3rem 0;
-            gap: 1rem;
+        .textarea-instructions ul {
+            margin: 0;
+            padding-left: 1.5rem;
+            color: #666;
         }
 
-        .btn-navigation {
-            padding: 1rem 3rem;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 30px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .textarea-instructions li {
+            margin-bottom: 0.25rem;
         }
 
+        /* Botão Voltar Verde */
         .btn-prev {
-            background: #6c757d;
-            color: white;
+            background: var(--primary-color) !important;
+            color: white !important;
         }
 
         .btn-prev:hover {
-            background: #5a6268;
-            transform: translateX(-5px);
-        }
-
-        .btn-finish {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            box-shadow: 0 5px 15px rgba(44, 95, 45, 0.3);
-        }
-
-        .btn-finish:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(44, 95, 45, 0.4);
-        }
-
-        .btn-finish:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .question-block {
-                padding: 1.5rem;
-            }
-
-            .checkbox-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .navigation-buttons {
-                flex-direction: column;
-            }
-
-            .btn-navigation {
-                width: 100%;
-                justify-content: center;
-            }
+            background: var(--secondary-color) !important;
         }
     </style>
 </head>
@@ -318,8 +120,7 @@
     <header class="header">
         <div class="container">
             <div class="logo">
-                <i class="bi bi-heart-pulse-fill text-danger"></i>
-                Ocea Supplements
+                <img src="/assets/images/logo-ocea.png" alt="Ocea Supplements" style="max-width: 195px; max-height: 29px;">
             </div>
             <div class="d-flex align-items-center gap-3">
                 <span class="user-greeting" id="user-greeting"></span>
@@ -354,21 +155,37 @@
             📋 Sintomas Gerais
         </h1>
         <p class="section-description">
-            Última etapa! Marque todos os sintomas que você sente frequentemente.
+            Última etapa! Descreva os sintomas que você sente frequentemente e qualquer informação adicional que considere relevante para sua avaliação de saúde.
         </p>
-
-        <!-- Contador de sintomas -->
-        <div class="symptoms-counter">
-            <div class="count" id="symptoms-count">0</div>
-            <div class="label">sintomas selecionados</div>
-        </div>
 
         <form id="sintomas-form">
 
             <div class="question-block">
-                <div class="question-text">Selecione todos os sintomas que você experimenta com frequência:</div>
-                <div class="checkbox-grid" id="symptoms-grid">
-                    <!-- Sintomas serão carregados aqui -->
+                <div class="question-text">Descreva seus sintomas e observações gerais:</div>
+
+                <div class="textarea-instructions">
+                    <h4><i class="bi bi-info-circle"></i> Orientações:</h4>
+                    <ul>
+                        <li>Descreva os sintomas que você sente com frequência</li>
+                        <li>Inclua informações sobre intensidade, frequência e quando acontecem</li>
+                        <li>Mencione medicamentos ou suplementos que você toma regularmente</li>
+                        <li>Limite: 300 palavras</li>
+                    </ul>
+                </div>
+
+                <div class="textarea-container">
+                    <div class="textarea-wrapper">
+                        <textarea
+                            id="sintomas-textarea"
+                            name="sintomas"
+                            class="form-textarea"
+                            placeholder="Exemplo: Sinto fadiga constante principalmente nas tardes, tenho dores de cabeça frequentes (3-4 vezes por semana), dificuldade para dormir, acordo cansado mesmo depois de 8 horas de sono. Também percebo que tenho muita retenção de líquidos e inchaço nas pernas no final do dia. Tomo vitamina D 2000UI diariamente conforme prescrição médica..."
+                        ></textarea>
+                    </div>
+                    <div class="word-counter">
+                        <span class="word-count" id="word-count">0 palavras</span>
+                        <span class="word-limit-info">Máximo: 300 palavras</span>
+                    </div>
                 </div>
             </div>
 
@@ -376,11 +193,11 @@
 
         <!-- Botões de navegação -->
         <div class="navigation-buttons">
-            <button type="button" class="btn-navigation btn-prev" onclick="goBack()">
-                <i class="bi bi-arrow-left"></i> Voltar
+            <button type="button" class="btn-finish" id="btn-finish" onclick="finishQuestionnaire()">
+                FINALIZAR ANAMNESE
             </button>
-            <button type="button" class="btn-navigation btn-finish" id="btn-finish" onclick="finishQuestionnaire()">
-                <i class="bi bi-check-circle me-2"></i> Finalizar Anamnese
+            <button type="button" class="btn-prev" onclick="goBack()">
+                EDITAR RESPOSTAS ANTERIORES
             </button>
         </div>
 
@@ -393,46 +210,13 @@
     <script src="/js/api.js"></script>
 
     <script>
-        // =============================================
-        // LISTA DE SINTOMAS
-        // =============================================
-
-        const SINTOMAS = [
-            'Fadiga constante',
-            'Dores de cabeça frequentes',
-            'Insônia ou sono não reparador',
-            'Ansiedade',
-            'Irritabilidade',
-            'Mudanças de humor',
-            'Dificuldade de concentração',
-            'Esquecimento',
-            'Queda de cabelo',
-            'Unhas fracas',
-            'Pele seca',
-            'Acne',
-            'Inchaço',
-            'Retenção de líquidos',
-            'Ganho de peso inexplicável',
-            'Dificuldade para perder peso',
-            'Falta de apetite',
-            'Compulsão alimentar',
-            'Cãibras musculares',
-            'Dores articulares',
-            'Formigamento nas extremidades',
-            'Mãos e pés frios',
-            'Suor excessivo',
-            'Olheiras',
-            'Alergias frequentes',
-            'Resfriados constantes',
-            'Cicatrização lenta',
-            'Nenhum dos sintomas acima'
-        ];
+        const MAX_WORDS = 300;
 
         // =============================================
         // INICIALIZAÇÃO
         // =============================================
 
-        function init() {
+        async function init() {
             // Verificar autenticação
             if (!API.Auth.isAuthenticated()) {
                 window.location.href = '/login.html';
@@ -440,14 +224,15 @@
             }
 
             // Exibir nome do usuário
-            const userData = API.Auth.getUserData();
-            if (userData && userData.nome) {
-                const firstName = userData.nome.split(' ')[0];
-                document.getElementById('user-greeting').textContent = `Olá, ${firstName}`;
+            try {
+                const response = await API.Auth.getCurrentUser();
+                if (response.success && response.data && response.data.name) {
+                    const firstName = response.data.name.split(' ')[0];
+                    document.getElementById('user-greeting').textContent = `Olá, ${firstName}`;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar usuário:', error);
             }
-
-            // Renderizar sintomas
-            renderSymptoms();
 
             // Carregar dados salvos (se houver)
             loadSavedData();
@@ -457,90 +242,63 @@
         }
 
         // =============================================
-        // RENDERIZAR SINTOMAS
-        // =============================================
-
-        function renderSymptoms() {
-            const grid = document.getElementById('symptoms-grid');
-            grid.innerHTML = '';
-
-            SINTOMAS.forEach((sintoma, index) => {
-                const checkboxHtml = `
-                    <div class="checkbox-option" data-symptom="${sintoma}">
-                        <input type="checkbox" name="sintomas" value="${sintoma}" id="sintoma_${index}">
-                        <label for="sintoma_${index}">${sintoma}</label>
-                    </div>
-                `;
-                grid.innerHTML += checkboxHtml;
-            });
-        }
-
-        // =============================================
         // EVENT LISTENERS
         // =============================================
 
         function setupEventListeners() {
-            // Checkboxes - adicionar classe selected
-            document.querySelectorAll('.checkbox-option').forEach(option => {
-                option.addEventListener('click', function(e) {
-                    if (e.target.tagName !== 'INPUT') {
-                        const checkbox = this.querySelector('input[type="checkbox"]');
-                        checkbox.checked = !checkbox.checked;
-                    }
+            const textarea = document.getElementById('sintomas-textarea');
 
-                    const checkbox = this.querySelector('input[type="checkbox"]');
+            // Atualizar contador de palavras ao digitar
+            textarea.addEventListener('input', function() {
+                updateWordCount();
+            });
 
-                    if (checkbox.checked) {
-                        this.classList.add('selected');
-                    } else {
-                        this.classList.remove('selected');
-                    }
-
-                    // Se selecionar "Nenhum dos sintomas acima", desmarcar outras
-                    if (checkbox.value === 'Nenhum dos sintomas acima' && checkbox.checked) {
-                        document.querySelectorAll('input[name="sintomas"]').forEach(cb => {
-                            if (cb.value !== 'Nenhum dos sintomas acima') {
-                                cb.checked = false;
-                                cb.closest('.checkbox-option').classList.remove('selected');
-                            }
-                        });
-                    } else if (checkbox.checked && checkbox.value !== 'Nenhum dos sintomas acima') {
-                        // Se selecionar qualquer outro sintoma, desmarcar "Nenhum"
-                        const nenhumCheckbox = document.querySelector('input[value="Nenhum dos sintomas acima"]');
-                        if (nenhumCheckbox) {
-                            nenhumCheckbox.checked = false;
-                            nenhumCheckbox.closest('.checkbox-option').classList.remove('selected');
-                        }
-                    }
-
-                    updateCounter();
-                });
+            // Também atualizar ao colar conteúdo
+            textarea.addEventListener('paste', function() {
+                setTimeout(updateWordCount, 10);
             });
         }
 
         // =============================================
-        // ATUALIZAR CONTADOR
+        // CONTADOR DE PALAVRAS
         // =============================================
 
-        function updateCounter() {
-            const selectedCheckboxes = document.querySelectorAll('input[name="sintomas"]:checked');
-            const count = selectedCheckboxes.length;
-            document.getElementById('symptoms-count').textContent = count;
+        function updateWordCount() {
+            const textarea = document.getElementById('sintomas-textarea');
+            const text = textarea.value.trim();
 
-            // Habilitar botão de finalizar (sempre pode finalizar, mesmo sem sintomas)
-            document.getElementById('btn-finish').disabled = false;
+            // Contar palavras (separadas por espaços)
+            const words = text.length > 0 ? text.split(/\s+/).filter(word => word.length > 0) : [];
+            const wordCount = words.length;
+
+            // Atualizar display
+            const wordCountElement = document.getElementById('word-count');
+            wordCountElement.textContent = `${wordCount} ${wordCount === 1 ? 'palavra' : 'palavras'}`;
+
+            // Mudar cor baseado no limite
+            if (wordCount > MAX_WORDS) {
+                wordCountElement.className = 'word-count error';
+            } else if (wordCount > MAX_WORDS * 0.9) {
+                wordCountElement.className = 'word-count warning';
+            } else {
+                wordCountElement.className = 'word-count';
+            }
         }
+
+        // =============================================
+        // VALIDAÇÃO DO FORMULÁRIO
+        // =============================================
+        // (Campo opcional - validação de 300 palavras está em finishQuestionnaire)
 
         // =============================================
         // COLETAR DADOS DO FORMULÁRIO
         // =============================================
 
         function getFormData() {
-            const sintomas = [];
-            document.querySelectorAll('input[name="sintomas"]:checked').forEach(checkbox => {
-                sintomas.push(checkbox.value);
-            });
-            return { sintomas };
+            const textarea = document.getElementById('sintomas-textarea');
+            return {
+                sintomas_texto: textarea.value.trim()
+            };
         }
 
         // =============================================
@@ -548,6 +306,19 @@
         // =============================================
 
         async function finishQuestionnaire() {
+            // Validar limite de palavras antes de continuar
+            const textarea = document.getElementById('sintomas-textarea');
+            const text = textarea.value.trim();
+
+            if (text.length > 0) {
+                const words = text.split(/\s+/).filter(word => word.length > 0);
+                if (words.length > 300) {
+                    alert('Por favor, reduza seu texto para no máximo 300 palavras.\nAtualmente você tem ' + words.length + ' palavras.');
+                    textarea.focus();
+                    return;
+                }
+            }
+
             const btnFinish = document.getElementById('btn-finish');
             btnFinish.disabled = true;
             btnFinish.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processando...';
@@ -579,17 +350,25 @@
 
                 console.log('Anamnese completa:', anamneseCompleta);
 
-                // TODO: Enviar para API quando estiver implementada
-                // const response = await API.Anamnese.finalizar(anamneseCompleta);
+                // Enviar para API
+                const sessionId = Date.now(); // Simular session_id por enquanto
+                const response = await API.Questionnaire.completeSession(sessionId, anamneseCompleta);
 
-                // Por enquanto, simular sucesso e redirecionar para processamento
-                alert('Anamnese finalizada com sucesso! Estamos processando seus resultados...');
+                console.log('Resposta da API:', response);
 
-                // Redirecionar para página de processamento (a ser criada)
-                // window.location.href = '/questionario/processando.html';
+                if (response.success) {
+                    const diagnosticId = response.data.diagnostic_id;
+                    localStorage.setItem('current_diagnostic_id', diagnosticId);
+                    localStorage.setItem('last_diagnostic_id', diagnosticId);
 
-                // Temporariamente, redirecionar para dashboard
-                window.location.href = '/dashboard.html';
+                    console.log('Diagnóstico criado com ID:', diagnosticId);
+                    console.log('Redirecionando para processamento...');
+
+                    // Redirecionar para página de processamento
+                    window.location.href = '/questionario/processando.html';
+                } else {
+                    throw new Error('Erro ao salvar questionário: ' + (response.error?.message || 'Erro desconhecido'));
+                }
 
             } catch (error) {
                 console.error('Erro ao finalizar anamnese:', error);
@@ -605,23 +384,19 @@
 
         function loadSavedData() {
             const savedData = localStorage.getItem('anamnese_sintomas');
-            if (!savedData) return;
+            if (!savedData) {
+                return;
+            }
 
             try {
                 const data = JSON.parse(savedData);
 
-                // Restaurar checkboxes
-                if (data.sintomas && data.sintomas.length > 0) {
-                    data.sintomas.forEach(value => {
-                        const checkbox = document.querySelector(`input[name="sintomas"][value="${value}"]`);
-                        if (checkbox) {
-                            checkbox.checked = true;
-                            checkbox.closest('.checkbox-option').classList.add('selected');
-                        }
-                    });
+                // Restaurar textarea
+                if (data.sintomas_texto) {
+                    const textarea = document.getElementById('sintomas-textarea');
+                    textarea.value = data.sintomas_texto;
+                    updateWordCount();
                 }
-
-                updateCounter();
             } catch (error) {
                 console.error('Erro ao carregar dados salvos:', error);
             }
@@ -632,6 +407,10 @@
         // =============================================
 
         function goBack() {
+            // Salvar dados antes de voltar
+            const sintomasData = getFormData();
+            localStorage.setItem('anamnese_sintomas', JSON.stringify(sintomasData));
+
             window.location.href = '/questionario/6-hormonal.html';
         }
 

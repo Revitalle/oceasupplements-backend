@@ -156,14 +156,61 @@ router.post('/answer', protect, async (req, res) => {
 });
 
 // =============================================
+// GET /api/v1/questionnaire/last
+// Obter último questionário preenchido pelo usuário
+// =============================================
+
+router.get('/last', protect, async (req, res) => {
+  try {
+    // Buscar o último diagnóstico do usuário que tenha dados de questionário
+    const result = await pool.query(`
+      SELECT
+        id,
+        user_id,
+        questionnaire_data,
+        total_score,
+        severity_level,
+        created_at
+      FROM diagnostics
+      WHERE user_id = $1
+        AND questionnaire_data IS NOT NULL
+      ORDER BY created_at DESC
+      LIMIT 1
+    `, [req.user.id]);
+
+    if (result.rows.length === 0) {
+      return res.json({
+        success: true,
+        data: null // Nenhum questionário anterior encontrado
+      });
+    }
+
+    res.json({
+      success: true,
+      data: result.rows[0]
+    });
+
+  } catch (error) {
+    console.error('Erro ao buscar último questionário:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'QUESTIONNAIRE_FETCH_ERROR',
+        message: 'Erro ao buscar questionário anterior'
+      }
+    });
+  }
+});
+
+// =============================================
 // POST /api/v1/questionnaire/complete
-// Completar questionário
+// Completar questionário e salvar dados
 // =============================================
 
 router.post('/complete', protect, async (req, res) => {
-  const { session_id } = req.body;
+  const { session_id, questionnaire_data } = req.body;
 
-  console.log('POST /complete recebido:', { session_id, user_id: req.user.id });
+  console.log('POST /complete recebido:', { session_id, user_id: req.user.id, has_data: !!questionnaire_data });
 
   if (!session_id) {
     console.log('Erro: session_id ausente');
@@ -229,14 +276,16 @@ router.post('/complete', protect, async (req, res) => {
         user_id,
         total_score,
         severity_level,
-        recommendations
-      ) VALUES ($1, $2, $3, $4)
+        recommendations,
+        questionnaire_data
+      ) VALUES ($1, $2, $3, $4, $5)
       RETURNING id, user_id, total_score, severity_level, recommendations, created_at
     `, [
       req.user.id,
       totalScore,
       severityLevel,
-      recommendations[severityLevel]
+      recommendations[severityLevel],
+      questionnaire_data || null
     ]);
 
     const diagnostic = result.rows[0];

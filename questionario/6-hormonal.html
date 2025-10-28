@@ -9,174 +9,64 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
+    <!-- Estilos globais do questionário -->
+    <link rel="stylesheet" href="estilos-questionario.css">
+
     <style>
-        :root {
-            --primary-color: #2C5F2D;
-            --secondary-color: #97BC62;
-            --accent-color: #FFB81C;
-            --neutral-bg: #F7F4EF;
-            --text-dark: #2c2c2c;
-            --brown-detail: #8B7355;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--neutral-bg);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        /* Header fixo */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            z-index: 1000;
-        }
-
-        .header .container {
+        /* Estilos específicos para checkboxes de condições especiais */
+        .checkbox-group {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 1rem;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-
-        .user-greeting {
-            color: var(--text-dark);
-            font-size: 0.95rem;
-        }
-
-        .btn-logout {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-weight: 600;
+        .checkbox-option {
+            background: var(--neutral-bg);
+            border: 3px solid transparent;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
             cursor: pointer;
             transition: all 0.3s;
-        }
-
-        .btn-logout:hover {
-            background: var(--primary-color);
-        }
-
-        /* Imagem de capa */
-        .cover-image {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            margin-top: 70px;
-        }
-
-        @media (min-width: 1024px) {
-            .cover-image {
-                height: 500px;
-            }
-        }
-
-        /* Barra de progresso */
-        .progress-container {
-            background: white;
-            padding: 2rem 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .progress-wrapper {
-            position: relative;
-            height: 30px;
-            background: #e9ecef;
-            border-radius: 15px;
-            overflow: visible;
-        }
-
-        .progress-bar-custom {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            border-radius: 15px;
-            transition: width 0.3s ease;
-            position: relative;
-        }
-
-        .progress-thumb {
-            position: absolute;
-            right: -20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 50px;
-            height: 50px;
-            background: var(--primary-color);
-            border-radius: 50%;
             display: flex;
             align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 0.85rem;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            gap: 1rem;
         }
 
-        /* Questionário */
-        .questionnaire-section {
-            max-width: 900px;
-            margin: 3rem auto;
-            padding: 0 1rem;
+        .checkbox-option:hover {
+            border-color: var(--secondary-color);
+            transform: translateX(5px);
         }
 
-        .section-title {
-            color: var(--primary-color);
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .checkbox-option.selected {
+            border-color: var(--primary-color);
+            background: #e8f5e9;
         }
 
-        .section-description {
-            color: #666;
-            margin-bottom: 3rem;
-            font-size: 1.1rem;
+        .checkbox-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-color);
         }
 
-        .question-block {
-            background: white;
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        .checkbox-option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 1rem;
         }
 
-        .question-number {
-            color: var(--secondary-color);
-            font-weight: bold;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
+        /* Sliders com estilo hormonal */
+        .slider-container {
+            margin: 1.5rem 0;
         }
 
-        .question-text {
-            font-size: 1.2rem;
-            font-weight: 600;
+        .slider-label {
+            font-size: 1rem;
             color: var(--text-dark);
-            margin-bottom: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
         }
 
-        /* Radio buttons estilizados */
+        /* Radio buttons para masculino */
         .radio-group {
             display: flex;
             flex-direction: column;
@@ -217,71 +107,50 @@
             font-size: 1rem;
         }
 
-        /* Botões de navegação */
-        .navigation-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin: 3rem 0;
-            gap: 1rem;
+        /* Degradê para sliders femininos */
+        .form-range {
+            width: 100% !important;
+            height: 10px !important;
+            background: linear-gradient(to right,
+                #5CB85C 0%,    /* Verde no 0 */
+                #F0AD4E 50%,   /* Amarelo no 5 */
+                #D9534F 100%   /* Vermelho no 10 */
+            ) !important;
+            border-radius: 5px !important;
+            -webkit-appearance: none !important;
+            appearance: none !important;
         }
 
-        .btn-navigation {
-            padding: 1rem 3rem;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 30px;
-            border: none;
+        .form-range::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
             cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border: 3px solid white;
         }
 
+        .form-range::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            border: 3px solid white;
+        }
+
+        /* Botão Voltar Verde */
         .btn-prev {
-            background: #6c757d;
-            color: white;
+            background: var(--primary-color) !important;
+            color: white !important;
         }
 
         .btn-prev:hover {
-            background: #5a6268;
-            transform: translateX(-5px);
-        }
-
-        .btn-next {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .btn-next:hover {
-            background: var(--secondary-color);
-            transform: translateX(5px);
-        }
-
-        .btn-next:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Responsividade */
-        @media (max-width: 768px) {
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .question-block {
-                padding: 1.5rem;
-            }
-
-            .navigation-buttons {
-                flex-direction: column;
-            }
-
-            .btn-navigation {
-                width: 100%;
-                justify-content: center;
-            }
+            background: var(--secondary-color) !important;
         }
     </style>
 </head>
@@ -291,8 +160,7 @@
     <header class="header">
         <div class="container">
             <div class="logo">
-                <i class="bi bi-heart-pulse-fill text-danger"></i>
-                Ocea Supplements
+                <img src="/assets/images/logo-ocea.png" alt="Ocea Supplements" style="max-width: 195px; max-height: 29px;">
             </div>
             <div class="d-flex align-items-center gap-3">
                 <span class="user-greeting" id="user-greeting"></span>
@@ -322,7 +190,7 @@
     <!-- Questionário -->
     <section class="questionnaire-section">
 
-        <h1 class="section-title">
+        <h1 class="section-title" id="section-title">
             ⚖️ Saúde Hormonal
         </h1>
         <p class="section-description" id="section-description">
@@ -335,11 +203,11 @@
 
         <!-- Botões de navegação -->
         <div class="navigation-buttons">
-            <button type="button" class="btn-navigation btn-prev" onclick="goBack()">
-                <i class="bi bi-arrow-left"></i> Voltar
+            <button type="button" class="btn-next" onclick="saveAndContinue()">
+                PRÓXIMA ETAPA | SINTOMAS GERAIS
             </button>
-            <button type="button" class="btn-navigation btn-next" id="btn-next" onclick="saveAndContinue()">
-                Continuar <i class="bi bi-arrow-right"></i>
+            <button type="button" class="btn-prev" onclick="goBack()">
+                EDITAR RESPOSTAS ANTERIORES
             </button>
         </div>
 
@@ -359,13 +227,13 @@
         // =============================================
 
         const PERGUNTAS_MASCULINO = {
+            title: 'Saúde Masculina',
             description: 'Hormônios influenciam energia, libido e disposição. Vamos avaliar sua saúde hormonal.',
             questions: [
                 {
-                    number: 1,
-                    total: 2,
                     text: 'Sente diminuição da libido ou desejo sexual?',
                     name: 'libido',
+                    type: 'radio',
                     options: [
                         { value: 'Não', label: 'Não, está normal' },
                         { value: 'Leve', label: 'Diminuição leve' },
@@ -374,10 +242,9 @@
                     ]
                 },
                 {
-                    number: 2,
-                    total: 2,
                     text: 'Apresenta dificuldade em ganhar massa muscular ou perda de força?',
                     name: 'massa_muscular',
+                    type: 'radio',
                     options: [
                         { value: 'Não', label: 'Não, ganho massa normalmente' },
                         { value: 'Leve', label: 'Dificuldade leve' },
@@ -389,30 +256,61 @@
         };
 
         const PERGUNTAS_FEMININO = {
+            title: 'Saúde Feminina',
             description: 'Hormônios femininos afetam humor, energia e ciclo menstrual. Vamos avaliar seu equilíbrio hormonal.',
             questions: [
                 {
-                    number: 1,
-                    total: 2,
-                    text: 'Como é seu ciclo menstrual?',
-                    name: 'ciclo_menstrual',
+                    text: 'Condição especial (pode selecionar mais que uma resposta)',
+                    name: 'condicao_especial',
+                    type: 'checkbox',
                     options: [
-                        { value: 'Regular', label: 'Regular e previsível' },
-                        { value: 'Irregular', label: 'Irregular (varia bastante)' },
-                        { value: 'Ausente', label: 'Ausente ou muito espaçado' },
-                        { value: 'Menopausa', label: 'Menopausa ou pré-menopausa' }
+                        { value: 'Estou grávida', label: 'Estou grávida' },
+                        { value: 'Estou em período de amamentação', label: 'Estou em período de amamentação' },
+                        { value: 'Estou tentando engravidar', label: 'Estou tentando engravidar' },
+                        { value: 'Nenhuma condição especial', label: 'Nenhuma condição especial' }
                     ]
                 },
                 {
-                    number: 2,
-                    total: 2,
-                    text: 'Sofre de TPM (tensão pré-menstrual) intensa?',
-                    name: 'tpm',
-                    options: [
-                        { value: 'Não', label: 'Não tenho TPM' },
-                        { value: 'Leve', label: 'TPM leve' },
-                        { value: 'Moderada', label: 'TPM moderada' },
-                        { value: 'Severa', label: 'TPM severa (afeta rotina)' }
+                    text: 'Vamos escutar o que o seu corpo tem a dizer? Marque a intensidade de 0 a 10:',
+                    name: 'sintomas_hormonais',
+                    type: 'sliders',
+                    sliders: [
+                        {
+                            name: 'menopausa',
+                            label: 'Menopausa - Ondas de calor, insônia ou alterações de humor na menopausa (marque 0 se não está na menopausa)',
+                            minLabel: '0',
+                            maxLabel: '10'
+                        },
+                        {
+                            name: 'tpm',
+                            label: 'TPM intensa (irritabilidade, sensibilidade, tristeza)',
+                            minLabel: '0',
+                            maxLabel: '10'
+                        },
+                        {
+                            name: 'fluxo_menstrual',
+                            label: 'Fluxo menstrual muito intenso ou ausente',
+                            minLabel: '0',
+                            maxLabel: '10'
+                        },
+                        {
+                            name: 'colicas',
+                            label: 'Cólicas menstruais intensas ou enxaquecas',
+                            minLabel: '0',
+                            maxLabel: '10'
+                        },
+                        {
+                            name: 'inchaco',
+                            label: 'Inchaço corporal, retenção ou sensação de peso',
+                            minLabel: '0',
+                            maxLabel: '10'
+                        },
+                        {
+                            name: 'libido',
+                            label: 'Baixa libido (ou flutuação marcante)',
+                            minLabel: '0',
+                            maxLabel: '10'
+                        }
                     ]
                 }
             ]
@@ -422,7 +320,7 @@
         // INICIALIZAÇÃO
         // =============================================
 
-        function init() {
+        async function init() {
             // Verificar autenticação
             if (!API.Auth.isAuthenticated()) {
                 window.location.href = '/login.html';
@@ -430,13 +328,17 @@
             }
 
             // Exibir nome do usuário
-            const userData = API.Auth.getUserData();
-            if (userData && userData.nome) {
-                const firstName = userData.nome.split(' ')[0];
-                document.getElementById('user-greeting').textContent = `Olá, ${firstName}`;
+            try {
+                const response = await API.Auth.getCurrentUser();
+                if (response.success && response.data && response.data.name) {
+                    const firstName = response.data.name.split(' ')[0];
+                    document.getElementById('user-greeting').textContent = `Olá, ${firstName}`;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar usuário:', error);
             }
 
-            // Determinar sexo do usuário (da intro ou do cadastro)
+            // Determinar sexo do usuário (da intro)
             const introData = localStorage.getItem('anamnese_intro');
             if (introData) {
                 const data = JSON.parse(introData);
@@ -490,6 +392,9 @@
         function loadQuestions() {
             const perguntas = userSex === 'Masculino' ? PERGUNTAS_MASCULINO : PERGUNTAS_FEMININO;
 
+            // Atualizar título
+            document.getElementById('section-title').innerHTML = `⚖️ ${perguntas.title}`;
+
             // Atualizar descrição
             document.getElementById('section-description').textContent = perguntas.description;
 
@@ -498,20 +403,55 @@
             form.innerHTML = '';
 
             perguntas.questions.forEach(question => {
-                const questionHtml = `
-                    <div class="question-block">
-                        <div class="question-number">PERGUNTA ${question.number} DE ${question.total}</div>
-                        <div class="question-text">${question.text}</div>
-                        <div class="radio-group">
-                            ${question.options.map((option, index) => `
-                                <div class="radio-option" data-question="${question.name}">
-                                    <input type="radio" name="${question.name}" value="${option.value}" id="${question.name}_${index + 1}">
-                                    <label for="${question.name}_${index + 1}">${option.label}</label>
+                let questionHtml = '<div class="question-block">';
+                questionHtml += `<div class="question-text">${question.text}</div>`;
+
+                if (question.type === 'radio') {
+                    // Radio buttons para perguntas masculinas
+                    questionHtml += '<div class="radio-group">';
+                    question.options.forEach((option, index) => {
+                        questionHtml += `
+                            <div class="radio-option" data-question="${question.name}">
+                                <input type="radio" name="${question.name}" value="${option.value}" id="${question.name}_${index + 1}">
+                                <label for="${question.name}_${index + 1}">${option.label}</label>
+                            </div>
+                        `;
+                    });
+                    questionHtml += '</div>';
+
+                } else if (question.type === 'checkbox') {
+                    // Checkboxes para condições especiais femininas
+                    questionHtml += '<div class="checkbox-group">';
+                    question.options.forEach((option, index) => {
+                        questionHtml += `
+                            <div class="checkbox-option" data-question="${question.name}">
+                                <input type="checkbox" name="${question.name}" value="${option.value}" id="${question.name}_${index + 1}">
+                                <label for="${question.name}_${index + 1}">${option.label}</label>
+                            </div>
+                        `;
+                    });
+                    questionHtml += '</div>';
+
+                } else if (question.type === 'sliders') {
+                    // Sliders para sintomas hormonais femininos
+                    question.sliders.forEach(slider => {
+                        questionHtml += `
+                            <div class="slider-container">
+                                <div class="slider-label">${slider.label}</div>
+                                <div class="slider-markers">
+                                    <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
                                 </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
+                                <input type="range" name="${slider.name}" min="0" max="10" value="0" step="1" class="form-range">
+                                <div class="slider-labels">
+                                    <span class="slider-label-left">${slider.minLabel}</span>
+                                    <span class="slider-label-right">${slider.maxLabel}</span>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                questionHtml += '</div>';
                 form.innerHTML += questionHtml;
             });
         }
@@ -521,37 +461,94 @@
         // =============================================
 
         function setupEventListeners() {
-            // Radio buttons - adicionar classe selected
-            document.querySelectorAll('.radio-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    const questionName = this.dataset.question;
-                    // Remover selected de todas as opções da mesma pergunta
-                    document.querySelectorAll(`.radio-option[data-question="${questionName}"]`).forEach(opt => {
-                        opt.classList.remove('selected');
-                    });
-                    // Adicionar selected na opção clicada
-                    this.classList.add('selected');
-                    // Marcar o radio
-                    this.querySelector('input[type="radio"]').checked = true;
+            if (userSex === 'Masculino') {
+                // Radio buttons - adicionar classe selected
+                document.querySelectorAll('.radio-option').forEach(option => {
+                    option.addEventListener('click', function(e) {
+                        if (e.target.tagName !== 'INPUT') {
+                            const radio = this.querySelector('input[type="radio"]');
+                            radio.checked = true;
+                        }
 
-                    checkFormCompletion();
+                        const questionName = this.dataset.question;
+                        // Remover selected de todas as opções da mesma pergunta
+                        document.querySelectorAll(`.radio-option[data-question="${questionName}"]`).forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                        // Adicionar selected na opção clicada
+                        this.classList.add('selected');
+                    });
                 });
-            });
+            } else {
+                // Checkboxes - adicionar classe selected
+                document.querySelectorAll('.checkbox-option').forEach(option => {
+                    option.addEventListener('click', function(e) {
+                        if (e.target.tagName !== 'INPUT') {
+                            const checkbox = this.querySelector('input[type="checkbox"]');
+                            checkbox.checked = !checkbox.checked;
+                        }
+
+                        const checkbox = this.querySelector('input[type="checkbox"]');
+
+                        // Adicionar/remover classe selected
+                        if (checkbox.checked) {
+                            this.classList.add('selected');
+                        } else {
+                            this.classList.remove('selected');
+                        }
+
+                        // Se marcar "Nenhuma condição especial", desmarcar as outras
+                        if (checkbox.value === 'Nenhuma condição especial' && checkbox.checked) {
+                            document.querySelectorAll('input[name="condicao_especial"]').forEach(cb => {
+                                if (cb.value !== 'Nenhuma condição especial') {
+                                    cb.checked = false;
+                                    cb.closest('.checkbox-option').classList.remove('selected');
+                                }
+                            });
+                        } else if (checkbox.value !== 'Nenhuma condição especial' && checkbox.checked) {
+                            // Se marcar qualquer outra opção, desmarcar "Nenhuma condição especial"
+                            const nenhumaCheckbox = document.querySelector('input[name="condicao_especial"][value="Nenhuma condição especial"]');
+                            if (nenhumaCheckbox && nenhumaCheckbox.checked) {
+                                nenhumaCheckbox.checked = false;
+                                nenhumaCheckbox.closest('.checkbox-option').classList.remove('selected');
+                            }
+                        }
+                    });
+                });
+            }
         }
 
         // =============================================
         // VALIDAÇÃO DO FORMULÁRIO
         // =============================================
 
-        function checkFormCompletion() {
+        function validateForm() {
             const formData = getFormData();
-            const btnNext = document.getElementById('btn-next');
+            const missingFields = [];
 
             if (userSex === 'Masculino') {
-                btnNext.disabled = !formData.libido || !formData.massa_muscular;
+                if (!formData.libido) missingFields.push({ name: 'Libido e energia sexual', element: document.querySelector('input[name="libido"]') });
+                if (!formData.massa_muscular) missingFields.push({ name: 'Facilidade para ganhar ou manter massa muscular', element: document.querySelector('input[name="massa_muscular"]') });
             } else {
-                btnNext.disabled = !formData.ciclo_menstrual || !formData.tpm;
+                if (formData.condicao_especial.length === 0) missingFields.push({ name: 'Condição especial', element: document.querySelector('input[name="condicao_especial"]') });
             }
+
+            if (missingFields.length > 0) {
+                alert(`Por favor, responda a seguinte pergunta antes de continuar:\n\n${missingFields[0].name}`);
+
+                const firstMissingBlock = missingFields[0].element.closest('.question-block');
+                if (firstMissingBlock) {
+                    firstMissingBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstMissingBlock.style.border = '3px solid #F0AD4E';
+                    setTimeout(() => {
+                        firstMissingBlock.style.border = '';
+                    }, 2000);
+                }
+
+                return false;
+            }
+
+            return true;
         }
 
         // =============================================
@@ -565,9 +562,25 @@
                     massa_muscular: document.querySelector('input[name="massa_muscular"]:checked')?.value || null
                 };
             } else {
+                // Coletar condições especiais (checkboxes)
+                const condicoesEspeciais = [];
+                document.querySelectorAll('input[name="condicao_especial"]:checked').forEach(checkbox => {
+                    condicoesEspeciais.push(checkbox.value);
+                });
+
+                // Coletar valores dos sliders
+                const sintomasHormonais = {
+                    menopausa: parseInt(document.querySelector('input[name="menopausa"]')?.value || 0),
+                    tpm: parseInt(document.querySelector('input[name="tpm"]')?.value || 0),
+                    fluxo_menstrual: parseInt(document.querySelector('input[name="fluxo_menstrual"]')?.value || 0),
+                    colicas: parseInt(document.querySelector('input[name="colicas"]')?.value || 0),
+                    inchaco: parseInt(document.querySelector('input[name="inchaco"]')?.value || 0),
+                    libido: parseInt(document.querySelector('input[name="libido"]')?.value || 0)
+                };
+
                 return {
-                    ciclo_menstrual: document.querySelector('input[name="ciclo_menstrual"]:checked')?.value || null,
-                    tpm: document.querySelector('input[name="tpm"]:checked')?.value || null
+                    condicao_especial: condicoesEspeciais,
+                    sintomas_hormonais: sintomasHormonais
                 };
             }
         }
@@ -577,6 +590,10 @@
         // =============================================
 
         function saveAndContinue() {
+            if (!validateForm()) {
+                return;
+            }
+
             const formData = getFormData();
             formData.sexo = userSex; // Adicionar sexo ao objeto
 
@@ -603,18 +620,39 @@
             try {
                 const data = JSON.parse(savedData);
 
-                // Restaurar todas as respostas
-                Object.keys(data).forEach(key => {
-                    if (key !== 'sexo' && data[key]) {
-                        const radio = document.querySelector(`input[name="${key}"][value="${data[key]}"]`);
-                        if (radio) {
-                            radio.checked = true;
-                            radio.closest('.radio-option').classList.add('selected');
+                if (userSex === 'Masculino') {
+                    // Restaurar radio buttons masculinos
+                    Object.keys(data).forEach(key => {
+                        if (key !== 'sexo' && data[key]) {
+                            const radio = document.querySelector(`input[name="${key}"][value="${data[key]}"]`);
+                            if (radio) {
+                                radio.checked = true;
+                                radio.closest('.radio-option').classList.add('selected');
+                            }
                         }
+                    });
+                } else {
+                    // Restaurar checkboxes de condições especiais
+                    if (data.condicao_especial && Array.isArray(data.condicao_especial)) {
+                        data.condicao_especial.forEach(value => {
+                            const checkbox = document.querySelector(`input[name="condicao_especial"][value="${value}"]`);
+                            if (checkbox) {
+                                checkbox.checked = true;
+                                checkbox.closest('.checkbox-option').classList.add('selected');
+                            }
+                        });
                     }
-                });
 
-                checkFormCompletion();
+                    // Restaurar valores dos sliders
+                    if (data.sintomas_hormonais) {
+                        Object.keys(data.sintomas_hormonais).forEach(key => {
+                            const slider = document.querySelector(`input[name="${key}"]`);
+                            if (slider) {
+                                slider.value = data.sintomas_hormonais[key];
+                            }
+                        });
+                    }
+                }
             } catch (error) {
                 console.error('Erro ao carregar dados salvos:', error);
             }

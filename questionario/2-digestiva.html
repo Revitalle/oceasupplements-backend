@@ -9,6 +9,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
+    <!-- CSS Customizado -->
+    <link rel="stylesheet" href="estilos-questionario.css">
+
     <style>
         :root {
             --primary-color: #2C5F2D;
@@ -283,6 +286,16 @@
                 justify-content: center;
             }
         }
+
+        /* Botão Voltar Verde */
+        .btn-prev {
+            background: var(--primary-color) !important;
+            color: white !important;
+        }
+
+        .btn-prev:hover {
+            background: var(--secondary-color) !important;
+        }
     </style>
 </head>
 <body>
@@ -387,26 +400,26 @@
             <!-- Pergunta 3 -->
             <div class="question-block">
                 <div class="question-number">PERGUNTA 3 DE 4</div>
-                <div class="question-text">Já foi diagnosticado com alguma condição digestiva?</div>
-                <div class="radio-group">
-                    <div class="radio-option" data-question="condicao_digestiva">
-                        <input type="radio" name="condicao_digestiva" value="Não" id="condicao_1">
+                <div class="question-text">Já foi diagnosticado com alguma condição digestiva? (Pode selecionar mais de uma)</div>
+                <div class="checkbox-group">
+                    <div class="checkbox-option" data-question="condicao_digestiva">
+                        <input type="checkbox" name="condicao_digestiva" value="Não" id="condicao_1">
                         <label for="condicao_1">Não</label>
                     </div>
-                    <div class="radio-option" data-question="condicao_digestiva">
-                        <input type="radio" name="condicao_digestiva" value="Refluxo" id="condicao_2">
+                    <div class="checkbox-option" data-question="condicao_digestiva">
+                        <input type="checkbox" name="condicao_digestiva" value="Refluxo" id="condicao_2">
                         <label for="condicao_2">Refluxo/DRGE</label>
                     </div>
-                    <div class="radio-option" data-question="condicao_digestiva">
-                        <input type="radio" name="condicao_digestiva" value="SII" id="condicao_3">
+                    <div class="checkbox-option" data-question="condicao_digestiva">
+                        <input type="checkbox" name="condicao_digestiva" value="SII" id="condicao_3">
                         <label for="condicao_3">Síndrome do Intestino Irritável (SII)</label>
                     </div>
-                    <div class="radio-option" data-question="condicao_digestiva">
-                        <input type="radio" name="condicao_digestiva" value="Gastrite" id="condicao_4">
+                    <div class="checkbox-option" data-question="condicao_digestiva">
+                        <input type="checkbox" name="condicao_digestiva" value="Gastrite" id="condicao_4">
                         <label for="condicao_4">Gastrite</label>
                     </div>
-                    <div class="radio-option" data-question="condicao_digestiva">
-                        <input type="radio" name="condicao_digestiva" value="Outra" id="condicao_5">
+                    <div class="checkbox-option" data-question="condicao_digestiva">
+                        <input type="checkbox" name="condicao_digestiva" value="Outra" id="condicao_5">
                         <label for="condicao_5">Outra condição</label>
                     </div>
                 </div>
@@ -440,11 +453,11 @@
 
         <!-- Botões de navegação -->
         <div class="navigation-buttons">
-            <button type="button" class="btn-navigation btn-prev" onclick="goBack()">
-                <i class="bi bi-arrow-left"></i> Voltar
+            <button type="button" class="btn-next" onclick="saveAndContinue()">
+                PRÓXIMA ETAPA | ATIVIDADE FÍSICA
             </button>
-            <button type="button" class="btn-navigation btn-next" id="btn-next" onclick="saveAndContinue()">
-                Continuar <i class="bi bi-arrow-right"></i>
+            <button type="button" class="btn-prev" onclick="goBack()">
+                EDITAR RESPOSTAS ANTERIORES
             </button>
         </div>
 
@@ -461,7 +474,7 @@
         // INICIALIZAÇÃO
         // =============================================
 
-        function init() {
+        async function init() {
             // Verificar autenticação
             if (!API.Auth.isAuthenticated()) {
                 window.location.href = '/login.html';
@@ -469,10 +482,14 @@
             }
 
             // Exibir nome do usuário
-            const userData = API.Auth.getUserData();
-            if (userData && userData.nome) {
-                const firstName = userData.nome.split(' ')[0];
-                document.getElementById('user-greeting').textContent = `Olá, ${firstName}`;
+            try {
+                const response = await API.Auth.getCurrentUser();
+                if (response.success && response.data && response.data.name) {
+                    const firstName = response.data.name.split(' ')[0];
+                    document.getElementById('user-greeting').textContent = `Olá, ${firstName}`;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar usuário:', error);
             }
 
             // Carregar dados salvos (se houver)
@@ -499,8 +516,39 @@
                     this.classList.add('selected');
                     // Marcar o radio
                     this.querySelector('input[type="radio"]').checked = true;
+                });
+            });
 
-                    checkFormCompletion();
+            // Checkboxes - adicionar classe selected
+            document.querySelectorAll('.checkbox-option').forEach(option => {
+                option.addEventListener('click', function(e) {
+                    if (e.target.tagName !== 'INPUT') {
+                        const checkbox = this.querySelector('input[type="checkbox"]');
+                        checkbox.checked = !checkbox.checked;
+                    }
+
+                    if (this.querySelector('input[type="checkbox"]').checked) {
+                        this.classList.add('selected');
+                    } else {
+                        this.classList.remove('selected');
+                    }
+
+                    // Se selecionar "Não", desmarcar outras
+                    const checkbox = this.querySelector('input[type="checkbox"]');
+                    if (checkbox.value === 'Não' && checkbox.checked) {
+                        document.querySelectorAll('input[name="condicao_digestiva"]').forEach(cb => {
+                            if (cb.value !== 'Não') {
+                                cb.checked = false;
+                                cb.closest('.checkbox-option').classList.remove('selected');
+                            }
+                        });
+                    } else if (checkbox.checked && checkbox.value !== 'Não') {
+                        const naoCheckbox = document.querySelector('input[name="condicao_digestiva"][value="Não"]');
+                        if (naoCheckbox) {
+                            naoCheckbox.checked = false;
+                            naoCheckbox.closest('.checkbox-option').classList.remove('selected');
+                        }
+                    }
                 });
             });
         }
@@ -509,17 +557,31 @@
         // VALIDAÇÃO DO FORMULÁRIO
         // =============================================
 
-        function checkFormCompletion() {
+        function validateForm() {
             const formData = getFormData();
-            const btnNext = document.getElementById('btn-next');
+            const missingFields = [];
 
-            // Verificar se todas as perguntas foram respondidas
-            const isComplete = formData.transito_intestinal &&
-                              formData.inchaco_gases &&
-                              formData.condicao_digestiva &&
-                              formData.probioticos;
+            if (!formData.transito_intestinal) missingFields.push({ name: 'Como está seu trânsito intestinal?', element: document.querySelector('input[name="transito_intestinal"]') });
+            if (!formData.inchaco_gases) missingFields.push({ name: 'Sente inchaço ou gases frequentemente?', element: document.querySelector('input[name="inchaco_gases"]') });
+            if (formData.condicao_digestiva.length === 0) missingFields.push({ name: 'Tem alguma condição digestiva diagnosticada?', element: document.querySelector('input[name="condicao_digestiva"]') });
+            if (!formData.probioticos) missingFields.push({ name: 'Usa probióticos ou prebióticos regularmente?', element: document.querySelector('input[name="probioticos"]') });
 
-            btnNext.disabled = !isComplete;
+            if (missingFields.length > 0) {
+                alert(`Por favor, responda a seguinte pergunta antes de continuar:\n\n${missingFields[0].name}`);
+
+                const firstMissingBlock = missingFields[0].element.closest('.question-block');
+                if (firstMissingBlock) {
+                    firstMissingBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstMissingBlock.style.border = '3px solid #F0AD4E';
+                    setTimeout(() => {
+                        firstMissingBlock.style.border = '';
+                    }, 2000);
+                }
+
+                return false;
+            }
+
+            return true;
         }
 
         // =============================================
@@ -527,10 +589,16 @@
         // =============================================
 
         function getFormData() {
+            // Coletar condições digestivas (múltiplas)
+            const condicoesDigestivas = [];
+            document.querySelectorAll('input[name="condicao_digestiva"]:checked').forEach(checkbox => {
+                condicoesDigestivas.push(checkbox.value);
+            });
+
             return {
                 transito_intestinal: document.querySelector('input[name="transito_intestinal"]:checked')?.value || null,
                 inchaco_gases: document.querySelector('input[name="inchaco_gases"]:checked')?.value || null,
-                condicao_digestiva: document.querySelector('input[name="condicao_digestiva"]:checked')?.value || null,
+                condicao_digestiva: condicoesDigestivas,
                 probioticos: document.querySelector('input[name="probioticos"]:checked')?.value || null
             };
         }
@@ -540,6 +608,10 @@
         // =============================================
 
         function saveAndContinue() {
+            if (!validateForm()) {
+                return;
+            }
+
             const formData = getFormData();
 
             console.log('Dados de Saúde Digestiva:', formData);
@@ -565,18 +637,41 @@
             try {
                 const data = JSON.parse(savedData);
 
-                // Restaurar todas as respostas
-                Object.keys(data).forEach(key => {
-                    if (data[key]) {
-                        const radio = document.querySelector(`input[name="${key}"][value="${data[key]}"]`);
-                        if (radio) {
-                            radio.checked = true;
-                            radio.closest('.radio-option').classList.add('selected');
-                        }
+                // Restaurar radio buttons
+                if (data.transito_intestinal) {
+                    const radio = document.querySelector(`input[name="transito_intestinal"][value="${data.transito_intestinal}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        radio.closest('.radio-option').classList.add('selected');
                     }
-                });
+                }
 
-                checkFormCompletion();
+                if (data.inchaco_gases) {
+                    const radio = document.querySelector(`input[name="inchaco_gases"][value="${data.inchaco_gases}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        radio.closest('.radio-option').classList.add('selected');
+                    }
+                }
+
+                if (data.probioticos) {
+                    const radio = document.querySelector(`input[name="probioticos"][value="${data.probioticos}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        radio.closest('.radio-option').classList.add('selected');
+                    }
+                }
+
+                // Restaurar checkboxes (condições digestivas)
+                if (data.condicao_digestiva && Array.isArray(data.condicao_digestiva)) {
+                    data.condicao_digestiva.forEach(value => {
+                        const checkbox = document.querySelector(`input[name="condicao_digestiva"][value="${value}"]`);
+                        if (checkbox) {
+                            checkbox.checked = true;
+                            checkbox.closest('.checkbox-option').classList.add('selected');
+                        }
+                    });
+                }
             } catch (error) {
                 console.error('Erro ao carregar dados salvos:', error);
             }
