@@ -3,7 +3,7 @@
    ================================================ */
 
 :root {
-    --primary-color: #2C5F2D;
+    --primary-color: #007C8C;
     --secondary-color: #97BC62;
     --accent-color: #FFB81C;
     --neutral-bg: #F7F4EF;
@@ -369,7 +369,7 @@ input[type="range"]::-moz-range-thumb {
 /* Botão Principal (Próxima Etapa) - Estilo Puríssima */
 .btn-next,
 .btn-finish {
-    background: #2A7B4F;
+    background: #007C8C;
     color: #FFFFFF;
     padding: 14px 24px;
     border-radius: 4px;
@@ -387,7 +387,7 @@ input[type="range"]::-moz-range-thumb {
 
 .btn-next:hover,
 .btn-finish:hover {
-    background: #236642;
+    background: #005F6B;
 }
 
 .btn-next:disabled,
@@ -413,7 +413,7 @@ input[type="range"]::-moz-range-thumb {
 .btn-prev {
     background: none;
     border: none;
-    color: #2A7B4F;
+    color: #007C8C;
     font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
     font-size: 15px;
     font-weight: 400;
@@ -426,6 +426,7 @@ input[type="range"]::-moz-range-thumb {
 
 .btn-prev:hover {
     text-decoration: underline;
+    color: #005F6B;
 }
 
 /* Responsividade */
