@@ -225,8 +225,11 @@ router.post('/complete', protect, async (req, res) => {
   }
 
   try {
-    console.log('Processando diagnóstico...');
-    console.log('questionnaire_data recebido:', JSON.stringify(questionnaire_data));
+    console.log('==========================================');
+    console.log('🚀 PROCESSANDO DIAGNÓSTICO - v2');
+    console.log('questionnaire_data recebido:',  questionnaire_data ? JSON.stringify(questionnaire_data).substring(0, 200) + '...' : 'NULL/UNDEFINED');
+    console.log('Tipo:', typeof questionnaire_data);
+    console.log('==========================================');
 
     // Achatar o objeto aninhado (flatten)
     // De: { intro: { pesoKg: 70 }, nutricao: { q1_1: '3-4' } }
