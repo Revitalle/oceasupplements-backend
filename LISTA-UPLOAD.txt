@@ -1,0 +1,47 @@
+# 📤 LISTA DE ARQUIVOS PARA FAZER UPLOAD
+
+## ✅ FAZER UPLOAD (Essenciais):
+
+### Arquivos na raiz:
+- server.js
+- package.json
+- package-lock.json
+- .env
+
+### Pastas:
+- routes/
+- middleware/
+- database/
+- models/
+- utils/
+- config/
+- questionario/
+
+## ❌ NÃO FAZER UPLOAD (Desnecessários):
+
+### Pastas pesadas:
+- node_modules/ (9 mil arquivos! Instalar via SSH depois)
+- .git/ (controle de versão)
+- .claude/ (configurações locais)
+
+### Arquivos de documentação:
+- *.md (todos os arquivos .md)
+- .gitignore
+- deploy-to-hostinger.sh
+- Procfile
+- railway.json
+
+## 📊 Resumo:
+
+Total de arquivos para upload: ~400 arquivos
+Tempo estimado: 5-10 minutos
+
+## 🚀 Após upload:
+
+Via SSH na Hostinger:
+```bash
+cd public_html/backend
+npm install
+```
+
+Isso vai criar o node_modules na Hostinger automaticamente!

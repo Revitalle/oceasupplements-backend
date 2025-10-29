@@ -522,7 +522,7 @@
                     console.log('Redirecionando para processamento...');
 
                     // Redirecionar para página de processamento
-                    window.location.href = '/questionario/processando.html';
+                    window.location.href = '/backend/questionario/processando.html';
                 } else {
                     throw new Error('Erro ao salvar questionário: ' + (response.error?.message || 'Erro desconhecido'));
                 }
@@ -568,7 +568,7 @@
             const sintomasData = getFormData();
             localStorage.setItem('anamnese_sintomas', JSON.stringify(sintomasData));
 
-            window.location.href = '/questionario/6-hormonal.html';
+            window.location.href = '/backend/questionario/6-hormonal.html';
         }
 
         function logout() {

@@ -627,7 +627,7 @@
             if (!userSex) {
                 console.error('❌ Sexo não identificado!');
                 alert('Erro: sexo não identificado. Por favor, complete a introdução novamente.');
-                window.location.href = '/questionario/intro.html';
+                window.location.href = '/backend/questionario/intro.html';
                 return;
             }
 
@@ -887,7 +887,7 @@
             // await API.Anamnese.saveSection('hormonal', formData);
 
             // Redirecionar para última seção (sintomas)
-            window.location.href = '/questionario/7-sintomas.html';
+            window.location.href = '/backend/questionario/7-sintomas.html';
         }
 
         // =============================================
@@ -944,7 +944,7 @@
         // =============================================
 
         function goBack() {
-            window.location.href = '/questionario/5-mental.html';
+            window.location.href = '/backend/questionario/5-mental.html';
         }
 
         function logout() {
