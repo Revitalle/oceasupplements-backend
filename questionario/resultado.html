@@ -3,35 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultado da Anamnese - Ocea Supplements</title>
+    <title>Mapa da Saúde - Ocea Supplements</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
-    <!-- Chart.js para gráficos -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <!-- CSS Customizado -->
-    <link rel="stylesheet" href="estilos-questionario.css?v=7">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* Cor padrão Ocea */
         :root {
             --ocea-primary: #007c8c;
             --ocea-dark: #005F6B;
-            --success-green: #4caf50;
-            --warning-yellow: #ffc107;
-            --danger-red: #f44336;
-            --text-dark: #2c2c2c;
+            --color-otimo: #007c8c;      /* Ótimo: Turquesa */
+            --color-intermediario: #F0AD4E; /* Intermediário: Amarelo */
+            --color-ruim: #D9534F;       /* Ruim: Vermelho */
+            --color-pessimo: #8B2E3E;    /* Péssimo: Vinho */
+            --text-dark: #4c4748;
+            --bg-light: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background: #f8f9fa;
-            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Open Sans', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
         }
 
-        /* Header com design padrão */
+        /* Header */
         .header {
             background: var(--ocea-primary);
             padding: 1rem 0;
@@ -39,254 +46,207 @@
         }
 
         .logo img {
-            height: 40px !important;
-            width: auto !important;
+            height: 40px;
+            width: auto;
         }
 
-        /* Container principal */
-        .result-container {
+        .user-greeting {
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Container Principal */
+        .health-chart-result {
             max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+            margin: 0 auto;
+            padding: 2rem 1rem;
         }
 
-        /* Card de score total */
-        .total-score-card {
+        .chart-section {
             background: white;
             border-radius: 20px;
-            padding: 2.5rem;
+            padding: 3rem 2rem;
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             text-align: center;
             margin-bottom: 2rem;
         }
 
-        .total-score-value {
-            font-size: 5rem;
-            font-weight: bold;
-            color: var(--ocea-primary);
-            line-height: 1;
-            margin: 1rem 0;
-        }
-
-        .total-score-label {
-            font-size: 1.5rem;
-            color: var(--text-dark);
+        .chart-title {
+            font-size: 2rem;
+            font-weight: 800;
+            text-transform: uppercase;
             margin-bottom: 0.5rem;
+            color: var(--text-dark);
         }
 
-        .severity-badge {
-            display: inline-block;
-            padding: 0.75rem 2rem;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
+        .chart-subtitle {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+        }
+
+        /* SVG Container */
+        .svg-container {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .health-svg {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Animações */
+        @keyframes slice-fade-in {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bubble-pop {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .slice-animate {
+            animation: slice-fade-in 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .slice-animate:nth-child(1) { animation-delay: 0.1s; }
+        .slice-animate:nth-child(2) { animation-delay: 0.2s; }
+        .slice-animate:nth-child(3) { animation-delay: 0.3s; }
+        .slice-animate:nth-child(4) { animation-delay: 0.4s; }
+        .slice-animate:nth-child(5) { animation-delay: 0.5s; }
+        .slice-animate:nth-child(6) { animation-delay: 0.6s; }
+
+        .bolinha {
+            animation: bubble-pop 0.5s ease-out forwards;
+        }
+
+        /* Legenda */
+        .legend-container {
+            background: white;
+            border-radius: 30px;
+            padding: 1rem 2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             margin-top: 1rem;
         }
 
-        .severity-low {
-            background: #ffebee;
-            color: #c62828;
-        }
-
-        .severity-moderate {
-            background: #fff3e0;
-            color: #ef6c00;
-        }
-
-        .severity-high {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        /* Cards de categorias */
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .category-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .category-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-        }
-
-        .category-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-        }
-
-        .category-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--text-dark);
+        .legend-item {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .category-icon {
-            font-size: 1.5rem;
+        .legend-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
         }
 
-        .category-score {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: var(--ocea-primary);
-        }
-
-        /* Barra de progresso personalizada */
-        .score-bar-container {
-            width: 100%;
-            height: 12px;
-            background: #e0e0e0;
-            border-radius: 10px;
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-
-        .score-bar {
-            height: 100%;
-            border-radius: 10px;
-            transition: width 0.6s ease;
-        }
-
-        .score-high { background: linear-gradient(90deg, #4caf50, #66bb6a); }
-        .score-moderate { background: linear-gradient(90deg, #ffc107, #ffb300); }
-        .score-low { background: linear-gradient(90deg, #f44336, #ef5350); }
-
-        /* Card de gráfico de evolução */
-        .evolution-card {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            margin-bottom: 2rem;
-        }
-
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: 600;
+        .legend-text {
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
             color: var(--text-dark);
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
         }
 
-        .card-title i {
-            color: var(--ocea-primary);
+        /* Descrição */
+        .chart-description {
+            max-width: 800px;
+            margin: 2rem auto;
+            text-align: center;
         }
 
-        /* Recomendações */
-        .recommendations-card {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            margin-bottom: 2rem;
-        }
-
-        .recommendation-item {
-            padding: 1rem;
-            background: #f8f9fa;
-            border-radius: 10px;
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: start;
-            gap: 1rem;
-        }
-
-        .recommendation-item i {
-            color: var(--ocea-primary);
+        .chart-description h4 {
             font-size: 1.3rem;
-            margin-top: 0.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
         }
 
-        /* Botões de ação */
+        .chart-description p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        /* Botões de Ação */
         .action-buttons {
             display: flex;
-            gap: 1rem;
             justify-content: center;
-            margin-top: 2rem;
+            gap: 1rem;
             flex-wrap: wrap;
+            margin-top: 2rem;
         }
 
         .btn-action {
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-action.primary {
             background: var(--ocea-primary);
             color: white;
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            border: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 124, 140, 0.3);
-            text-decoration: none;
-            display: inline-block;
         }
 
-        .btn-action:hover {
+        .btn-action.primary:hover {
             background: var(--ocea-dark);
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 124, 140, 0.4);
-            color: white;
+            box-shadow: 0 5px 15px rgba(0,124,140,0.3);
         }
 
-        .btn-secondary {
+        .btn-action.secondary {
             background: white;
             color: var(--ocea-primary);
             border: 2px solid var(--ocea-primary);
         }
 
-        .btn-secondary:hover {
+        .btn-action.secondary:hover {
             background: var(--ocea-primary);
             color: white;
         }
 
-        /* Loading */
-        .loading-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 60vh;
-            gap: 1rem;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--ocea-primary);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
         /* Responsivo */
         @media (max-width: 768px) {
-            .total-score-value {
-                font-size: 3.5rem;
+            .chart-title {
+                font-size: 1.5rem;
             }
 
-            .category-grid {
-                grid-template-columns: 1fr;
+            .chart-subtitle {
+                font-size: 1rem;
+            }
+
+            .legend-container {
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 1rem;
             }
 
             .action-buttons {
@@ -295,28 +255,8 @@
 
             .btn-action {
                 width: 100%;
+                justify-content: center;
             }
-        }
-
-        /* Nota explicativa sobre os scores */
-        .score-info {
-            background: #e3f2fd;
-            border-left: 4px solid var(--ocea-primary);
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-        }
-
-        .score-info h5 {
-            color: var(--ocea-primary);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .score-info p {
-            margin: 0;
-            color: var(--text-dark);
-            font-size: 0.95rem;
         }
     </style>
 </head>
@@ -327,81 +267,70 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <img src="/assets/images/logo-ocea-white.png" alt="Ocea Supplements">
+                    <img src="/assets/images/logo-ocea.png" alt="Ocea Supplements">
                 </div>
-                <div class="d-flex align-items-center gap-3">
-                    <span class="text-white" id="user-greeting">Olá, Usuário</span>
-                    <button class="btn btn-sm btn-light" onclick="logout()">Sair</button>
+                <div class="user-greeting" id="user-greeting">
+                    Olá!
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Loading -->
-    <div id="loading" class="loading-container">
-        <div class="spinner"></div>
-        <p>Carregando seus resultados...</p>
-    </div>
+    <!-- Main Content -->
+    <div class="health-chart-result">
 
-    <!-- Container Principal -->
-    <div id="content" class="result-container" style="display: none;">
+        <!-- Chart Section -->
+        <div class="chart-section">
+            <h1 class="chart-title" id="user-name-title">SEU MAPA DA SAÚDE</h1>
+            <h2 class="chart-subtitle">ESTE É O RESULTADO DO SEU <strong>MAPA DA SAÚDE</strong></h2>
 
-        <!-- Score Total -->
-        <div class="total-score-card">
-            <div class="total-score-label">Seu Score de Saúde</div>
-            <div class="total-score-value" id="total-score">--</div>
-            <p style="color: #666;">de 100 pontos</p>
-            <div class="severity-badge" id="severity-badge">--</div>
-        </div>
-
-        <!-- Nota explicativa -->
-        <div class="score-info">
-            <h5><i class="bi bi-info-circle"></i> Como interpretar seu score</h5>
-            <p><strong>70-100:</strong> Excelente! Continue mantendo seus hábitos saudáveis.
-            <strong>40-69:</strong> Moderado. Algumas áreas precisam de atenção.
-            <strong>0-39:</strong> Atenção necessária. Recomendamos consultar um profissional de saúde.</p>
-        </div>
-
-        <!-- Scores por Categoria -->
-        <div class="card-title">
-            <i class="bi bi-clipboard2-pulse"></i>
-            Análise Detalhada por Área
-        </div>
-        <div class="category-grid" id="categories-container">
-            <!-- Categorias serão inseridas via JavaScript -->
-        </div>
-
-        <!-- Gráfico de Evolução -->
-        <div class="evolution-card">
-            <div class="card-title">
-                <i class="bi bi-graph-up-arrow"></i>
-                Sua Evolução (Últimas 4 Anamneses)
+            <!-- SVG Chart Container -->
+            <div class="svg-container" id="svg-container">
+                <!-- SVG será gerado aqui dinamicamente -->
             </div>
-            <canvas id="evolutionChart" height="80"></canvas>
-        </div>
 
-        <!-- Recomendações -->
-        <div class="recommendations-card">
-            <div class="card-title">
-                <i class="bi bi-lightbulb"></i>
-                Recomendações Personalizadas
+            <!-- Legenda -->
+            <div class="legend-container">
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: var(--color-otimo);"></div>
+                    <span class="legend-text">Ótimo</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: var(--color-intermediario);"></div>
+                    <span class="legend-text">Intermediário</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: var(--color-ruim);"></div>
+                    <span class="legend-text">Ruim</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: var(--color-pessimo);"></div>
+                    <span class="legend-text">Péssimo</span>
+                </div>
             </div>
-            <div id="recommendations-container">
-                <!-- Recomendações serão inseridas via JavaScript -->
-            </div>
-        </div>
 
-        <!-- Botões de Ação -->
-        <div class="action-buttons">
-            <a href="/dashboard.html" class="btn-action">
-                <i class="bi bi-house"></i> Ir para Dashboard
-            </a>
-            <a href="/questionario/intro.html" class="btn-action btn-secondary">
-                <i class="bi bi-arrow-clockwise"></i> Refazer Anamnese
-            </a>
-            <button onclick="window.print()" class="btn-action btn-secondary">
-                <i class="bi bi-printer"></i> Imprimir Resultados
-            </button>
+            <!-- Descrição -->
+            <div class="chart-description">
+                <h4>Cada área representa uma dimensão essencial da sua saúde.</h4>
+                <p>
+                    Quanto maior a porcentagem, melhor está esse aspecto no momento atual.
+                    Use este panorama para identificar seus pontos fortes e o que pode ser
+                    aprimorado com apoio nutricional, mudanças de hábito e autocuidado.
+                </p>
+            </div>
+
+            <!-- Botões de Ação -->
+            <div class="action-buttons">
+                <a href="/dashboard.html" class="btn-action primary">
+                    <i class="bi bi-house"></i> Ir para Dashboard
+                </a>
+                <a href="/backend/questionario/intro.html" class="btn-action secondary">
+                    <i class="bi bi-arrow-clockwise"></i> Refazer Anamnese
+                </a>
+                <button onclick="window.print()" class="btn-action secondary">
+                    <i class="bi bi-printer"></i> Imprimir Resultados
+                </button>
+            </div>
         </div>
 
     </div>
@@ -410,236 +339,338 @@
     <script src="/js/api.js"></script>
 
     <script>
-        // Ícones e nomes das categorias
-        const CATEGORIES = {
-            intro: { icon: '📊', name: 'IMC e Dados Gerais' },
-            nutrition: { icon: '🍽️', name: 'Nutrição' },
-            digestive: { icon: '🌿', name: 'Saúde Digestiva' },
-            physical: { icon: '💪', name: 'Atividade Física' },
-            sleep: { icon: '💤', name: 'Sono e Descanso' },
-            mental: { icon: '🧘', name: 'Saúde Mental' },
-            hormonal: { icon: '⚖️', name: 'Equilíbrio Hormonal' },
-            symptoms: { icon: '📋', name: 'Sintomas Gerais' }
+        // =============================================
+        // CONFIGURAÇÕES
+        // =============================================
+
+        const CATEGORY_CONFIG = {
+            intro: { label: 'Corpo', color: null }, // Não exibir no gráfico
+            nutrition: { label: 'Nutrição', color: '#4c894f' },
+            physical: { label: 'Exercício', color: '#3f884b' },
+            hormonal: { label: 'Homem/Mulher', color: '#eccc69', dynamic: true }, // Dinâmico
+            digestive: { label: 'Digestão', color: '#e5c563' },
+            sleep: { label: 'Sono', color: '#a3334d' },
+            mental: { label: 'Mente', color: '#942e49' }
+            // symptoms é removido
         };
 
-        let diagnosticData = null;
-        let historyData = null;
+        // Cores por faixa de score (4 níveis)
+        function getColorByScore(score) {
+            if (score >= 75) return '#007c8c'; // Ótimo: Turquesa (75-100)
+            if (score >= 50) return '#F0AD4E'; // Intermediário: Amarelo (50-74)
+            if (score >= 25) return '#D9534F'; // Ruim: Vermelho (25-49)
+            return '#8B2E3E'; // Péssimo: Vinho (0-24)
+        }
+
+        // =============================================
+        // CARREGAR DIAGNÓSTICO
+        // =============================================
+
+        async function loadDiagnostic() {
+            try {
+                // Carregar dados do usuário
+                const userResponse = await API.Auth.getCurrentUser();
+                if (userResponse.success && userResponse.data) {
+                    const firstName = userResponse.data.name.split(' ')[0];
+                    document.getElementById('user-greeting').textContent = `Olá, ${firstName}!`;
+                    document.getElementById('user-name-title').textContent = `${firstName.toUpperCase()}, SEU MAPA DA SAÚDE`;
+                }
+
+                // Carregar diagnóstico
+                const response = await API.Diagnostics.getAll();
+
+                if (!response.success || !response.data) {
+                    alert('Nenhum diagnóstico encontrado. Complete o questionário primeiro.');
+                    window.location.href = '/backend/questionario/intro.html';
+                    return;
+                }
+
+                // getAll retorna um objeto único (não array)
+                const diagnostic = response.data;
+
+                // Preparar dados para o gráfico
+                const chartData = prepareChartData(diagnostic);
+
+                // Gerar SVG
+                generateHealthChart(chartData);
+
+            } catch (error) {
+                console.error('Erro ao carregar diagnóstico:', error);
+                alert('Erro ao carregar seus resultados. Tente novamente.');
+            }
+        }
+
+        // =============================================
+        // PREPARAR DADOS DO GRÁFICO
+        // =============================================
+
+        function prepareChartData(diagnostic) {
+            console.log('📊 prepareChartData - diagnostic:', diagnostic);
+            const categories = [];
+
+            // Extrair gênero do questionnaire_data
+            const gender = diagnostic.questionnaire_data?.intro?.sexo ||
+                          diagnostic.questionnaire_data?.intro?.genero ||
+                          'masculino';
+
+            console.log('👤 Gênero detectado:', gender);
+
+            // Mapear categorias (exceto intro e symptoms)
+            const categoryOrder = ['nutrition', 'physical', 'hormonal', 'digestive', 'sleep', 'mental'];
+
+            categoryOrder.forEach(key => {
+                const config = CATEGORY_CONFIG[key];
+                if (!config) return;
+
+                let label = config.label;
+                let score = diagnostic[`${key}_score`] || 0;
+
+                console.log(`📈 ${key}_score:`, score);
+
+                // Ajustar label dinâmica para hormonal
+                if (key === 'hormonal' && config.dynamic) {
+                    label = gender.toLowerCase() === 'feminino' ? 'Mulher' : 'Homem';
+                }
+
+                // Determinar cor baseada no score
+                const color = getColorByScore(score);
+
+                categories.push({
+                    key,
+                    label,
+                    score: Math.round(score),
+                    color
+                });
+            });
+
+            console.log('✅ Categorias preparadas:', categories);
+            return categories;
+        }
+
+        // =============================================
+        // GERAR GRÁFICO SVG
+        // =============================================
+
+        function generateHealthChart(categories) {
+            const svgNS = "http://www.w3.org/2000/svg";
+            const width = 800;
+            const height = 850; // Aumentado para acomodar bolinhas inferiores
+            const centerX = 400;
+            const centerY = 400;
+            const radius = 360;
+            const innerRadius = 180; // Reduzido para dar mais espaço aos labels
+            const bubbleRadius = 50;
+
+            // Criar SVG
+            const svg = document.createElementNS(svgNS, 'svg');
+            svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+            svg.setAttribute('width', '100%');
+            svg.setAttribute('height', '100%');
+            svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+            svg.classList.add('health-svg');
+
+            // Criar defs para filtros
+            const defs = document.createElementNS(svgNS, 'defs');
+
+            // Filtro de sombra para fatias
+            const sliceShadow = document.createElementNS(svgNS, 'filter');
+            sliceShadow.setAttribute('id', 'slice-shadow');
+            sliceShadow.innerHTML = '<feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.25"/>';
+            defs.appendChild(sliceShadow);
+
+            // Filtro de sombra para círculos
+            const circleShadow = document.createElementNS(svgNS, 'filter');
+            circleShadow.setAttribute('id', 'circle-shadow');
+            circleShadow.innerHTML = '<feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#000" flood-opacity="0.3"/>';
+            defs.appendChild(circleShadow);
+
+            svg.appendChild(defs);
+
+            // Calcular ângulos
+            const angleSize = 360 / categories.length;
+            let currentAngle = -90; // Começar no topo
+
+            categories.forEach((cat, index) => {
+                const startAngle = currentAngle;
+                const endAngle = currentAngle + angleSize;
+
+                // Criar fatia (path)
+                const path = createDonutSlice(centerX, centerY, radius, innerRadius, startAngle, endAngle);
+                const pathElement = document.createElementNS(svgNS, 'path');
+                pathElement.setAttribute('d', path);
+                pathElement.setAttribute('fill', cat.color);
+                pathElement.setAttribute('filter', 'url(#slice-shadow)');
+                pathElement.classList.add('slice-animate');
+                svg.appendChild(pathElement);
+
+                // Calcular posição do círculo externo (bolinha)
+                const midAngle = (startAngle + endAngle) / 2;
+                const bubbleDistance = radius + bubbleRadius + 10;
+                const bubbleX = centerX + bubbleDistance * Math.cos(midAngle * Math.PI / 180);
+                const bubbleY = centerY + bubbleDistance * Math.sin(midAngle * Math.PI / 180);
+
+                // Criar círculo (bolinha)
+                const circle = document.createElementNS(svgNS, 'circle');
+                circle.setAttribute('cx', bubbleX);
+                circle.setAttribute('cy', bubbleY);
+                circle.setAttribute('r', bubbleRadius);
+                circle.setAttribute('fill', cat.color);
+                circle.setAttribute('filter', 'url(#circle-shadow)');
+                circle.classList.add('bolinha');
+                circle.style.animationDelay = `${(index + 1) * 0.15}s`;
+                svg.appendChild(circle);
+
+                // Criar texto dentro do círculo
+                const text = document.createElementNS(svgNS, 'text');
+                text.setAttribute('x', bubbleX);
+                text.setAttribute('y', bubbleY + 14);
+                text.setAttribute('text-anchor', 'middle');
+                text.setAttribute('font-size', '42');
+                text.setAttribute('font-weight', 'bold');
+                text.setAttribute('font-family', 'Open Sans, sans-serif');
+                text.setAttribute('fill', 'white');
+                text.setAttribute('letter-spacing', '-2');
+                text.classList.add('bolinha');
+                text.style.animationDelay = `${(index + 1) * 0.15}s`;
+                text.textContent = cat.score;
+
+                const tspan = document.createElementNS(svgNS, 'tspan');
+                tspan.setAttribute('font-size', '20');
+                tspan.textContent = '%';
+                text.appendChild(tspan);
+
+                svg.appendChild(text);
+
+                // Criar label no arco interno (labels devem estar dentro do defs E depois renderizados)
+                const labelRadius = 250; // Raio para os labels (entre innerRadius e radius)
+                const labelPath = createArcPath(centerX, centerY, labelRadius, startAngle, endAngle);
+                const labelPathElement = document.createElementNS(svgNS, 'path');
+                labelPathElement.setAttribute('id', `arc-label-${index}`);
+                labelPathElement.setAttribute('d', labelPath);
+                labelPathElement.setAttribute('fill', 'none');
+                defs.appendChild(labelPathElement);
+
+                currentAngle = endAngle;
+            });
+
+            // Adicionar labels nas fatias (ANTES do círculo branco para ficarem atrás)
+            categories.forEach((cat, index) => {
+                const labelText = document.createElementNS(svgNS, 'text');
+                labelText.setAttribute('font-size', '22');
+                labelText.setAttribute('font-weight', '900');
+                labelText.setAttribute('font-family', 'brandon-grotesque, Open Sans, sans-serif');
+                labelText.setAttribute('fill', cat.color);
+                labelText.classList.add('logo', 'logo-animate');
+
+                const textPath = document.createElementNS(svgNS, 'textPath');
+                textPath.setAttributeNS('http://www.w3.org/1999/xlink', 'href', `#arc-label-${index}`);
+                textPath.setAttribute('startOffset', '50%');
+                textPath.setAttribute('text-anchor', 'middle');
+                textPath.textContent = cat.label.toUpperCase();
+                labelText.appendChild(textPath);
+
+                svg.appendChild(labelText);
+            });
+
+            // Criar círculo branco central
+            const whiteCircle = document.createElementNS(svgNS, 'circle');
+            whiteCircle.setAttribute('cx', centerX);
+            whiteCircle.setAttribute('cy', centerY);
+            whiteCircle.setAttribute('r', innerRadius);
+            whiteCircle.setAttribute('fill', 'white');
+            whiteCircle.setAttribute('fill-opacity', '0.95');
+            svg.appendChild(whiteCircle);
+
+            // Logo no centro (se tiver)
+            const logoImage = document.createElementNS(svgNS, 'image');
+            logoImage.setAttributeNS('http://www.w3.org/1999/xlink', 'href', '/assets/images/logo-ocea.png');
+            logoImage.setAttribute('x', centerX - 70);
+            logoImage.setAttribute('y', centerY - 100);
+            logoImage.setAttribute('width', '140');
+            logoImage.setAttribute('height', '60');
+            svg.appendChild(logoImage);
+
+            // Texto "MAPA"
+            const mapaText = document.createElementNS(svgNS, 'text');
+            mapaText.setAttribute('x', centerX);
+            mapaText.setAttribute('y', centerY + 60);
+            mapaText.setAttribute('text-anchor', 'middle');
+            mapaText.setAttribute('font-size', '60');
+            mapaText.setAttribute('font-weight', '900');
+            mapaText.setAttribute('font-family', 'Open Sans, sans-serif');
+            mapaText.setAttribute('fill', '#4c4748');
+            mapaText.textContent = 'MAPA';
+            svg.appendChild(mapaText);
+
+            // Texto "DA SUA SAÚDE"
+            const saudeText = document.createElementNS(svgNS, 'text');
+            saudeText.setAttribute('x', centerX);
+            saudeText.setAttribute('y', centerY + 95);
+            saudeText.setAttribute('text-anchor', 'middle');
+            saudeText.setAttribute('font-size', '34');
+            saudeText.setAttribute('font-weight', '300');
+            saudeText.setAttribute('font-family', 'Open Sans, sans-serif');
+            saudeText.setAttribute('fill', '#4c4748');
+            saudeText.textContent = 'DA SUA SAÚDE';
+            svg.appendChild(saudeText);
+
+            // Adicionar SVG ao container
+            document.getElementById('svg-container').appendChild(svg);
+        }
+
+        // =============================================
+        // FUNÇÕES AUXILIARES PARA SVG
+        // =============================================
+
+        function createDonutSlice(cx, cy, radius, innerRadius, startAngle, endAngle) {
+            const start = polarToCartesian(cx, cy, radius, endAngle);
+            const end = polarToCartesian(cx, cy, radius, startAngle);
+            const innerStart = polarToCartesian(cx, cy, innerRadius, endAngle);
+            const innerEnd = polarToCartesian(cx, cy, innerRadius, startAngle);
+
+            const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+
+            return [
+                "M", start.x, start.y,
+                "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y,
+                "L", innerEnd.x, innerEnd.y,
+                "A", innerRadius, innerRadius, 0, largeArcFlag, 1, innerStart.x, innerStart.y,
+                "Z"
+            ].join(" ");
+        }
+
+        function createArcPath(cx, cy, radius, startAngle, endAngle) {
+            const start = polarToCartesian(cx, cy, radius, startAngle);
+            const end = polarToCartesian(cx, cy, radius, endAngle);
+            const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+
+            return [
+                "M", start.x, start.y,
+                "A", radius, radius, 0, largeArcFlag, 1, end.x, end.y
+            ].join(" ");
+        }
+
+        function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+            const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+            return {
+                x: centerX + (radius * Math.cos(angleInRadians)),
+                y: centerY + (radius * Math.sin(angleInRadians))
+            };
+        }
 
         // =============================================
         // INICIALIZAÇÃO
         // =============================================
-        async function init() {
-            try {
-                // Carregar dados do usuário
-                const user = await API.Auth.getCurrentUser();
-                document.getElementById('user-greeting').textContent = `Olá, ${user.name}`;
 
-                // Carregar diagnóstico atual
-                const diagnostic = await API.get('/diagnostics');
-                if (!diagnostic.data) {
-                    alert('Nenhuma anamnese encontrada. Complete o questionário primeiro.');
-                    window.location.href = '/questionario/intro.html';
-                    return;
-                }
-                diagnosticData = diagnostic.data;
-
-                // Carregar histórico
-                const history = await API.get('/diagnostics/history');
-                historyData = history.data || [];
-
-                // Renderizar página
-                renderResults();
-
-                // Mostrar conteúdo
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('content').style.display = 'block';
-
-            } catch (error) {
-                console.error('Erro ao carregar resultados:', error);
-                alert('Erro ao carregar resultados. Tente novamente.');
-            }
-        }
-
-        // =============================================
-        // RENDERIZAR RESULTADOS
-        // =============================================
-        function renderResults() {
-            // Score total
-            const totalScore = diagnosticData.total_score || 0;
-            document.getElementById('total-score').textContent = totalScore;
-
-            // Severity badge
-            const severityLevel = diagnosticData.severity_level || 'moderate';
-            const severityBadge = document.getElementById('severity-badge');
-
-            const severityText = {
-                high: 'Excelente Saúde',
-                moderate: 'Saúde Moderada',
-                low: 'Atenção Necessária'
-            };
-
-            severityBadge.textContent = severityText[severityLevel];
-            severityBadge.className = `severity-badge severity-${severityLevel}`;
-
-            // Scores por categoria
-            renderCategories();
-
-            // Gráfico de evolução
-            renderEvolutionChart();
-
-            // Recomendações
-            renderRecommendations();
-        }
-
-        // =============================================
-        // RENDERIZAR CATEGORIAS
-        // =============================================
-        function renderCategories() {
-            const container = document.getElementById('categories-container');
-            const scores = {
-                intro: diagnosticData.intro_score,
-                nutrition: diagnosticData.nutrition_score,
-                digestive: diagnosticData.digestive_score,
-                physical: diagnosticData.physical_score,
-                sleep: diagnosticData.sleep_score,
-                mental: diagnosticData.mental_score,
-                hormonal: diagnosticData.hormonal_score,
-                symptoms: diagnosticData.symptoms_score
-            };
-
-            container.innerHTML = '';
-
-            for (const [key, value] of Object.entries(scores)) {
-                const category = CATEGORIES[key];
-                const score = value || 0;
-                const scoreClass = score >= 70 ? 'high' : score >= 40 ? 'moderate' : 'low';
-
-                const card = document.createElement('div');
-                card.className = 'category-card';
-                card.innerHTML = `
-                    <div class="category-header">
-                        <div class="category-title">
-                            <span class="category-icon">${category.icon}</span>
-                            <span>${category.name}</span>
-                        </div>
-                        <div class="category-score">${score}</div>
-                    </div>
-                    <div class="score-bar-container">
-                        <div class="score-bar score-${scoreClass}" style="width: ${score}%"></div>
-                    </div>
-                `;
-                container.appendChild(card);
-            }
-        }
-
-        // =============================================
-        // RENDERIZAR GRÁFICO DE EVOLUÇÃO
-        // =============================================
-        function renderEvolutionChart() {
-            const ctx = document.getElementById('evolutionChart').getContext('2d');
-
-            // Preparar dados (do mais antigo para o mais recente)
-            const reversedHistory = [...historyData].reverse();
-            const labels = reversedHistory.map((item, index) => {
-                const date = new Date(item.completed_at);
-                return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
-            });
-
-            const totalScores = reversedHistory.map(item => item.total_score);
-
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Score Total',
-                        data: totalScores,
-                        borderColor: '#007c8c',
-                        backgroundColor: 'rgba(0, 124, 140, 0.1)',
-                        borderWidth: 3,
-                        tension: 0.4,
-                        fill: true,
-                        pointRadius: 6,
-                        pointHoverRadius: 8,
-                        pointBackgroundColor: '#007c8c',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            backgroundColor: '#007c8c',
-                            padding: 12,
-                            titleFont: { size: 14 },
-                            bodyFont: { size: 16, weight: 'bold' },
-                            displayColors: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            ticks: {
-                                stepSize: 20,
-                                callback: function(value) {
-                                    return value + ' pts';
-                                }
-                            },
-                            grid: {
-                                color: 'rgba(0, 0, 0, 0.05)'
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        // =============================================
-        // RENDERIZAR RECOMENDAÇÕES
-        // =============================================
-        function renderRecommendations() {
-            const container = document.getElementById('recommendations-container');
-            const recommendations = diagnosticData.recommendations || [];
-
-            container.innerHTML = '';
-
-            if (recommendations.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #666;">Nenhuma recomendação disponível no momento.</p>';
+        window.addEventListener('DOMContentLoaded', () => {
+            // Verificar autenticação
+            if (!API.Auth.isAuthenticated()) {
+                window.location.href = '/login.html';
                 return;
             }
 
-            recommendations.forEach(rec => {
-                const item = document.createElement('div');
-                item.className = 'recommendation-item';
-                item.innerHTML = `
-                    <i class="bi bi-check-circle-fill"></i>
-                    <span>${rec}</span>
-                `;
-                container.appendChild(item);
-            });
-        }
-
-        // =============================================
-        // LOGOUT
-        // =============================================
-        function logout() {
-            API.Auth.logout();
-            window.location.href = '/login.html';
-        }
-
-        // Inicializar ao carregar
-        window.addEventListener('DOMContentLoaded', init);
+            loadDiagnostic();
+        });
     </script>
 
 </body>
