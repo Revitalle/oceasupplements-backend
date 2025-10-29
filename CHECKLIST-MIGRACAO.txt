@@ -1,0 +1,242 @@
+═══════════════════════════════════════════════════════════════════════
+  ✅ CHECKLIST DE MIGRAÇÃO - Opção 1 Completa
+═══════════════════════════════════════════════════════════════════════
+
+Data de início: ____ / ____ / ____
+Horário: ____:____
+
+═══════════════════════════════════════════════════════════════════════
+  🛡️ FASE 1: BACKUP (CRÍTICO!)
+═══════════════════════════════════════════════════════════════════════
+
+[ ] 1.1 Entrar no File Manager da Hostinger
+[ ] 1.2 Navegar até public_html/
+[ ] 1.3 Selecionar TUDO (Ctrl+A)
+[ ] 1.4 Compactar → backup-ANTES-MIGRACAO-20251029.zip
+[ ] 1.5 Download do ZIP para PC
+[ ] 1.6 Salvar em C:\Users\User\Downloads\backup-hostinger\
+[ ] 1.7 Verificar tamanho > 0 bytes
+[ ] 1.8 Testar abertura do ZIP no PC
+[ ] 1.9 Backup do banco de dados (.sql)
+[ ] 1.10 Verificar data/hora dos backups
+
+⚠️  SÓ CONTINUE SE TODOS OS BACKUPS ESTIVEREM OK!
+
+═══════════════════════════════════════════════════════════════════════
+  📁 FASE 2: PREPARAR ARQUIVOS NO PC
+═══════════════════════════════════════════════════════════════════════
+
+[ ] 2.1 Criar C:\Users\User\Desktop\DEPLOY-HOSTINGER\
+[ ] 2.2 Copiar tudo de C:\Users\User\teste-claude\backend\
+[ ] 2.3 Verificar lista completa de arquivos
+[ ] 2.4 Anotar o que está fazendo (README.txt)
+
+═══════════════════════════════════════════════════════════════════════
+  🏗️ FASE 3: CRIAR ESTRUTURA NA HOSTINGER
+═══════════════════════════════════════════════════════════════════════
+
+[ ] 3.1 File Manager → public_html/
+[ ] 3.2 Nova Pasta → "backend"
+[ ] 3.3 Entrar em backend/
+[ ] 3.4 Criar pasta "routes"
+[ ] 3.5 Criar pasta "middleware"
+[ ] 3.6 Criar pasta "database"
+[ ] 3.7 Criar pasta "models"
+[ ] 3.8 Criar pasta "utils"
+[ ] 3.9 Criar pasta "config"
+[ ] 3.10 Criar pasta "questionario"
+
+═══════════════════════════════════════════════════════════════════════
+  📤 FASE 4: UPLOAD DOS ARQUIVOS
+═══════════════════════════════════════════════════════════════════════
+
+Backend (Raiz):
+[ ] 4.1 Upload server.js → backend/
+[ ] 4.2 Upload package.json → backend/
+[ ] 4.3 Upload .env → backend/ (se tiver)
+
+routes/:
+[ ] 4.4 Upload auth.js
+[ ] 4.5 Upload questionnaire.js
+[ ] 4.6 Upload diagnostic.js
+[ ] 4.7 Upload products.js
+[ ] 4.8 Upload conversions.js
+[ ] 4.9 Upload analytics.js ← NOVO
+
+middleware/:
+[ ] 4.10 Upload auth.js
+[ ] 4.11 Upload diagnosticMonitor.js ← NOVO
+
+database/:
+[ ] 4.12 Upload create-analytics-table.js
+[ ] 4.13 Upload cleanup-empty-diagnostics.js
+[ ] 4.14 Upload cleanup-empty-diagnostics-auto.js
+[ ] 4.15 Upload monitor-empty-diagnostics.js
+[ ] 4.16 Upload (outros scripts que você tiver)
+
+models/:
+[ ] 4.17 Upload User.js
+
+utils/:
+[ ] 4.18 Upload scoring.js
+
+config/:
+[ ] 4.19 Upload database.js
+
+questionario/:
+[ ] 4.20 Upload auto-save.js ← NOVO
+[ ] 4.21 Upload analytics.js ← NOVO
+[ ] 4.22 Upload estilos-questionario.css
+[ ] 4.23 Upload intro.html
+[ ] 4.24 Upload 1-nutricao.html
+[ ] 4.25 Upload 2-digestiva.html
+[ ] 4.26 Upload 3-fisica.html
+[ ] 4.27 Upload 4-sono.html
+[ ] 4.28 Upload 5-mental.html
+[ ] 4.29 Upload 6-hormonal.html
+[ ] 4.30 Upload 7-sintomas.html
+
+═══════════════════════════════════════════════════════════════════════
+  ⚙️ FASE 5: CONFIGURAÇÃO (VIA SSH)
+═══════════════════════════════════════════════════════════════════════
+
+[ ] 5.1 Conectar via SSH
+[ ] 5.2 cd domains/oceasupplements.com/public_html/backend
+[ ] 5.3 Criar/verificar .env com credenciais
+[ ] 5.4 npm install
+[ ] 5.5 node database/create-analytics-table.js
+[ ] 5.6 pm2 restart app (ou npm start)
+
+═══════════════════════════════════════════════════════════════════════
+  🔗 FASE 6: ATUALIZAR REFERÊNCIAS
+═══════════════════════════════════════════════════════════════════════
+
+[ ] 6.1 Atualizar links em index.html
+[ ] 6.2 Atualizar links em login.html
+[ ] 6.3 Atualizar links em dashboard.html
+[ ] 6.4 Verificar server.js (express.static)
+[ ] 6.5 Criar .htaccess em backend/ (se necessário)
+[ ] 6.6 Configurar redirecionamento (opcional)
+
+Mudar de: /questionario/...
+Para: /backend/questionario/...
+
+═══════════════════════════════════════════════════════════════════════
+  🧪 FASE 7: TESTES
+═══════════════════════════════════════════════════════════════════════
+
+Teste 7.1 - Arquivos Acessíveis:
+[ ] 7.1.1 https://oceasupplements.com/backend/questionario/auto-save.js
+[ ] 7.1.2 https://oceasupplements.com/backend/questionario/analytics.js
+[ ] 7.1.3 https://oceasupplements.com/backend/questionario/intro.html
+[ ] 7.1.4 https://oceasupplements.com/backend/questionario/estilos-questionario.css
+
+Teste 7.2 - Console do Navegador:
+[ ] 7.2.1 Abrir intro.html
+[ ] 7.2.2 F12 (console)
+[ ] 7.2.3 Ver "[AutoSave] Inicializando..."
+[ ] 7.2.4 Ver "[Analytics] Inicializado..."
+[ ] 7.2.5 Sem erros no console
+
+Teste 7.3 - Auto-Save:
+[ ] 7.3.1 Preencher campos
+[ ] 7.3.2 Aguardar 2 segundos
+[ ] 7.3.3 Ver toast "Dados salvos"
+[ ] 7.3.4 Dar F5 (refresh)
+[ ] 7.3.5 Campos estão preenchidos
+
+Teste 7.4 - Questionário Completo:
+[ ] 7.4.1 Fazer login
+[ ] 7.4.2 Preencher intro.html
+[ ] 7.4.3 Preencher 1-nutricao.html
+[ ] 7.4.4 Preencher 2-digestiva.html
+[ ] 7.4.5 Preencher 3-fisica.html
+[ ] 7.4.6 Preencher 4-sono.html
+[ ] 7.4.7 Preencher 5-mental.html
+[ ] 7.4.8 Preencher 6-hormonal.html
+[ ] 7.4.9 Preencher 7-sintomas.html
+[ ] 7.4.10 Finalizar
+[ ] 7.4.11 Verificar scores corretos (não mais 17)
+[ ] 7.4.12 Verificar dados não vazios no banco
+
+Teste 7.5 - Backend APIs:
+[ ] 7.5.1 GET /api/v1/monitoring/empty-diagnostics
+[ ] 7.5.2 GET /api/v1/analytics/funnel (com token)
+
+═══════════════════════════════════════════════════════════════════════
+  📊 FASE 8: MONITORAMENTO (1 semana)
+═══════════════════════════════════════════════════════════════════════
+
+Dia 1: ____ / ____ / ____
+[ ] 8.1 Testar novamente
+[ ] 8.2 Verificar logs do servidor
+[ ] 8.3 Monitorar erros
+
+Dia 2: ____ / ____ / ____
+[ ] 8.4 Verificar com usuários reais
+[ ] 8.5 Coletar feedback
+
+Dia 3-7:
+[ ] 8.6 Monitorar diariamente
+[ ] 8.7 Verificar analytics
+[ ] 8.8 Confirmar que tudo funciona
+
+═══════════════════════════════════════════════════════════════════════
+  🗑️ FASE 9: DELETAR ANTIGO (Após 1 semana OK)
+═══════════════════════════════════════════════════════════════════════
+
+⚠️  SÓ FAZER APÓS 1 SEMANA SEM PROBLEMAS!
+
+[ ] 9.1 Verificar checklist final (tudo OK)
+[ ] 9.2 Fazer novo backup (backup-ANTES-DELETE)
+[ ] 9.3 Deletar public_html/questionario/ (antigo)
+[ ] 9.4 Verificar que tudo ainda funciona
+
+═══════════════════════════════════════════════════════════════════════
+  ✅ CONCLUSÃO
+═══════════════════════════════════════════════════════════════════════
+
+Data de conclusão: ____ / ____ / ____
+Tempo total: ______ horas
+
+Problemas encontrados:
+_____________________________________________________________________
+_____________________________________________________________________
+_____________________________________________________________________
+
+Soluções aplicadas:
+_____________________________________________________________________
+_____________________________________________________________________
+_____________________________________________________________________
+
+Status final: [ ] SUCESSO  [ ] ROLLBACK  [ ] EM TESTE
+
+Observações:
+_____________________________________________________________________
+_____________________________________________________________________
+_____________________________________________________________________
+
+
+═══════════════════════════════════════════════════════════════════════
+  🚨 EM CASO DE EMERGÊNCIA
+═══════════════════════════════════════════════════════════════════════
+
+ROLLBACK:
+1. File Manager → public_html
+2. Deletar pasta backend/
+3. Upload do backup-ANTES-MIGRACAO-20251029.zip
+4. Extrair
+5. Sistema volta ao normal
+
+OU via SSH:
+cd /home/u123456789/domains/oceasupplements.com
+rm -rf public_html/backend/
+unzip backup-ANTES-MIGRACAO-20251029.zip -d public_html/
+pm2 restart app
+
+
+═══════════════════════════════════════════════════════════════════════
+
+                      BOA SORTE! 🚀
+
+═══════════════════════════════════════════════════════════════════════
