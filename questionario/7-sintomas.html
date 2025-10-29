@@ -10,9 +10,40 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <!-- Estilos globais do questionário -->
-    <link rel="stylesheet" href="estilos-questionario.css">
+    <link rel="stylesheet" href="estilos-questionario.css?v=7">
 
     <style>
+        /* Sobrescrever estilos globais com novo layout */
+        .logo img {
+            height: 40px !important;
+            width: auto !important;
+        }
+
+        .cover-image {
+            height: 267px !important;
+        }
+
+        @media (min-width: 1024px) {
+            .cover-image {
+                height: 333px !important;
+            }
+        }
+
+        .progress-wrapper {
+            height: 8px !important;
+        }
+
+        .progress-thumb {
+            width: 32px !important;
+            height: 32px !important;
+            font-size: 0.7rem !important;
+        }
+
+        .btn-logout:hover {
+            background: var(--accent-color) !important;
+            color: white !important;
+        }
+
         /* Estilos específicos para textarea */
         .textarea-container {
             margin: 1.5rem 0;
@@ -30,7 +61,7 @@
             border-radius: 12px;
             font-size: 1rem;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: var(--text-dark);
+            color: white;
             line-height: 1.6;
             resize: vertical;
             transition: border-color 0.3s;
@@ -39,7 +70,7 @@
 
         textarea.form-textarea:focus {
             outline: none;
-            border-color: var(--primary-color);
+            border-color: #007c8c;
             background-color: white;
         }
 
@@ -54,14 +85,14 @@
             align-items: center;
             margin-top: 0.75rem;
             padding: 0.5rem 1rem;
-            background: white;
+            background: #f8f9fa;
             border-radius: 8px;
             font-size: 0.9rem;
         }
 
         .word-count {
             font-weight: 600;
-            color: var(--primary-color);
+            color: #007c8c;
         }
 
         .word-count.warning {
@@ -87,7 +118,7 @@
         }
 
         .textarea-instructions h4 {
-            color: var(--primary-color);
+            color: #007c8c;
             font-size: 1rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
@@ -103,14 +134,95 @@
             margin-bottom: 0.25rem;
         }
 
-        /* Botão Voltar Verde */
+        /* Botões de navegação - Estilo Puríssima */
+        .navigation-buttons {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            margin: 3rem 0 !important;
+            gap: 0.66rem !important;
+        }
+
+        /* Botão Principal (Finalizar) */
+        .btn-next, .btn-finish {
+            background: #007c8c !important;
+            color: #FFFFFF !important;
+            padding: 16px 48px !important;
+            border-radius: 50px !important;
+            border: none !important;
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif !important;
+            font-size: 18px !important;
+            cursor: pointer !important;
+            transition: background-color 0.3s ease !important;
+            width: auto !important;
+            max-width: 600px !important;
+            text-align: center !important;
+            line-height: 1.5 !important;
+            box-shadow: 0 4px 12px rgba(0, 124, 140, 0.3) !important;
+            white-space: nowrap !important;
+        }
+
+        .btn-next:hover, .btn-finish:hover {
+            background: #005F6B !important;
+            box-shadow: 0 6px 16px rgba(0, 124, 140, 0.4) !important;
+        }
+
+        .btn-next:disabled, .btn-finish:disabled {
+            background: #ccc !important;
+            cursor: not-allowed !important;
+            box-shadow: none !important;
+        }
+
+        /* Texto dentro do botão */
+        .btn-next .btn-text-bold, .btn-finish .btn-text-bold {
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+        }
+
+        .btn-next .btn-text-normal, .btn-finish .btn-text-normal {
+            font-weight: 400 !important;
+            text-transform: uppercase !important;
+        }
+
+        /* Link Voltar (Editar Respostas Anteriores) */
         .btn-prev {
-            background: var(--primary-color) !important;
-            color: white !important;
+            background: none !important;
+            border: none !important;
+            color: #2c2c2c !important;
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            padding: 0.5rem 0 !important;
+            text-decoration: none !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+            text-transform: uppercase !important;
         }
 
         .btn-prev:hover {
-            background: var(--secondary-color) !important;
+            color: #007c8c !important;
+        }
+
+        .btn-prev::before {
+            content: "‹" !important;
+            font-size: 1.2rem !important;
+            font-weight: bold !important;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .btn-next, .btn-finish {
+                font-size: 14px !important;
+                padding: 14px 32px !important;
+            }
+
+            .btn-prev {
+                font-size: 14px !important;
+            }
         }
     </style>
 </head>
@@ -120,7 +232,7 @@
     <header class="header">
         <div class="container">
             <div class="logo">
-                <img src="/assets/images/logo-ocea.png" alt="Ocea Supplements" style="max-width: 195px; max-height: 29px;">
+                <img src="/assets/images/logo-ocea.png?v=1761678914" alt="Ocea Supplements">
             </div>
             <div class="d-flex align-items-center gap-3">
                 <span class="user-greeting" id="user-greeting"></span>
@@ -346,11 +458,51 @@
                     sintomas: sintomasData
                 };
 
+                console.log('===========================================');
+                console.log('📤 FINALIZANDO QUESTIONÁRIO');
+                console.log('===========================================');
                 console.log('Anamnese completa:', anamneseCompleta);
+                console.log('Número de seções:', Object.keys(anamneseCompleta).length);
+                console.log('JSON size:', JSON.stringify(anamneseCompleta).length, 'bytes');
+
+                // DEBUG: Verificar quantas seções têm dados reais
+                const secoesComDados = Object.entries(anamneseCompleta).filter(([key, val]) =>
+                    val && typeof val === 'object' && Object.keys(val).length > 0
+                );
+                console.log('🔍 Seções com dados preenchidos:', secoesComDados.length + '/' + Object.keys(anamneseCompleta).length);
+                secoesComDados.forEach(([key, val]) => {
+                    console.log(`  ✓ ${key}: ${Object.keys(val).length} campos`);
+                });
+
+                // ALERTA se dados estão vazios!
+                if (secoesComDados.length < 3) {
+                    console.error('⚠️ ALERTA: Poucos dados preenchidos! Possível navegação direta à página final.');
+                    console.error('⚠️ localStorage keys:', Object.keys(localStorage).filter(k => k.startsWith('anamnese_')));
+
+                    // Avisar o usuário
+                    const confirmProceed = confirm(
+                        '⚠️ ATENÇÃO: Detectamos que você pode não ter preenchido todas as etapas anteriores do questionário.\n\n' +
+                        'Seções preenchidas: ' + secoesComDados.length + ' de 8\n\n' +
+                        'Deseja continuar mesmo assim? Recomendamos voltar e preencher todas as etapas para um diagnóstico preciso.'
+                    );
+
+                    if (!confirmProceed) {
+                        btnFinish.disabled = false;
+                        btnFinish.innerHTML = '<i class="bi bi-check-circle me-2"></i> Finalizar Anamnese';
+                        return;
+                    }
+                }
+                console.log('===========================================');
 
                 // Enviar para API
-                const sessionId = Date.now(); // Simular session_id por enquanto
+                const sessionId = Date.now();
+                console.log('Chamando API.Questionnaire.completeSession...');
+                console.log('Session ID:', sessionId);
+                console.log('Dados:', anamneseCompleta);
+
                 const response = await API.Questionnaire.completeSession(sessionId, anamneseCompleta);
+
+                console.log('Resposta recebida da API:', response);
 
                 console.log('Resposta da API:', response);
 

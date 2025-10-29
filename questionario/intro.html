@@ -10,9 +10,40 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 
     <!-- CSS Customizado -->
-    <link rel="stylesheet" href="estilos-questionario.css">
+    <link rel="stylesheet" href="estilos-questionario.css?v=7">
 
     <style>
+        /* Sobrescrever estilos globais com novo layout */
+        .logo img {
+            height: 40px !important;
+            width: auto !important;
+        }
+
+        .cover-image {
+            height: 267px !important;
+        }
+
+        @media (min-width: 1024px) {
+            .cover-image {
+                height: 333px !important;
+            }
+        }
+
+        .progress-wrapper {
+            height: 8px !important;
+        }
+
+        .progress-thumb {
+            width: 32px !important;
+            height: 32px !important;
+            font-size: 0.7rem !important;
+        }
+
+        .btn-logout:hover {
+            background: var(--accent-color) !important;
+            color: white !important;
+        }
+
         /* Estilos específicos para layout de tabela Purissima */
         .form-table {
             background: white;
@@ -45,7 +76,7 @@
             padding: 1.5rem;
             background: #f8f9fa;
             font-weight: 600;
-            color: var(--text-dark);
+            color: #2c2c2c;
             display: flex;
             align-items: center;
             border-right: 1px solid #e9ecef;
@@ -77,7 +108,7 @@
         .form-input-col input:focus,
         .form-input-col select:focus {
             outline: none;
-            border-color: var(--primary-color);
+            border-color: #007c8c;
             box-shadow: 0 0 0 3px rgba(44, 95, 45, 0.1);
         }
 
@@ -108,7 +139,7 @@
         .radio-inline input[type="radio"] {
             width: 20px;
             height: 20px;
-            accent-color: var(--primary-color);
+            accent-color: #007c8c;
         }
 
         /* IMC Display */
@@ -121,7 +152,7 @@
         }
 
         .imc-display h4 {
-            color: var(--primary-color);
+            color: #007c8c;
             margin-bottom: 0.5rem;
             font-size: 1.1rem;
         }
@@ -129,7 +160,7 @@
         .imc-value {
             font-size: 2rem;
             font-weight: bold;
-            color: var(--primary-color);
+            color: #007c8c;
         }
 
         .imc-category {
@@ -160,7 +191,7 @@
     <header class="header">
         <div class="container">
             <div class="logo">
-                <img src="/assets/images/logo-ocea.png" alt="Ocea Supplements" style="max-width: 195px; max-height: 29px;">
+                <img src="/assets/images/logo-ocea.png?v=1761678914" alt="Ocea Supplements">
             </div>
             <div class="d-flex align-items-center gap-3">
                 <span class="user-greeting" id="user-greeting"></span>

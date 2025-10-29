@@ -164,6 +164,7 @@ router.post('/answer', protect, async (req, res) => {
 router.get('/last', protect, async (req, res) => {
   try {
     // Buscar o último diagnóstico do usuário que tenha dados de questionário
+    // IMPORTANTE: Ignorar diagnósticos com questionnaire_data vazio ou sem dados válidos
     const result = await pool.query(`
       SELECT
         id,
@@ -175,6 +176,8 @@ router.get('/last', protect, async (req, res) => {
       FROM diagnostics
       WHERE user_id = $1
         AND questionnaire_data IS NOT NULL
+        AND questionnaire_data::text != '{}'
+        AND jsonb_object_keys(questionnaire_data) IS NOT NULL
       ORDER BY created_at DESC
       LIMIT 1
     `, [req.user.id]);

@@ -32,7 +32,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    background: white;
+    background: #007c8c;
     padding: 0.75rem 0;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     z-index: 1000;
@@ -45,22 +45,21 @@ body {
 }
 
 .logo img {
-    height: 29px;
+    height: 40px;
     width: auto;
-    max-width: 195px;
 }
 
 .user-greeting {
-    color: var(--text-dark);
+    color: white;
     font-size: 0.95rem;
     margin-right: 1rem;
 }
 
 .btn-logout {
-    background: var(--accent-color);
-    color: white;
+    background: white;
+    color: #007c8c;
     border: none;
-    padding: 6px 16px;
+    padding: 8px 20px;
     border-radius: 20px;
     font-weight: 600;
     font-size: 0.9rem;
@@ -69,7 +68,8 @@ body {
 }
 
 .btn-logout:hover {
-    background: var(--primary-color);
+    background: var(--accent-color);
+    color: white;
 }
 
 /* ================================================
@@ -77,7 +77,7 @@ body {
    ================================================ */
 .cover-image {
     width: 100%;
-    height: 180px; /* Reduzido de 400px */
+    height: 120px; /* Reduzido em 1/3: era 180px */
     object-fit: cover;
     object-position: center;
     margin-top: 60px;
@@ -85,7 +85,7 @@ body {
 
 @media (min-width: 1024px) {
     .cover-image {
-        height: 220px; /* Reduzido de 500px */
+        height: 147px; /* Reduzido em 1/3: era 220px */
     }
 }
 
@@ -142,7 +142,7 @@ body {
 }
 
 .section-title {
-    color: var(--primary-color);
+    color: #007c8c;
     font-size: 1.8rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
@@ -278,9 +278,9 @@ input[type="range"] {
     width: 100%;
     height: 10px;
     border-radius: 5px;
-    /* Degradê de verde → amarelo → vermelho */
+    /* Degradê de turquesa → amarelo → vermelho */
     background: linear-gradient(to right,
-        #5CB85C 0%,    /* Verde no 0 */
+        #007c8c 0%,    /* Turquesa no 0 */
         #F0AD4E 50%,   /* Amarelo no 5 */
         #D9534F 100%   /* Vermelho no 10 */
     );
@@ -363,19 +363,19 @@ input[type="range"]::-moz-range-thumb {
     flex-direction: column;
     align-items: center;
     margin: 3rem 0;
-    gap: 1.5rem;
+    gap: 0.66rem;
 }
 
 /* Botão Principal (Próxima Etapa) - Estilo Puríssima */
 .btn-next,
 .btn-finish {
-    background: #007C8C;
+    background: #007c8c;
     color: #FFFFFF;
-    padding: 14px 24px;
-    border-radius: 4px;
+    padding: 16px 48px;
+    border-radius: 50px;
     border: none;
     font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     width: auto;
@@ -383,17 +383,20 @@ input[type="range"]::-moz-range-thumb {
     white-space: nowrap;
     text-align: center;
     line-height: 1.5;
+    box-shadow: 0 4px 12px rgba(0, 124, 140, 0.3);
 }
 
 .btn-next:hover,
 .btn-finish:hover {
     background: #005F6B;
+    box-shadow: 0 6px 16px rgba(0, 124, 140, 0.4);
 }
 
 .btn-next:disabled,
 .btn-finish:disabled {
     background: #ccc;
     cursor: not-allowed;
+    box-shadow: none;
 }
 
 /* Texto dentro do botão - "PRÓXIMA ETAPA" em negrito */
@@ -401,32 +404,42 @@ input[type="range"]::-moz-range-thumb {
 .btn-finish .btn-text-bold {
     font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 /* Texto depois do separador - peso normal */
 .btn-next .btn-text-normal,
 .btn-finish .btn-text-normal {
     font-weight: 400;
+    text-transform: uppercase;
 }
 
 /* Link Voltar (Editar Respostas Anteriores) - Estilo Puríssima */
 .btn-prev {
     background: none;
     border: none;
-    color: #007C8C;
+    color: #2c2c2c;
     font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
-    font-size: 15px;
-    font-weight: 400;
+    font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
     padding: 0.5rem 0;
     text-decoration: none;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-transform: uppercase;
 }
 
 .btn-prev:hover {
-    text-decoration: underline;
-    color: #005F6B;
+    color: #007c8c;
+}
+
+.btn-prev::before {
+    content: "‹";
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 /* Responsividade */
