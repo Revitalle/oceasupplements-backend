@@ -227,8 +227,22 @@ router.post('/complete', protect, async (req, res) => {
   try {
     console.log('Processando diagnóstico...');
 
+    // Achatar o objeto aninhado (flatten)
+    // De: { intro: { pesoKg: 70 }, nutricao: { q1_1: '3-4' } }
+    // Para: { pesoKg: 70, q1_1: '3-4' }
+    let flattenedData = {};
+    if (questionnaire_data && typeof questionnaire_data === 'object') {
+      for (const [section, answers] of Object.entries(questionnaire_data)) {
+        if (answers && typeof answers === 'object') {
+          flattenedData = { ...flattenedData, ...answers };
+        }
+      }
+    }
+
+    console.log('Dados achatados:', Object.keys(flattenedData).length, 'campos');
+
     // Calcular scores reais usando a lógica implementada
-    const scores = computeAllScores(questionnaire_data || {});
+    const scores = computeAllScores(flattenedData);
     console.log('Scores calculados:', scores);
 
     // Recomendações baseadas no nível
