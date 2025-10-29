@@ -45,7 +45,9 @@ function bmiSubscore(bmi) {
  * @param {Object} data - { pesoKg, alturaCm }
  * @returns {number|null} Score de 0-100 ou null se dados inválidos
  */
-function introScore({ pesoKg, alturaCm }) {
+function introScore(data) {
+  const pesoKg = data.pesoKg || data.peso;
+  const alturaCm = data.alturaCm || data.altura;
   const alturaM = alturaCm / 100;
   if (!pesoKg || !alturaCm || alturaM <= 0) return null;
   const bmi = pesoKg / (alturaM * alturaM);
@@ -68,21 +70,21 @@ function nutricaoSubscores(ans) {
   const subs = {};
 
   // 1.1 Quantas refeições por dia
-  const ref = ans.q1_1 || ans.refeicoes;
+  const ref = ans.q1_1 || ans.refeicoes || ans.refeicoes_dia;
   if (ref === '1-2' || ref === '1 a 2 refeições') subs.q1_1 = 40;
   else if (ref === '3-4' || ref === '3 a 4 refeições') subs.q1_1 = 100;
   else if (ref === '5-6' || ref === '5 a 6 refeições') subs.q1_1 = 70;
   else subs.q1_1 = null;
 
   // 1.2 Fome entre refeições
-  const fome = ans.q1_2 || ans.fome;
+  const fome = ans.q1_2 || ans.fome || ans.fome_entre_refeicoes;
   if (fome === 'Nunca') subs.q1_2 = 100;
   else if (fome === 'Às vezes') subs.q1_2 = 60;
   else if (fome === 'Frequentemente') subs.q1_2 = 20;
   else subs.q1_2 = null;
 
   // 1.3 Qualidade da alimentação (slider 0-10)
-  const qual = ans.q1_3 || ans.qualidade;
+  const qual = ans.q1_3 || ans.qualidade || ans.qualidade_alimentacao;
   subs.q1_3 = typeof qual === 'number' ? sliderToPct(qual) : null;
 
   // 1.4 Frutas e vegetais
@@ -92,11 +94,11 @@ function nutricaoSubscores(ans) {
   else subs.q1_4 = null;
 
   // 1.5 Água por dia
-  const agua = ans.q1_5 || ans.agua;
-  if (agua === '<1L' || agua === 'Menos de 1 litro') subs.q1_5 = 20;
-  else if (agua === '1-2L' || agua === '1 a 2 litros') subs.q1_5 = 80;
-  else if (agua === '2-3L' || agua === '2 a 3 litros') subs.q1_5 = 100;
-  else if (agua === '>3L' || agua === 'Mais de 3 litros') subs.q1_5 = 80;
+  const agua = ans.q1_5 || ans.agua || ans.agua_dia;
+  if (agua === '<1L' || agua === 'Menos de 1 litro' || agua === '<1') subs.q1_5 = 20;
+  else if (agua === '1-2L' || agua === '1 a 2 litros' || agua === '1-2') subs.q1_5 = 80;
+  else if (agua === '2-3L' || agua === '2 a 3 litros' || agua === '2-3') subs.q1_5 = 100;
+  else if (agua === '>3L' || agua === 'Mais de 3 litros' || agua === '>3') subs.q1_5 = 80;
   else subs.q1_5 = null;
 
   // 1.6 Suplementos
@@ -139,7 +141,7 @@ function digestivaSubscores(ans) {
   const subs = {};
 
   // 2.1 Trânsito intestinal
-  const trans = ans.q2_1 || ans.transito;
+  const trans = ans.q2_1 || ans.transito || ans.transito_intestinal;
   if (trans === 'Normal' || trans?.includes('Normal')) subs.q2_1 = 100;
   else if (trans === 'Constipado' || trans?.includes('Constipado')) subs.q2_1 = 20;
   else if (trans === 'Irregular' || trans?.includes('Irregular')) subs.q2_1 = 50;
@@ -147,7 +149,7 @@ function digestivaSubscores(ans) {
   else subs.q2_1 = null;
 
   // 2.2 Inchaço/gases
-  const gases = ans.q2_2 || ans.gases;
+  const gases = ans.q2_2 || ans.gases || ans.inchaco_gases;
   if (gases === 'Nunca') subs.q2_2 = 100;
   else if (gases === 'Raramente') subs.q2_2 = 85;
   else if (gases === 'Às vezes') subs.q2_2 = 60;
@@ -156,9 +158,9 @@ function digestivaSubscores(ans) {
   else subs.q2_2 = null;
 
   // 2.3 Condições digestivas (multi)
-  const cond = ans.q2_3 || ans.condicoes;
+  const cond = ans.q2_3 || ans.condicoes || ans.condicao_digestiva;
   if (Array.isArray(cond)) {
-    if (cond.includes('Não')) {
+    if (cond.includes('Não') || cond.includes('Nenhuma') || cond.length === 0) {
       subs.q2_3 = 100;
     } else {
       let base = 100;
@@ -197,15 +199,15 @@ function fisicaSubscores(ans) {
   const subs = {};
 
   // 3.1 Frequência de exercícios
-  const freq = ans.q3_1 || ans.frequencia;
+  const freq = ans.q3_1 || ans.frequencia || ans.frequencia_exercicio;
   if (freq === 'Sedentário' || freq?.includes('Sedentário')) subs.q3_1 = 10;
   else if (freq === '1-2x/semana' || freq?.includes('1 a 2')) subs.q3_1 = 60;
-  else if (freq === '3-4x/semana' || freq?.includes('3 a 4')) subs.q3_1 = 85;
+  else if (freq === '3-4x/semana' || freq?.includes('3 a 4') || freq?.includes('3-4')) subs.q3_1 = 85;
   else if (freq === '5+x/semana' || freq?.includes('5 ou mais')) subs.q3_1 = 100;
   else subs.q3_1 = null;
 
   // 3.2 Nível de energia
-  const energ = ans.q3_2 || ans.energia;
+  const energ = ans.q3_2 || ans.energia || ans.nivel_energia;
   if (energ?.includes('Muito baixo')) subs.q3_2 = 10;
   else if (energ?.includes('Baixo')) subs.q3_2 = 40;
   else if (energ?.includes('Moderado')) subs.q3_2 = 75;
@@ -213,7 +215,7 @@ function fisicaSubscores(ans) {
   else subs.q3_2 = null;
 
   // 3.3 Dores musculares (menos é melhor)
-  const dores = ans.q3_3 || ans.dores;
+  const dores = ans.q3_3 || ans.dores || ans.dores_musculares;
   if (dores === 'Nunca') subs.q3_3 = 100;
   else if (dores === 'Raramente') subs.q3_3 = 85;
   else if (dores === 'Às vezes') subs.q3_3 = 60;
@@ -222,8 +224,8 @@ function fisicaSubscores(ans) {
   else subs.q3_3 = null;
 
   // 3.4 Objetivo
-  const obj = ans.q3_4 || ans.objetivo;
-  if (obj?.includes('Saúde') || obj?.includes('bem-estar')) subs.q3_4 = 100;
+  const obj = ans.q3_4 || ans.objetivo || ans.objetivo_exercicio;
+  if (obj?.includes('Saúde') || obj?.includes('bem-estar') || obj?.includes('geral')) subs.q3_4 = 100;
   else if (obj?.includes('massa muscular')) subs.q3_4 = 90;
   else if (obj?.includes('Perda de peso')) subs.q3_4 = 85;
   else if (obj?.includes('performance')) subs.q3_4 = 95;
@@ -248,10 +250,10 @@ function sonoSubscores(ans) {
 
   // 4.1 Horas de sono
   const horas = ans.q4_1 || ans.horas_sono;
-  if (horas === '<5h' || horas?.includes('Menos de 5')) subs.q4_1 = 10;
-  else if (horas === '5-6h' || horas?.includes('5 a 6')) subs.q4_1 = 60;
-  else if (horas === '7-8h' || horas?.includes('7 a 8')) subs.q4_1 = 100;
-  else if (horas === '>8h' || horas?.includes('Mais de 8')) subs.q4_1 = 80;
+  if (horas === '<5h' || horas?.includes('Menos de 5') || horas === '<5') subs.q4_1 = 10;
+  else if (horas === '5-6h' || horas?.includes('5 a 6') || horas === '5-6') subs.q4_1 = 60;
+  else if (horas === '7-8h' || horas?.includes('7 a 8') || horas === '7-8') subs.q4_1 = 100;
+  else if (horas === '>8h' || horas?.includes('Mais de 8') || horas === '>8') subs.q4_1 = 80;
   else subs.q4_1 = null;
 
   // 4.2 Qualidade do sono (slider 0-10)
@@ -259,12 +261,12 @@ function sonoSubscores(ans) {
   subs.q4_2 = typeof qual === 'number' ? sliderToPct(qual) : null;
 
   // 4.3 Dificuldade para dormir/Insônia
-  const ins = ans.q4_3 || ans.insonia;
-  if (ins === 'Nunca' || ins?.includes('durmo facilmente')) subs.q4_3 = 100;
+  const ins = ans.q4_3 || ans.insonia || ans.dificuldade_dormir;
+  if (ins === 'Nunca' || ins?.includes('durmo facilmente') || ins === 'Não') subs.q4_3 = 100;
   else if (ins === 'Raramente') subs.q4_3 = 85;
   else if (ins === 'Às vezes') subs.q4_3 = 60;
   else if (ins === 'Frequentemente') subs.q4_3 = 30;
-  else if (ins === 'Sempre' || ins?.includes('crônica')) subs.q4_3 = 10;
+  else if (ins === 'Sempre' || ins?.includes('crônica') || ins === 'Sim') subs.q4_3 = 10;
   else subs.q4_3 = null;
 
   return subs;
@@ -284,7 +286,7 @@ function mentalSubscores(ans) {
   const subs = {};
 
   // 5.1 Estresse (slider 0-10, INVERTIDO: mais estresse = pior)
-  const stress = ans.q5_1 || ans.estresse;
+  const stress = ans.q5_1 || ans.estresse || ans.nivel_estresse;
   subs.q5_1 = typeof stress === 'number' ? sliderInvToPct(stress) : null;
 
   // 5.2 Ansiedade
@@ -298,14 +300,14 @@ function mentalSubscores(ans) {
 
   // 5.3 Concentração/Foco
   const foco = ans.q5_3 || ans.concentracao;
-  if (foco?.includes('está bom')) subs.q5_3 = 100;
+  if (foco?.includes('está bom') || foco === 'Sim') subs.q5_3 = 100;
   else if (foco?.includes('leve')) subs.q5_3 = 75;
-  else if (foco?.includes('moderada')) subs.q5_3 = 45;
+  else if (foco?.includes('moderada') || foco === 'Não') subs.q5_3 = 45;
   else if (foco?.includes('severa')) subs.q5_3 = 15;
   else subs.q5_3 = null;
 
   // 5.4 Humor geral
-  const humor = ans.q5_4 || ans.humor;
+  const humor = ans.q5_4 || ans.humor || ans.humor_geral;
   if (humor?.includes('Muito negativo') || humor?.includes('deprimido')) subs.q5_4 = 10;
   else if (humor === 'Negativo' || humor?.includes('triste')) subs.q5_4 = 35;
   else if (humor === 'Neutro') subs.q5_4 = 60;
@@ -331,19 +333,19 @@ function hormonalSubscores(ans) {
   const subs = {};
   const sexo = ans.sexo || ans.genero;
 
-  if (sexo === 'Homem' || sexo === 'M' || sexo === 'masculino') {
+  if (sexo === 'Homem' || sexo === 'M' || sexo === 'masculino' || sexo === 'Masculino') {
     // 6.2 (homem) Redução de libido
-    const libido = ans.q6_2m || ans.libido_homem;
-    if (libido === 'Não') subs.q6_2m = 100;
-    else if (libido?.includes('Leve') || libido?.includes('levemente')) subs.q6_2m = 60;
-    else if (libido?.includes('Significativa') || libido?.includes('significativamente')) subs.q6_2m = 20;
+    const libido = ans.q6_2m || ans.libido_homem || ans.libido;
+    if (libido === 'Não' || libido === 'Alta' || libido === 'Normal') subs.q6_2m = 100;
+    else if (libido === 'Moderada' || libido?.includes('Leve') || libido?.includes('levemente')) subs.q6_2m = 60;
+    else if (libido === 'Baixa' || libido?.includes('Significativa') || libido?.includes('significativamente')) subs.q6_2m = 20;
     else subs.q6_2m = null;
 
-    // 6.3 (homem) Fadiga/motivação
-    const fadiga = ans.q6_3m || ans.fadiga_homem;
-    if (fadiga === 'Não') subs.q6_3m = 100;
-    else if (fadiga === 'Às vezes') subs.q6_3m = 60;
-    else if (fadiga === 'Frequentemente') subs.q6_3m = 20;
+    // 6.3 (homem) Fadiga/motivação ou Massa muscular
+    const fadiga = ans.q6_3m || ans.fadiga_homem || ans.massa_muscular;
+    if (fadiga === 'Não' || fadiga === 'Alta' || fadiga === 'Normal') subs.q6_3m = 100;
+    else if (fadiga === 'Às vezes' || fadiga === 'Moderada') subs.q6_3m = 60;
+    else if (fadiga === 'Frequentemente' || fadiga === 'Baixa') subs.q6_3m = 20;
     else subs.q6_3m = null;
   }
 
