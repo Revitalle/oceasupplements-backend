@@ -177,7 +177,6 @@ router.get('/last', protect, async (req, res) => {
       WHERE user_id = $1
         AND questionnaire_data IS NOT NULL
         AND questionnaire_data::text != '{}'
-        AND jsonb_object_keys(questionnaire_data) IS NOT NULL
       ORDER BY created_at DESC
       LIMIT 1
     `, [req.user.id]);
@@ -196,11 +195,13 @@ router.get('/last', protect, async (req, res) => {
 
   } catch (error) {
     console.error('Erro ao buscar último questionário:', error);
+    console.error('Stack trace:', error.stack);
     res.status(500).json({
       success: false,
       error: {
         code: 'QUESTIONNAIRE_FETCH_ERROR',
-        message: 'Erro ao buscar questionário anterior'
+        message: 'Erro ao buscar questionário anterior',
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
       }
     });
   }
