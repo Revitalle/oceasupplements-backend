@@ -15,6 +15,10 @@ const questionnaireRoutes = require('./routes/questionnaire');
 const diagnosticRoutes = require('./routes/diagnostic');
 const productRoutes = require('./routes/products');
 const conversionRoutes = require('./routes/conversions');
+const analyticsRoutes = require('./routes/analytics');
+
+// Importar middleware de monitoramento
+const { monitorDiagnosticCreation, getEmptyDiagnosticsReport } = require('./middleware/diagnosticMonitor');
 
 // Inicializar Express
 const app = express();
@@ -90,10 +94,14 @@ app.get('/health', (req, res) => {
 
 // API Routes
 app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/questionnaire', questionnaireRoutes);
+app.use('/api/v1/questionnaire', monitorDiagnosticCreation, questionnaireRoutes);
 app.use('/api/v1/diagnostics', diagnosticRoutes);
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/conversions', conversionRoutes);
+app.use('/api/v1/analytics', analyticsRoutes);
+
+// Monitoring endpoint
+app.get('/api/v1/monitoring/empty-diagnostics', getEmptyDiagnosticsReport);
 
 // =============================================
 // ERROR HANDLING
