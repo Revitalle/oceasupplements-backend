@@ -226,6 +226,7 @@ router.post('/complete', protect, async (req, res) => {
 
   try {
     console.log('Processando diagnóstico...');
+    console.log('questionnaire_data recebido:', JSON.stringify(questionnaire_data));
 
     // Achatar o objeto aninhado (flatten)
     // De: { intro: { pesoKg: 70 }, nutricao: { q1_1: '3-4' } }
@@ -233,6 +234,7 @@ router.post('/complete', protect, async (req, res) => {
     let flattenedData = {};
     if (questionnaire_data && typeof questionnaire_data === 'object') {
       for (const [section, answers] of Object.entries(questionnaire_data)) {
+        console.log(`Seção ${section}:`, answers);
         if (answers && typeof answers === 'object') {
           flattenedData = { ...flattenedData, ...answers };
         }
@@ -240,6 +242,7 @@ router.post('/complete', protect, async (req, res) => {
     }
 
     console.log('Dados achatados:', Object.keys(flattenedData).length, 'campos');
+    console.log('Primeiros campos:', Object.keys(flattenedData).slice(0, 10));
 
     // Calcular scores reais usando a lógica implementada
     const scores = computeAllScores(flattenedData);
