@@ -1,11 +1,10 @@
 [phases.setup]
 aptPkgs = [
-    "chromium",
-    "chromium-sandbox",
+    "chromium-browser",
     "ca-certificates",
     "fonts-liberation",
     "libappindicator3-1",
-    "libasound2",
+    "libasound2t64",
     "libatk-bridge2.0-0",
     "libatk1.0-0",
     "libc6",
@@ -15,7 +14,6 @@ aptPkgs = [
     "libexpat1",
     "libfontconfig1",
     "libgbm1",
-    "libgcc1",
     "libglib2.0-0",
     "libgtk-3-0",
     "libnspr4",
@@ -36,9 +34,7 @@ aptPkgs = [
     "libxrender1",
     "libxss1",
     "libxtst6",
-    "lsb-release",
-    "wget",
-    "xdg-utils"
+    "wget"
 ]
 
 [start]
