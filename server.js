@@ -46,7 +46,12 @@ app.use(helmet({
 // CORS - Permitir requisições do frontend
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',')
-  : ['http://localhost:3000', 'https://oceasupplements.com', 'https://www.oceasupplements.com'];
+  : [
+      'http://localhost:3000',
+      'https://oceasupplements.com',
+      'https://www.oceasupplements.com',
+      'https://web-production-f401a.up.railway.app'
+    ];
 
 app.use(cors({
   origin: function(origin, callback) {
