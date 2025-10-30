@@ -18,7 +18,8 @@
       "Bash(find:*)",
       "Bash(awk:*)",
       "Bash(npm install:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "WebFetch(domain:web-production-f401a.up.railway.app)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Endereços - Ocea Supplements</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- Estilos Dashboard -->
+    <link rel="stylesheet" href="css/estilos-dashboard.css">
+
+    <style>
+        .address-card {
+            background: var(--neutral-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .address-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .address-card.default {
+            border-color: var(--secondary-color);
+            background: linear-gradient(135deg, rgba(151, 188, 98, 0.1) 0%, rgba(0, 124, 140, 0.05) 100%);
+        }
+
+        .address-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 0.5rem;
+        }
+
+        .btn-icon:hover {
+            color: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-control {
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(0, 124, 140, 0.25);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-dashboard">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="logo">
+                    <img src="/assets/images/logo-ocea.png" alt="Ocea Supplements" style="max-width: 195px; max-height: 29px;">
+                </div>
+                <nav class="main-nav">
+                    <a href="/produtos.html">Produtos</a>
+                    <a href="dashboard.html">Minha Área</a>
+                    <button class="btn-logout" onclick="logout()">
+                        <i class="bi bi-box-arrow-right"></i> Sair
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu Lateral + Conteúdo Principal -->
+    <div class="dashboard-container">
+        <div class="container">
+            <div class="row">
+
+                <!-- Menu Lateral -->
+                <div class="col-lg-3 mb-4">
+                    <div class="sidebar-menu">
+                        <div class="user-info-sidebar">
+                            <div class="user-avatar-placeholder">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <h3 id="user-name-sidebar">Olá!</h3>
+                            <p id="user-email-sidebar" class="text-muted small"></p>
+                        </div>
+
+                        <nav class="sidebar-nav">
+                            <a href="dashboard.html" class="sidebar-link">
+                                <i class="bi bi-speedometer2"></i>
+                                Dashboard
+                            </a>
+                            <a href="pedidos.html" class="sidebar-link">
+                                <i class="bi bi-bag"></i>
+                                Pedidos
+                            </a>
+                            <a href="endereco.html" class="sidebar-link active">
+                                <i class="bi bi-geo-alt"></i>
+                                Endereços
+                            </a>
+                            <a href="dados-pessoais.html" class="sidebar-link">
+                                <i class="bi bi-person"></i>
+                                Dados Pessoais
+                            </a>
+                            <a href="alterar-senha.html" class="sidebar-link">
+                                <i class="bi bi-key"></i>
+                                Alterar Senha
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Conteúdo Principal -->
+                <div class="col-lg-9">
+
+                    <!-- Título -->
+                    <div class="page-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h1><i class="bi bi-geo-alt me-3"></i>Meus Endereços</h1>
+                                <p class="text-muted">Gerencie seus endereços de entrega</p>
+                            </div>
+                            <button class="btn-primary-action" onclick="showAddAddressModal()">
+                                <i class="bi bi-plus-circle me-2"></i>Adicionar Endereço
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Lista de Endereços -->
+                    <div class="section-box">
+                        <div id="addresses-list">
+                            <!-- Carregado via JavaScript -->
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Carregando...</span>
+                                </div>
+                                <p class="text-muted mt-3">Carregando endereços...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Adicionar/Editar Endereço -->
+    <div class="modal fade" id="addressModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addressModalTitle">Adicionar Endereço</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="address-form">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="address-cep">CEP *</label>
+                                    <input type="text" class="form-control" id="address-cep" placeholder="00000-000" maxlength="9" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="address-label">Apelido do Endereço *</label>
+                                    <input type="text" class="form-control" id="address-label" placeholder="Ex: Casa, Trabalho" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address-street">Rua *</label>
+                            <input type="text" class="form-control" id="address-street" placeholder="Nome da rua" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="address-number">Número *</label>
+                                    <input type="text" class="form-control" id="address-number" placeholder="123" required>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="address-complement">Complemento</label>
+                                    <input type="text" class="form-control" id="address-complement" placeholder="Apto, bloco, etc.">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address-neighborhood">Bairro *</label>
+                            <input type="text" class="form-control" id="address-neighborhood" placeholder="Nome do bairro" required>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="address-city">Cidade *</label>
+                                    <input type="text" class="form-control" id="address-city" placeholder="Nome da cidade" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="address-state">Estado *</label>
+                                    <select class="form-control" id="address-state" required>
+                                        <option value="">Selecione...</option>
+                                        <option value="AC">AC</option>
+                                        <option value="AL">AL</option>
+                                        <option value="AP">AP</option>
+                                        <option value="AM">AM</option>
+                                        <option value="BA">BA</option>
+                                        <option value="CE">CE</option>
+                                        <option value="DF">DF</option>
+                                        <option value="ES">ES</option>
+                                        <option value="GO">GO</option>
+                                        <option value="MA">MA</option>
+                                        <option value="MT">MT</option>
+                                        <option value="MS">MS</option>
+                                        <option value="MG">MG</option>
+                                        <option value="PA">PA</option>
+                                        <option value="PB">PB</option>
+                                        <option value="PR">PR</option>
+                                        <option value="PE">PE</option>
+                                        <option value="PI">PI</option>
+                                        <option value="RJ">RJ</option>
+                                        <option value="RN">RN</option>
+                                        <option value="RS">RS</option>
+                                        <option value="RO">RO</option>
+                                        <option value="RR">RR</option>
+                                        <option value="SC">SC</option>
+                                        <option value="SP">SP</option>
+                                        <option value="SE">SE</option>
+                                        <option value="TO">TO</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="address-default">
+                            <label class="form-check-label" for="address-default">
+                                Definir como endereço principal
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn-primary-action" onclick="saveAddress()">Salvar Endereço</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- API Client -->
+    <script src="/js/api.js"></script>
+
+    <script>
+        let addressModal;
+
+        // =============================================
+        // INICIALIZAÇÃO
+        // =============================================
+
+        async function init() {
+            // Verificar autenticação
+            if (!API.Auth.isAuthenticated()) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Inicializar modal
+            addressModal = new bootstrap.Modal(document.getElementById('addressModal'));
+
+            // Configurar máscara de CEP
+            document.getElementById('address-cep').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 5) {
+                    value = value.slice(0, 5) + '-' + value.slice(5, 8);
+                }
+                e.target.value = value;
+            });
+
+            // Buscar CEP ao preencher
+            document.getElementById('address-cep').addEventListener('blur', function() {
+                const cep = this.value.replace(/\D/g, '');
+                if (cep.length === 8) {
+                    searchCEP(cep);
+                }
+            });
+
+            // Carregar dados do usuário
+            await loadUserData();
+
+            // Carregar endereços
+            await loadAddresses();
+        }
+
+        // =============================================
+        // CARREGAR DADOS DO USUÁRIO
+        // =============================================
+
+        async function loadUserData() {
+            try {
+                const response = await API.Auth.getCurrentUser();
+
+                if (response.success && response.data) {
+                    const user = response.data;
+                    const firstName = user.name.split(' ')[0];
+
+                    document.getElementById('user-name-sidebar').textContent = `Olá, ${firstName}!`;
+                    document.getElementById('user-email-sidebar').textContent = user.email;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuário:', error);
+            }
+        }
+
+        // =============================================
+        // CARREGAR ENDEREÇOS
+        // =============================================
+
+        async function loadAddresses() {
+            const addressesList = document.getElementById('addresses-list');
+
+            // TODO: Implementar endpoint de endereços no backend
+            // Por enquanto, mostra mensagem de "em desenvolvimento"
+
+            addressesList.innerHTML = `
+                <div class="empty-state">
+                    <i class="bi bi-house"></i>
+                    <h3>Funcionalidade em Desenvolvimento</h3>
+                    <p>O gerenciamento de endereços estará disponível em breve!</p>
+                    <p class="text-muted">Por enquanto, você poderá adicionar seu endereço durante o checkout.</p>
+                </div>
+            `;
+        }
+
+        // =============================================
+        // BUSCAR CEP (ViaCEP)
+        // =============================================
+
+        async function searchCEP(cep) {
+            try {
+                const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await response.json();
+
+                if (!data.erro) {
+                    document.getElementById('address-street').value = data.logradouro || '';
+                    document.getElementById('address-neighborhood').value = data.bairro || '';
+                    document.getElementById('address-city').value = data.localidade || '';
+                    document.getElementById('address-state').value = data.uf || '';
+                }
+            } catch (error) {
+                console.error('Erro ao buscar CEP:', error);
+            }
+        }
+
+        // =============================================
+        // MODAL: ADICIONAR ENDEREÇO
+        // =============================================
+
+        function showAddAddressModal() {
+            document.getElementById('addressModalTitle').textContent = 'Adicionar Endereço';
+            document.getElementById('address-form').reset();
+            addressModal.show();
+        }
+
+        // =============================================
+        // SALVAR ENDEREÇO
+        // =============================================
+
+        async function saveAddress() {
+            const form = document.getElementById('address-form');
+
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const addressData = {
+                cep: document.getElementById('address-cep').value,
+                label: document.getElementById('address-label').value,
+                street: document.getElementById('address-street').value,
+                number: document.getElementById('address-number').value,
+                complement: document.getElementById('address-complement').value,
+                neighborhood: document.getElementById('address-neighborhood').value,
+                city: document.getElementById('address-city').value,
+                state: document.getElementById('address-state').value,
+                is_default: document.getElementById('address-default').checked
+            };
+
+            console.log('Endereço a salvar:', addressData);
+
+            // TODO: Implementar chamada à API
+            alert('Funcionalidade em desenvolvimento!\nEndereço será salvo no backend em breve.');
+
+            addressModal.hide();
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                API.Auth.logout();
+            }
+        }
+
+        // =============================================
+        // INICIAR AO CARREGAR PÁGINA
+        // =============================================
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+
+</body>
+</html>

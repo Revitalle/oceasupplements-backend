@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Ocea Supplements</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <style>
+        :root {
+            --primary-color: #2C5F2D;
+            --secondary-color: #97BC62;
+            --accent-color: #FFB81C;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .login-container {
+            max-width: 450px;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .card-header {
+            background: white;
+            border-bottom: 3px solid var(--accent-color);
+            border-radius: 20px 20px 0 0 !important;
+            padding: 30px 30px 20px;
+            text-align: center;
+        }
+
+        .card-header h2 {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid #e9ecef;
+            margin-bottom: 25px;
+        }
+
+        .nav-tabs .nav-link {
+            color: #6c757d;
+            border: none;
+            padding: 12px 25px;
+            font-weight: 500;
+        }
+
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--accent-color);
+            background: transparent;
+        }
+
+        .form-label {
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            border-radius: 10px;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.2rem rgba(151, 188, 98, 0.25);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .back-home {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-home a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .back-home a:hover {
+            color: var(--accent-color);
+        }
+
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+
+        .input-group-text {
+            background: transparent;
+            border: 2px solid #e9ecef;
+            border-right: none;
+            border-radius: 10px 0 0 10px;
+        }
+
+        .input-group .form-control {
+            border-left: none;
+            border-radius: 0 10px 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="card">
+            <div class="card-header">
+                <h2>
+                    <i class="bi bi-heart-pulse-fill text-danger"></i>
+                    Ocea Supplements
+                </h2>
+                <p class="text-muted mb-0 mt-2">Seu diagnóstico de saúde personalizado</p>
+            </div>
+            <div class="card-body">
+
+                <!-- Abas -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab">
+                            Login
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab">
+                            Criar Conta
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Área de Mensagens -->
+                <div id="feedback-area"></div>
+
+                <!-- Conteúdo das Abas -->
+                <div class="tab-content">
+
+                    <!-- ABA LOGIN -->
+                    <div class="tab-pane fade show active" id="login" role="tabpanel">
+                        <form id="login-form">
+                            <div class="mb-3">
+                                <label class="form-label">E-mail</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-envelope"></i>
+                                    </span>
+                                    <input type="email" class="form-control" id="login-email" placeholder="seu@email.com" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Senha</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-lock"></i>
+                                    </span>
+                                    <input type="password" class="form-control" id="login-password" placeholder="Sua senha" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="login-btn">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- ABA REGISTRO -->
+                    <div class="tab-pane fade" id="register" role="tabpanel">
+                        <form id="register-form">
+                            <div class="mb-3">
+                                <label class="form-label">Nome Completo</label>
+                                <input type="text" class="form-control" id="register-name" placeholder="Seu nome" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">E-mail</label>
+                                <input type="email" class="form-control" id="register-email" placeholder="seu@email.com" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Telefone</label>
+                                <input type="tel" class="form-control" id="register-phone" placeholder="(11) 99999-9999" required>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Senha</label>
+                                <input type="password" class="form-control" id="register-password" placeholder="Mínimo 6 caracteres" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="register-btn">
+                                <i class="bi bi-person-plus me-2"></i>Criar Conta
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="back-home">
+            <a href="index.html">
+                <i class="bi bi-arrow-left me-2"></i>Voltar para página inicial
+            </a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- API Client -->
+    <script src="js/api.js"></script>
+
+    <!-- Script de Login/Registro -->
+    <script>
+        // =============================================
+        // LOGIN
+        // =============================================
+
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const button = document.getElementById('login-btn');
+            const feedback = document.getElementById('feedback-area');
+
+            // Validações
+            if (!API.Validator.email(email)) {
+                API.UI.showError('E-mail inválido!', feedback);
+                return;
+            }
+
+            if (!API.Validator.password(password)) {
+                API.UI.showError('Senha deve ter no mínimo 6 caracteres!', feedback);
+                return;
+            }
+
+            // Loading
+            const originalText = button.innerHTML;
+            API.UI.showLoading(button);
+            feedback.innerHTML = '';
+
+            try {
+                const response = await API.Auth.login(email, password);
+
+                if (response.success) {
+                    API.UI.showSuccess('Login realizado com sucesso! Redirecionando...', feedback);
+                    setTimeout(() => {
+                        // Redirecionar para dashboard em vez de questionário
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
+                } else {
+                    API.UI.showError(response.message || 'Erro ao fazer login', feedback);
+                    API.UI.hideLoading(button, originalText);
+                }
+            } catch (error) {
+                API.UI.showError('Erro ao conectar com o servidor. Tente novamente.', feedback);
+                API.UI.hideLoading(button, originalText);
+            }
+        });
+
+        // =============================================
+        // REGISTRO
+        // =============================================
+
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const phone = document.getElementById('register-phone').value;
+            const password = document.getElementById('register-password').value;
+            const button = document.getElementById('register-btn');
+            const feedback = document.getElementById('feedback-area');
+
+            // Validações
+            if (!API.Validator.name(name)) {
+                API.UI.showError('Nome deve ter no mínimo 3 caracteres!', feedback);
+                return;
+            }
+
+            if (!API.Validator.email(email)) {
+                API.UI.showError('E-mail inválido!', feedback);
+                return;
+            }
+
+            if (!API.Validator.phone(phone)) {
+                API.UI.showError('Telefone inválido!', feedback);
+                return;
+            }
+
+            if (!API.Validator.password(password)) {
+                API.UI.showError('Senha deve ter no mínimo 6 caracteres!', feedback);
+                return;
+            }
+
+            // Loading
+            const originalText = button.innerHTML;
+            API.UI.showLoading(button);
+            feedback.innerHTML = '';
+
+            try {
+                const response = await API.Auth.register({
+                    name,
+                    email,
+                    phone,
+                    password
+                });
+
+                if (response.success) {
+                    API.UI.showSuccess('Conta criada com sucesso! Redirecionando...', feedback);
+                    setTimeout(() => {
+                        // Novo usuário vai para questionário
+                        window.location.href = '/backend/questionario/intro.html';
+                    }, 1500);
+                } else {
+                    API.UI.showError(response.message || 'Erro ao criar conta', feedback);
+                    API.UI.hideLoading(button, originalText);
+                }
+            } catch (error) {
+                API.UI.showError('Erro ao conectar com o servidor. Tente novamente.', feedback);
+                API.UI.hideLoading(button, originalText);
+            }
+        });
+
+        // =============================================
+        // VERIFICAR SE JÁ ESTÁ LOGADO
+        // =============================================
+
+        if (API.Auth.isAuthenticated()) {
+            window.location.href = 'dashboard.html';
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+node_modules/
+.git/
+*.md
+*.log
+css/
+js/
+*.html
+questionario/
+assets/

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados Pessoais - Ocea Supplements</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- Estilos Dashboard -->
+    <link rel="stylesheet" href="css/estilos-dashboard.css">
+
+    <style>
+        .form-section {
+            background: var(--neutral-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-section h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .form-control {
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(0, 124, 140, 0.25);
+        }
+
+        .btn-save {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-save:hover {
+            background: var(--secondary-color);
+        }
+
+        .btn-cancel {
+            background: #ccc;
+            color: var(--text-dark);
+            border: none;
+            padding: 12px 40px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-cancel:hover {
+            background: #999;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-dashboard">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="logo">
+                    <img src="/assets/images/logo-ocea.png" alt="Ocea Supplements" style="max-width: 195px; max-height: 29px;">
+                </div>
+                <nav class="main-nav">
+                    <a href="/produtos.html">Produtos</a>
+                    <a href="dashboard.html">Minha Área</a>
+                    <button class="btn-logout" onclick="logout()">
+                        <i class="bi bi-box-arrow-right"></i> Sair
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu Lateral + Conteúdo Principal -->
+    <div class="dashboard-container">
+        <div class="container">
+            <div class="row">
+
+                <!-- Menu Lateral -->
+                <div class="col-lg-3 mb-4">
+                    <div class="sidebar-menu">
+                        <div class="user-info-sidebar">
+                            <div class="user-avatar-placeholder">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <h3 id="user-name-sidebar">Olá!</h3>
+                            <p id="user-email-sidebar" class="text-muted small"></p>
+                        </div>
+
+                        <nav class="sidebar-nav">
+                            <a href="dashboard.html" class="sidebar-link">
+                                <i class="bi bi-speedometer2"></i>
+                                Dashboard
+                            </a>
+                            <a href="pedidos.html" class="sidebar-link">
+                                <i class="bi bi-bag"></i>
+                                Pedidos
+                            </a>
+                            <a href="endereco.html" class="sidebar-link">
+                                <i class="bi bi-geo-alt"></i>
+                                Endereços
+                            </a>
+                            <a href="dados-pessoais.html" class="sidebar-link active">
+                                <i class="bi bi-person"></i>
+                                Dados Pessoais
+                            </a>
+                            <a href="alterar-senha.html" class="sidebar-link">
+                                <i class="bi bi-key"></i>
+                                Alterar Senha
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Conteúdo Principal -->
+                <div class="col-lg-9">
+
+                    <!-- Título -->
+                    <div class="page-header">
+                        <h1><i class="bi bi-person me-3"></i>Dados Pessoais</h1>
+                        <p class="text-muted">Atualize suas informações pessoais</p>
+                    </div>
+
+                    <!-- Formulário -->
+                    <div class="section-box">
+
+                        <!-- Seção: Informações Básicas -->
+                        <div class="form-section">
+                            <h3><i class="bi bi-person-badge"></i>Informações Básicas</h3>
+
+                            <form id="personal-data-form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="name">Nome Completo *</label>
+                                            <input type="text" class="form-control" id="name" placeholder="Seu nome completo" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email">Email *</label>
+                                            <input type="email" class="form-control" id="email" placeholder="seu@email.com" required disabled>
+                                            <small class="text-muted">O email não pode ser alterado</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="phone">Telefone *</label>
+                                            <input type="tel" class="form-control" id="phone" placeholder="(00) 00000-0000" maxlength="15" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="cpf">CPF *</label>
+                                            <input type="text" class="form-control" id="cpf" placeholder="000.000.000-00" maxlength="14" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="birth-date">Data de Nascimento *</label>
+                                            <input type="date" class="form-control" id="birth-date" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="gender">Sexo *</label>
+                                            <select class="form-control" id="gender" required>
+                                                <option value="">Selecione...</option>
+                                                <option value="male">Masculino</option>
+                                                <option value="female">Feminino</option>
+                                                <option value="other">Outro</option>
+                                                <option value="prefer-not-say">Prefiro não informar</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="height">Altura (cm)</label>
+                                            <input type="number" class="form-control" id="height" placeholder="Ex: 170" min="100" max="250">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Seção: Informações de Saúde -->
+                        <div class="form-section">
+                            <h3><i class="bi bi-heart-pulse"></i>Informações de Saúde (Opcional)</h3>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="weight">Peso (kg)</label>
+                                        <input type="number" class="form-control" id="weight" placeholder="Ex: 70" min="30" max="300" step="0.1">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="blood-type">Tipo Sanguíneo</label>
+                                        <select class="form-control" id="blood-type">
+                                            <option value="">Selecione...</option>
+                                            <option value="A+">A+</option>
+                                            <option value="A-">A-</option>
+                                            <option value="B+">B+</option>
+                                            <option value="B-">B-</option>
+                                            <option value="AB+">AB+</option>
+                                            <option value="AB-">AB-</option>
+                                            <option value="O+">O+</option>
+                                            <option value="O-">O-</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="activity-level">Nível de Atividade Física</label>
+                                        <select class="form-control" id="activity-level">
+                                            <option value="">Selecione...</option>
+                                            <option value="sedentary">Sedentário</option>
+                                            <option value="light">Leve (1-2x/semana)</option>
+                                            <option value="moderate">Moderado (3-4x/semana)</option>
+                                            <option value="active">Ativo (5-6x/semana)</option>
+                                            <option value="very-active">Muito Ativo (diário)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="allergies">Alergias ou Restrições Alimentares</label>
+                                <textarea class="form-control" id="allergies" rows="3" placeholder="Ex: Intolerância à lactose, alergia a nozes, etc."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="medications">Medicamentos em Uso</label>
+                                <textarea class="form-control" id="medications" rows="3" placeholder="Liste os medicamentos que você toma regularmente"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Botões de Ação -->
+                        <div class="text-end">
+                            <button type="button" class="btn-cancel me-3" onclick="resetForm()">
+                                <i class="bi bi-x-circle me-2"></i>Cancelar
+                            </button>
+                            <button type="button" class="btn-save" onclick="savePersonalData()">
+                                <i class="bi bi-check-circle me-2"></i>Salvar Alterações
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- API Client -->
+    <script src="/js/api.js"></script>
+
+    <script>
+        let originalData = {};
+
+        // =============================================
+        // INICIALIZAÇÃO
+        // =============================================
+
+        async function init() {
+            // Verificar autenticação
+            if (!API.Auth.isAuthenticated()) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Configurar máscaras
+            setupMasks();
+
+            // Carregar dados do usuário
+            await loadUserData();
+        }
+
+        // =============================================
+        // CONFIGURAR MÁSCARAS
+        // =============================================
+
+        function setupMasks() {
+            // Máscara de telefone
+            document.getElementById('phone').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 11) value = value.slice(0, 11);
+
+                if (value.length > 6) {
+                    value = `(${value.slice(0, 2)}) ${value.slice(2, 7)}-${value.slice(7)}`;
+                } else if (value.length > 2) {
+                    value = `(${value.slice(0, 2)}) ${value.slice(2)}`;
+                }
+                e.target.value = value;
+            });
+
+            // Máscara de CPF
+            document.getElementById('cpf').addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 11) value = value.slice(0, 11);
+
+                if (value.length > 9) {
+                    value = `${value.slice(0, 3)}.${value.slice(3, 6)}.${value.slice(6, 9)}-${value.slice(9)}`;
+                } else if (value.length > 6) {
+                    value = `${value.slice(0, 3)}.${value.slice(3, 6)}.${value.slice(6)}`;
+                } else if (value.length > 3) {
+                    value = `${value.slice(0, 3)}.${value.slice(3)}`;
+                }
+                e.target.value = value;
+            });
+        }
+
+        // =============================================
+        // CARREGAR DADOS DO USUÁRIO
+        // =============================================
+
+        async function loadUserData() {
+            try {
+                const response = await API.Auth.getCurrentUser();
+
+                if (response.success && response.data) {
+                    const user = response.data;
+                    const firstName = user.name.split(' ')[0];
+
+                    // Atualizar sidebar
+                    document.getElementById('user-name-sidebar').textContent = `Olá, ${firstName}!`;
+                    document.getElementById('user-email-sidebar').textContent = user.email;
+
+                    // Preencher formulário
+                    document.getElementById('name').value = user.name || '';
+                    document.getElementById('email').value = user.email || '';
+                    document.getElementById('phone').value = user.phone || '';
+                    document.getElementById('cpf').value = user.cpf || '';
+                    document.getElementById('birth-date').value = user.birth_date || '';
+                    document.getElementById('gender').value = user.gender || '';
+                    document.getElementById('height').value = user.height || '';
+                    document.getElementById('weight').value = user.weight || '';
+                    document.getElementById('blood-type').value = user.blood_type || '';
+                    document.getElementById('activity-level').value = user.activity_level || '';
+                    document.getElementById('allergies').value = user.allergies || '';
+                    document.getElementById('medications').value = user.medications || '';
+
+                    // Salvar dados originais
+                    originalData = { ...user };
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuário:', error);
+                alert('Erro ao carregar seus dados. Tente novamente mais tarde.');
+            }
+        }
+
+        // =============================================
+        // SALVAR DADOS PESSOAIS
+        // =============================================
+
+        async function savePersonalData() {
+            const form = document.getElementById('personal-data-form');
+
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const userData = {
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value.replace(/\D/g, ''),
+                cpf: document.getElementById('cpf').value.replace(/\D/g, ''),
+                birth_date: document.getElementById('birth-date').value,
+                gender: document.getElementById('gender').value,
+                height: document.getElementById('height').value || null,
+                weight: document.getElementById('weight').value || null,
+                blood_type: document.getElementById('blood-type').value || null,
+                activity_level: document.getElementById('activity-level').value || null,
+                allergies: document.getElementById('allergies').value || null,
+                medications: document.getElementById('medications').value || null
+            };
+
+            console.log('Dados a salvar:', userData);
+
+            try {
+                // TODO: Implementar endpoint de atualização de usuário
+                // const response = await API.Users.update(userData);
+
+                alert('Funcionalidade em desenvolvimento!\nDados serão salvos no backend em breve.');
+
+                // Se tivesse implementado:
+                // if (response.success) {
+                //     alert('Dados atualizados com sucesso!');
+                //     originalData = { ...userData };
+                // }
+
+            } catch (error) {
+                console.error('Erro ao salvar dados:', error);
+                alert('Erro ao salvar dados. Tente novamente mais tarde.');
+            }
+        }
+
+        // =============================================
+        // RESETAR FORMULÁRIO
+        // =============================================
+
+        function resetForm() {
+            if (confirm('Deseja descartar as alterações?')) {
+                loadUserData();
+            }
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                API.Auth.logout();
+            }
+        }
+
+        // =============================================
+        // INICIAR AO CARREGAR PÁGINA
+        // =============================================
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+
+</body>
+</html>

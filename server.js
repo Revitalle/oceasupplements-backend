@@ -92,9 +92,9 @@ app.use('/questionario', express.static(path.join(__dirname, 'questionario')));
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 // Servir arquivos da raiz do projeto (dashboard, js, css)
-app.use('/js', express.static(path.join(__dirname, '../js')));
-app.use('/css', express.static(path.join(__dirname, '../css')));
-app.use(express.static(path.join(__dirname, '..')));
+app.use('/js', express.static(path.join(__dirname, 'js')));
+app.use('/css', express.static(path.join(__dirname, 'css')));
+app.use(express.static(path.join(__dirname)));
 
 // =============================================
 // ROTAS

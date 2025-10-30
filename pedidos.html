@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Pedidos - Ocea Supplements</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- Estilos Dashboard -->
+    <link rel="stylesheet" href="css/estilos-dashboard.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-dashboard">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="logo">
+                    <img src="/assets/images/logo-ocea.png" alt="Ocea Supplements" style="max-width: 195px; max-height: 29px;">
+                </div>
+                <nav class="main-nav">
+                    <a href="/produtos.html">Produtos</a>
+                    <a href="dashboard.html">Minha Área</a>
+                    <button class="btn-logout" onclick="logout()">
+                        <i class="bi bi-box-arrow-right"></i> Sair
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu Lateral + Conteúdo Principal -->
+    <div class="dashboard-container">
+        <div class="container">
+            <div class="row">
+
+                <!-- Menu Lateral -->
+                <div class="col-lg-3 mb-4">
+                    <div class="sidebar-menu">
+                        <div class="user-info-sidebar">
+                            <div class="user-avatar-placeholder">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <h3 id="user-name-sidebar">Olá!</h3>
+                            <p id="user-email-sidebar" class="text-muted small"></p>
+                        </div>
+
+                        <nav class="sidebar-nav">
+                            <a href="dashboard.html" class="sidebar-link">
+                                <i class="bi bi-speedometer2"></i>
+                                Dashboard
+                            </a>
+                            <a href="pedidos.html" class="sidebar-link active">
+                                <i class="bi bi-bag"></i>
+                                Pedidos
+                            </a>
+                            <a href="endereco.html" class="sidebar-link">
+                                <i class="bi bi-geo-alt"></i>
+                                Endereços
+                            </a>
+                            <a href="dados-pessoais.html" class="sidebar-link">
+                                <i class="bi bi-person"></i>
+                                Dados Pessoais
+                            </a>
+                            <a href="alterar-senha.html" class="sidebar-link">
+                                <i class="bi bi-key"></i>
+                                Alterar Senha
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Conteúdo Principal -->
+                <div class="col-lg-9">
+
+                    <!-- Título -->
+                    <div class="page-header">
+                        <h1><i class="bi bi-bag me-3"></i>Meus Pedidos</h1>
+                        <p class="text-muted">Acompanhe o status dos seus pedidos</p>
+                    </div>
+
+                    <!-- Lista de Pedidos -->
+                    <div class="section-box">
+                        <div id="orders-list">
+                            <!-- Carregado via JavaScript -->
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Carregando...</span>
+                                </div>
+                                <p class="text-muted mt-3">Carregando pedidos...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- API Client -->
+    <script src="/js/api.js"></script>
+
+    <script>
+        // =============================================
+        // INICIALIZAÇÃO
+        // =============================================
+
+        async function init() {
+            // Verificar autenticação
+            if (!API.Auth.isAuthenticated()) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Carregar dados do usuário
+            await loadUserData();
+
+            // Carregar pedidos
+            await loadOrders();
+        }
+
+        // =============================================
+        // CARREGAR DADOS DO USUÁRIO
+        // =============================================
+
+        async function loadUserData() {
+            try {
+                const response = await API.Auth.getCurrentUser();
+
+                if (response.success && response.data) {
+                    const user = response.data;
+                    const firstName = user.name.split(' ')[0];
+
+                    document.getElementById('user-name-sidebar').textContent = `Olá, ${firstName}!`;
+                    document.getElementById('user-email-sidebar').textContent = user.email;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuário:', error);
+            }
+        }
+
+        // =============================================
+        // CARREGAR PEDIDOS
+        // =============================================
+
+        async function loadOrders() {
+            const ordersList = document.getElementById('orders-list');
+
+            try {
+                // TODO: Implementar endpoint de pedidos no backend
+                // Por enquanto, mostra mensagem de "em desenvolvimento"
+
+                ordersList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="bi bi-box-seam"></i>
+                        <h3>Funcionalidade em Desenvolvimento</h3>
+                        <p>A lista de pedidos estará disponível em breve!</p>
+                        <p class="text-muted">Por enquanto, você pode acompanhar seus pedidos através do email de confirmação.</p>
+                        <button class="btn-primary-action" onclick="window.location.href='/produtos.html'">
+                            Ver Produtos
+                        </button>
+                    </div>
+                `;
+
+                // Exemplo de como ficará quando implementado:
+                /*
+                const response = await API.Orders.getAll();
+
+                if (response.success && response.data.length > 0) {
+                    ordersList.innerHTML = response.data.map(order => `
+                        <div class="history-item mb-3">
+                            <div class="history-item-info">
+                                <h4>
+                                    <i class="bi bi-receipt me-2"></i>
+                                    Pedido #${order.id}
+                                </h4>
+                                <p>
+                                    <i class="bi bi-calendar me-2"></i>
+                                    ${new Date(order.created_at).toLocaleDateString('pt-BR')}
+                                </p>
+                                <p>
+                                    <strong>Status:</strong> ${getOrderStatusBadge(order.status)} |
+                                    <strong>Total:</strong> R$ ${order.total_amount.toFixed(2)}
+                                </p>
+                            </div>
+                            <div class="history-item-action">
+                                <button class="btn-view" onclick="viewOrder(${order.id})">
+                                    Ver Detalhes
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    ordersList.innerHTML = `
+                        <div class="empty-state">
+                            <i class="bi bi-inbox"></i>
+                            <h3>Você ainda não fez nenhum pedido</h3>
+                            <p>Explore nossos produtos e faça seu primeiro pedido!</p>
+                            <button class="btn-primary-action" onclick="window.location.href='/produtos.html'">
+                                Ver Produtos
+                            </button>
+                        </div>
+                    `;
+                }
+                */
+
+            } catch (error) {
+                console.error('Erro ao carregar pedidos:', error);
+                ordersList.innerHTML = `
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        Não foi possível carregar seus pedidos. Tente novamente mais tarde.
+                    </div>
+                `;
+            }
+        }
+
+        function getOrderStatusBadge(status) {
+            const badges = {
+                pending: '<span class="badge bg-warning text-dark">Pendente</span>',
+                processing: '<span class="badge bg-info">Processando</span>',
+                shipped: '<span class="badge bg-primary">Enviado</span>',
+                delivered: '<span class="badge bg-success">Entregue</span>',
+                cancelled: '<span class="badge bg-danger">Cancelado</span>'
+            };
+            return badges[status] || '<span class="badge bg-secondary">Desconhecido</span>';
+        }
+
+        function viewOrder(orderId) {
+            // TODO: Abrir modal ou página com detalhes do pedido
+            alert('Detalhes do pedido #' + orderId + ' (funcionalidade em desenvolvimento)');
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                API.Auth.logout();
+            }
+        }
+
+        // =============================================
+        // INICIAR AO CARREGAR PÁGINA
+        // =============================================
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+
+</body>
+</html>

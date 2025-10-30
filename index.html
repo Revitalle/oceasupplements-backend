@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Saúde personalizada - Suplementação completa">
+    <title>Seu Negócio - Saúde Personalizada</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts - Open Sans (mesma fonte da Purissima) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-main fixed-top">
+        <div class="container">
+            <div class="row align-items-center justify-content-between py-3">
+                <div class="col-auto logo">
+                    <a href="/">
+                        <h2 class="mb-0"><strong>SEU LOGO</strong></h2>
+                    </a>
+                </div>
+                <div class="col-auto navigation">
+                    <div class="row align-items-center" id="header-navigation">
+                        <!-- Conteúdo será carregado dinamicamente via JavaScript -->
+                        <div class="col-auto d-none d-lg-flex">
+                            <a href="login.html" class="text-decoration-none me-3" id="login-link">Fazer login</a>
+                        </div>
+                        <div class="col-auto">
+                            <a href="login.html" class="btn btn-custom" id="start-button">INICIAR PERSONALIZAÇÃO</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Carrossel Hero -->
+        <section id="home" class="hero-carousel">
+            <div id="mainCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                <!-- Indicadores -->
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
+                </div>
+
+                <!-- Slides -->
+                <div class="carousel-inner">
+                    <!-- Slide 1 -->
+                    <div class="carousel-item active">
+                        <div class="carousel-image">
+                            <div class="carousel-overlay"></div>
+                            <img src="https://via.placeholder.com/1920x700/E6DDCE/2c2c2c?text=Seu+Banner+Principal" class="d-block w-100" alt="Banner 1">
+                        </div>
+                        <div class="carousel-caption">
+                            <div class="container">
+                                <div class="row justify-content-center align-items-center">
+                                    <div class="col-11 col-lg-8 text-center">
+                                        <h1 class="display-3 mb-4"><strong>BEM-VINDO</strong></h1>
+                                        <p class="lead">Transforme sua saúde com produtos personalizados</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="carousel-item">
+                        <div class="carousel-image">
+                            <div class="carousel-overlay"></div>
+                            <img src="https://via.placeholder.com/1920x700/2c2c2c/E6DDCE?text=Banner+Secundário" class="d-block w-100" alt="Banner 2">
+                        </div>
+                        <div class="carousel-caption">
+                            <div class="container">
+                                <div class="row justify-content-center align-items-center">
+                                    <div class="col-11 col-lg-8 text-center">
+                                        <h2 class="mb-4"><strong>Seja bem-vindo<br>à Nova Era</strong></h2>
+                                        <button class="btn btn-custom-outline">
+                                            ▶ Assista
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Produtos -->
+        <section class="products-section py-5">
+            <div class="container">
+                <!-- Imagem do Produto -->
+                <div class="row justify-content-center mb-5">
+                    <div class="col-11 col-lg-6 text-center">
+                        <img src="https://via.placeholder.com/800x600/E6DDCE/8B7355?text=Seu+Produto" alt="Kit de Produtos" class="img-fluid mb-4">
+                    </div>
+                </div>
+
+                <!-- Título -->
+                <div class="row justify-content-center text-center mb-4">
+                    <div class="col-11 col-lg-8">
+                        <h2 class="mb-3"><strong>TUDO EM UMA FÓRMULA</strong></h2>
+                        <h3 class="text-uppercase text-muted">Todos os seus produtos, personalizados e reunidos.</h3>
+                    </div>
+                </div>
+
+                <!-- Descrição -->
+                <div class="row justify-content-center">
+                    <div class="col-11 col-lg-8">
+                        <p>Entregamos a suplementação mais completa e personalizada. Um único ritual diário que entrega em sinergia o que de fato importa: <strong>proteína, vitaminas, minerais, antioxidantes e ativos clínicos de última geração</strong> — reunidos em uma fórmula leve e saborosa.</p>
+                        <p><strong>São entre 40 e 60 ativos,</strong> todos em doses eficazes, prescritos sob medida para você. A avaliação é 100% online: um questionário que leva cerca de 10 minutos.</p>
+                        <p><strong>Resultados reais: energia, foco, imunidade e longevidade.</strong></p>
+                    </div>
+                </div>
+
+                <!-- Benefícios com Imagem -->
+                <div class="row justify-content-center align-items-center my-5 position-relative">
+                    <div class="col-11 col-lg-10">
+                        <div class="benefits-grid">
+                            <div class="benefit-item">
+                                <h4><strong>NUTRIÇÃO COMPLETA</strong></h4>
+                                <p>Combina cerca de 40 a 60 ativos e nutrientes por fórmula.</p>
+                            </div>
+                            <div class="benefit-item">
+                                <h4><strong>INDIVIDUALIDADE</strong></h4>
+                                <p>Personalização em cerca de 10 minutos por meio de uma avaliação online.</p>
+                            </div>
+                            <div class="benefit-item">
+                                <h4><strong>ABUNDÂNCIA</strong></h4>
+                                <p>Doses efetivas, não apenas simbólicas.</p>
+                            </div>
+                            <div class="benefit-item">
+                                <h4><strong>AGILIDADE</strong></h4>
+                                <p>Produzido em nossos laboratórios no dia seguinte ao seu pedido.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="row justify-content-center mt-5">
+                    <div class="col-11 col-lg-6">
+                        <button class="btn btn-custom w-100 btn-lg">Fazer minha avaliação</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Como Funciona -->
+        <section id="how-works" class="how-works-section py-5 bg-light">
+            <div class="container">
+                <div class="row text-center mb-5">
+                    <div class="col-12">
+                        <h2 class="mb-3"><strong>Como funciona</strong></h2>
+                        <h3 class="text-uppercase text-muted">Personalização clínica, do início ao fim.</h3>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center g-4">
+                    <!-- Passo 1 -->
+                    <div class="col-11 col-md-6 col-lg-4">
+                        <div class="how-card">
+                            <div class="step-number">1</div>
+                            <h3 class="text-center my-4">VOCÊ RESPONDE<br>À NOSSA<br>AVALIAÇÃO ONLINE</h3>
+                            <p class="text-center">Um questionário clínico com cerca de 10 minutos que avalia mais de 80 variáveis — seus sintomas, objetivos, histórico e estilo de vida.</p>
+                        </div>
+                    </div>
+
+                    <!-- Passo 2 -->
+                    <div class="col-11 col-md-6 col-lg-4">
+                        <div class="how-card">
+                            <div class="step-number">2</div>
+                            <h3 class="text-center my-4">ANÁLISE ALGORÍTMICA</h3>
+                            <p class="text-center">Nosso sistema identifica padrões clínicos ideais, ajusta dosagens e ativos conforme seus dados.</p>
+                        </div>
+                    </div>
+
+                    <!-- Passo 3 -->
+                    <div class="col-11 col-md-6 col-lg-4">
+                        <div class="how-card">
+                            <div class="step-number">3</div>
+                            <h3 class="text-center my-4">MANIPULAÇÃO<br>SOB DEMANDA</h3>
+                            <p class="text-center">No nosso laboratório próprio, cada ingrediente é pesado e manipulado no dia seguinte ao pedido.</p>
+                        </div>
+                    </div>
+
+                    <!-- Passo 4 -->
+                    <div class="col-11 col-md-6 col-lg-4">
+                        <div class="how-card">
+                            <div class="step-number">4</div>
+                            <h3 class="text-center my-4">ENTREGA MENSAL,<br>SEM ESFORÇO</h3>
+                            <p class="text-center">Você recebe sua fórmula já dividida em doses — prontos para o uso, para máxima absorção e praticidade.</p>
+                        </div>
+                    </div>
+
+                    <!-- Passo 5 -->
+                    <div class="col-11 col-md-6 col-lg-4">
+                        <div class="how-card">
+                            <div class="step-number">5</div>
+                            <h3 class="text-center my-4">EVOLUÇÃO<br>CONTÍNUA</h3>
+                            <p class="text-center">A cada 90 dias, reavaliamos sua fórmula conforme seu progresso, garantindo resultados cada vez mais precisos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA -->
+                <div class="row justify-content-center mt-5">
+                    <div class="col-11 col-lg-6">
+                        <button class="btn btn-custom w-100 btn-lg">Iniciar minha avaliação online</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Nossos Planos -->
+        <section id="plans" class="plans-section py-5">
+            <div class="container">
+                <div class="row text-center mb-5">
+                    <div class="col-12">
+                        <h2 class="mb-3"><strong>Nossos planos</strong></h2>
+                        <h3 class="text-uppercase text-muted">Três níveis de investimento.<br><strong>Um só compromisso: entregar o melhor.</strong></h3>
+                    </div>
+                </div>
+
+                <!-- Badges Zero -->
+                <div class="row justify-content-center mb-5">
+                    <div class="col-11 col-lg-10">
+                        <div class="row text-center g-2">
+                            <div class="col-4 col-lg-2">
+                                <div class="badge-zero">
+                                    <div class="badge-icon">🚫</div>
+                                    <h6 class="mb-0">ZERO<br>AÇÚCARES</h6>
+                                </div>
+                            </div>
+                            <div class="col-4 col-lg-2">
+                                <div class="badge-zero">
+                                    <div class="badge-icon">🚫</div>
+                                    <h6 class="mb-0">ZERO<br>GLÚTEN</h6>
+                                </div>
+                            </div>
+                            <div class="col-4 col-lg-2">
+                                <div class="badge-zero">
+                                    <div class="badge-icon">🚫</div>
+                                    <h6 class="mb-0">ZERO<br>LACTOSE</h6>
+                                </div>
+                            </div>
+                            <div class="col-4 col-lg-2">
+                                <div class="badge-zero">
+                                    <div class="badge-icon">🚫</div>
+                                    <h6 class="mb-0">ZERO<br>CONSERVANTES</h6>
+                                </div>
+                            </div>
+                            <div class="col-4 col-lg-2">
+                                <div class="badge-zero">
+                                    <div class="badge-icon">✓</div>
+                                    <h6 class="mb-0">100%<br>NATURAL</h6>
+                                </div>
+                            </div>
+                            <div class="col-4 col-lg-2">
+                                <div class="badge-zero">
+                                    <div class="badge-icon">✓</div>
+                                    <h6 class="mb-0">APROVADO<br>ANVISA</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cards de Planos -->
+                <div class="row justify-content-center g-4">
+                    <!-- Plano Essencial -->
+                    <div class="col-11 col-md-6 col-lg-4">
+                        <div class="plan-card plan-essencial">
+                            <h2 class="text-center mb-3">ESSENCIAL</h2>
+                            <h4 class="text-center mb-4">O BÁSICO<br>QUE NÃO PODE FALTAR</h4>
+                            <div class="plan-image mb-4">
+                                <img src="https://via.placeholder.com/400x400/f5f5f5/2c2c2c?text=Kit+Essencial" alt="Kit Essencial" class="img-fluid">
+                            </div>
+                            <h3 class="text-center my-4">CERCA DE<br><strong>40 ATIVOS E NUTRIENTES</strong></h3>
+                            <p class="text-center mb-4"><strong>Seu ponto de partida impecável e acessível.</strong></p>
+                            <ul class="plan-features mb-4">
+                                <li>Proteína isolada e colágeno</li>
+                                <li>Vitaminas em formas bioativas</li>
+                                <li>Minerais quelados</li>
+                                <li>Ômega-3 microencapsulado</li>
+                                <li>Personalização completa</li>
+                            </ul>
+                            <div class="plan-price text-center mb-4">
+                                <p class="mb-1">A partir de</p>
+                                <h2 class="mb-0"><strong>R$ 17</strong><small>/dia</small></h2>
+                                <h4 class="mb-0"><strong>R$ 497</strong><small>/mês</small></h4>
+                            </div>
+                            <button class="btn btn-custom w-100 btn-lg">Saiba mais</button>
+                        </div>
+                    </div>
+
+                    <!-- Plano Avançado -->
+                    <div class="col-11 col-md-6 col-lg-4">
+                        <div class="plan-card plan-avancado">
+                            <h2 class="text-center mb-3">AVANÇADO</h2>
+                            <h4 class="text-center mb-4">DOSES OTIMIZADAS<br>E ATIVOS EXCLUSIVOS</h4>
+                            <div class="plan-image mb-4">
+                                <img src="https://via.placeholder.com/400x400/fff9f0/8B7355?text=Kit+Avançado" alt="Kit Avançado" class="img-fluid">
+                            </div>
+                            <h3 class="text-center my-4">CERCA DE<br><strong>50 ATIVOS E NUTRIENTES</strong></h3>
+                            <p class="text-center mb-4"><strong>Absorção superior e sinergias direcionadas.</strong></p>
+                            <ul class="plan-features mb-4">
+                                <li>Tudo do Essencial +</li>
+                                <li>Upgrade de doses</li>
+                                <li>Absorção superior</li>
+                                <li>Ativos funcionais específicos</li>
+                                <li>Resultados acelerados</li>
+                            </ul>
+                            <div class="plan-price text-center mb-4">
+                                <p class="mb-1">A partir de</p>
+                                <h2 class="mb-0"><strong>R$ 27</strong><small>/dia</small></h2>
+                                <h4 class="mb-0"><strong>R$ 797</strong><small>/mês</small></h4>
+                            </div>
+                            <button class="btn btn-custom w-100 btn-lg">Saiba mais</button>
+                        </div>
+                    </div>
+
+                    <!-- Plano Premium -->
+                    <div class="col-11 col-md-6 col-lg-4">
+                        <div class="plan-card plan-premium">
+                            <h2 class="text-center mb-3">PREMIUM</h2>
+                            <h4 class="text-center mb-4">O ESTADO DA ARTE<br>DA SUPLEMENTAÇÃO</h4>
+                            <div class="plan-image mb-4">
+                                <img src="https://via.placeholder.com/400x400/2c2c2c/ffd700?text=Kit+Premium" alt="Kit Premium" class="img-fluid">
+                            </div>
+                            <h3 class="text-center my-4">CERCA DE<br><strong>60 ATIVOS E NUTRIENTES</strong></h3>
+                            <p class="text-center mb-4"><strong>Protocolos de elite com ativos patenteados de ponta.</strong></p>
+                            <ul class="plan-features mb-4">
+                                <li>Tudo do Avançado +</li>
+                                <li>Ingredientes de última geração</li>
+                                <li>Formas moleculares otimizadas</li>
+                                <li>Máxima performance</li>
+                                <li>Longevidade e regeneração</li>
+                            </ul>
+                            <div class="plan-price text-center mb-4">
+                                <p class="mb-1">A partir de</p>
+                                <h2 class="mb-0"><strong>R$ 67</strong><small>/dia</small></h2>
+                                <h4 class="mb-0"><strong>R$ 1.997</strong><small>/mês</small></h4>
+                            </div>
+                            <button class="btn btn-custom w-100 btn-lg">Saiba mais</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Contato -->
+        <section id="contact" class="contact-section py-5 bg-light">
+            <div class="container">
+                <div class="row text-center mb-5">
+                    <div class="col-12">
+                        <h2 class="mb-3"><strong>Entre em Contato</strong></h2>
+                        <p class="text-muted">Estamos prontos para ajudar você</p>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-11 col-lg-6">
+                        <form class="contact-form">
+                            <div class="mb-3">
+                                <input type="text" class="form-control form-control-lg" placeholder="Seu Nome" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="email" class="form-control form-control-lg" placeholder="Seu Email" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="tel" class="form-control form-control-lg" placeholder="Seu Telefone">
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control form-control-lg" rows="5" placeholder="Sua Mensagem" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-custom w-100 btn-lg">Enviar Mensagem</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-main py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h4 class="mb-3">Sobre</h4>
+                    <p>Breve descrição da sua empresa e missão.</p>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h4 class="mb-3">Links Rápidos</h4>
+                    <ul class="list-unstyled">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#how-works">Como Funciona</a></li>
+                        <li><a href="#plans">Planos</a></li>
+                        <li><a href="#contact">Contato</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h4 class="mb-3">Contato</h4>
+                    <p>Email: contato@seusite.com</p>
+                    <p>Telefone: (00) 0000-0000</p>
+                </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <h4 class="mb-3">Redes Sociais</h4>
+                    <div class="social-links">
+                        <a href="#">Facebook</a>
+                        <a href="#">Instagram</a>
+                        <a href="#">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0">&copy; 2024 Seu Site. Todos os direitos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- API Client -->
+    <script src="js/api.js"></script>
+
+    <!-- Custom JS -->
+    <script src="js/script.js"></script>
+
+    <!-- Script para carregar produtos da API -->
+    <script>
+        // Gerenciar header baseado em autenticação
+        document.addEventListener('DOMContentLoaded', async function() {
+            updateHeader();
+
+            try {
+                const response = await API.Products.getAll();
+                const products = response.data;
+                updateProductCards(products);
+            } catch (error) {
+                console.log('Usando produtos padrão (API offline ou erro de conexão)');
+            }
+        });
+
+        async function updateHeader() {
+            const isLoggedIn = API.Auth.isAuthenticated();
+            const loginLink = document.getElementById('login-link');
+            const startButton = document.getElementById('start-button');
+            const navigation = document.getElementById('header-navigation');
+
+            if (isLoggedIn) {
+                let userName = 'Usuário';
+                try {
+                    const response = await API.Auth.getCurrentUser();
+                    if (response.success && response.data) {
+                        userName = response.data.name.split(' ')[0];
+                    }
+                } catch (error) {
+                    console.error('Erro ao carregar usuário:', error);
+                }
+
+                // Usuário logado - mostrar nome e logout
+                navigation.innerHTML = `
+                    <div class="col-auto d-none d-lg-flex">
+                        <span class="text-decoration-none me-3">Olá, ${userName}</span>
+                    </div>
+                    <div class="col-auto">
+                        <a href="dashboard.html" class="btn btn-custom me-2">Minha Área</a>
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-outline-secondary" onclick="logout()">Sair</button>
+                    </div>
+                `;
+            } else {
+                // Usuário não logado - mostrar login
+                navigation.innerHTML = `
+                    <div class="col-auto d-none d-lg-flex">
+                        <a href="login.html" class="text-decoration-none me-3">Fazer login</a>
+                    </div>
+                    <div class="col-auto">
+                        <a href="login.html" class="btn btn-custom">INICIAR PERSONALIZAÇÃO</a>
+                    </div>
+                `;
+            }
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair?')) {
+                localStorage.removeItem('auth_token');
+                window.location.href = '/';
+            }
+        }
+
+        function updateProductCards(products) {
+            const sortedProducts = products.sort((a, b) => a.price - b.price);
+
+            sortedProducts.forEach((product, index) => {
+                const priceElements = document.querySelectorAll('.plan-price h3');
+                const titleElements = document.querySelectorAll('.plan-card h3');
+
+                if (priceElements[index]) {
+                    priceElements[index].textContent = `R$ ${product.price.toFixed(2)}`;
+                }
+                if (titleElements[index]) {
+                    titleElements[index].textContent = product.name;
+                }
+            });
+        }
+    </script>
+</body>
+</html>

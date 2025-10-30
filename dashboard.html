@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Área - Ocea Supplements</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- Estilos Dashboard -->
+    <link rel="stylesheet" href="css/estilos-dashboard.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header-dashboard">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="logo">
+                    <img src="/assets/images/logo-ocea.png" alt="Ocea Supplements" style="max-width: 195px; max-height: 29px;">
+                </div>
+                <nav class="main-nav">
+                    <a href="/produtos.html">Produtos</a>
+                    <a href="dashboard.html" class="active">Minha Área</a>
+                    <button class="btn-logout" onclick="logout()">
+                        <i class="bi bi-box-arrow-right"></i> Sair
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Menu Lateral + Conteúdo Principal -->
+    <div class="dashboard-container">
+        <div class="container">
+            <div class="row">
+
+                <!-- Menu Lateral -->
+                <div class="col-lg-3 mb-4">
+                    <div class="sidebar-menu">
+                        <div class="user-info-sidebar">
+                            <div class="user-avatar-placeholder">
+                                <i class="bi bi-person-circle"></i>
+                            </div>
+                            <h3 id="user-name-sidebar">Olá!</h3>
+                            <p id="user-email-sidebar" class="text-muted small"></p>
+                        </div>
+
+                        <nav class="sidebar-nav">
+                            <a href="dashboard.html" class="sidebar-link active">
+                                <i class="bi bi-speedometer2"></i>
+                                Dashboard
+                            </a>
+                            <a href="pedidos.html" class="sidebar-link">
+                                <i class="bi bi-bag"></i>
+                                Pedidos
+                            </a>
+                            <a href="endereco.html" class="sidebar-link">
+                                <i class="bi bi-geo-alt"></i>
+                                Endereços
+                            </a>
+                            <a href="dados-pessoais.html" class="sidebar-link">
+                                <i class="bi bi-person"></i>
+                                Dados Pessoais
+                            </a>
+                            <a href="alterar-senha.html" class="sidebar-link">
+                                <i class="bi bi-key"></i>
+                                Alterar Senha
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Conteúdo Principal -->
+                <div class="col-lg-9">
+
+                    <!-- Seção: Sua OCEA -->
+                    <div class="section-box mb-4">
+                        <h2 class="section-title mb-4">
+                            <strong style="color: #007c8c;">Sua OCEA</strong>
+                        </h2>
+
+                        <div class="row align-items-center mb-4">
+                            <div class="col-lg-8">
+                                <div class="row align-items-center">
+                                    <div class="col-12 mb-3">
+                                        <h3 class="m-0" id="user-name-ocea"><strong>Marta Joia</strong></h3>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p class="m-0"><strong><span id="user-age">46</span> anos</strong></p>
+                                    </div>
+                                    <div class="col-auto px-2">
+                                        <p class="m-0">|</p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p class="m-0"><strong><span id="user-height">1,60</span> m</strong></p>
+                                    </div>
+                                    <div class="col-auto px-2">
+                                        <p class="m-0">|</p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p class="m-0"><strong><span id="user-weight">70</span> kg</strong></p>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center mt-3">
+                                    <div class="col-auto">
+                                        <i class="bi bi-calendar"></i>
+                                    </div>
+                                    <div class="col ps-0">
+                                        <p class="m-0">Última anamnese: <span id="last-anamnese-date">--/--/----</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 text-center mt-3 mt-lg-0">
+                                <div class="box-score">
+                                    <div id="score-gauge-container" style="position: relative;">
+                                        <!-- Gauge SVG será gerado aqui -->
+                                    </div>
+                                    <h5 class="m-0 mt-2"><strong>Seu Score de Saúde</strong></h5>
+                                    <button type="button" class="btn btn-primary mt-3" onclick="window.location.href='/questionario/intro.html'">
+                                        <i class="bi bi-clipboard-check me-2"></i> Refazer Anamnese
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gráfico do Mapa de Saúde (SVG) -->
+                        <div class="row mt-4">
+                            <div class="col-12 text-center">
+                                <h4 class="mb-3"><strong>Seu Mapa de Saúde</strong></h4>
+                                <div id="ocea-chart-container" style="max-width: 700px; margin: 0 auto;">
+                                    <!-- Gráfico SVG será renderizado aqui -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cards de Ações -->
+                    <div class="row g-4 mb-4">
+
+                        <!-- Card: Meu Mapa de Saúde -->
+                        <div class="col-md-4">
+                            <div class="dashboard-card health-map-card" onclick="window.location.href='/questionario/resultado.html'">
+                                <div class="card-icon">
+                                    <i class="bi bi-heart-pulse"></i>
+                                </div>
+                                <h3>Meu Mapa de Saúde</h3>
+                                <p>Visualize seu último diagnóstico e mapa de saúde completo</p>
+                                <div class="card-footer-link">
+                                    Ver Resultado <i class="bi bi-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card: Produtos Recomendados -->
+                        <div class="col-md-4">
+                            <div class="dashboard-card products-card" onclick="window.location.href='/produtos.html'">
+                                <div class="card-icon">
+                                    <i class="bi bi-capsule"></i>
+                                </div>
+                                <h3>Meus Produtos Recomendados</h3>
+                                <p>Suplementos personalizados baseados no seu diagnóstico</p>
+                                <div class="card-footer-link">
+                                    Ver Produtos <i class="bi bi-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card: Meu Histórico -->
+                        <div class="col-md-4">
+                            <div class="dashboard-card history-card" onclick="scrollToHistory()">
+                                <div class="card-icon">
+                                    <i class="bi bi-clock-history"></i>
+                                </div>
+                                <h3>Meu Histórico</h3>
+                                <p>Acompanhe a evolução dos seus diagnósticos ao longo do tempo</p>
+                                <div class="card-footer-link">
+                                    Ver Histórico <i class="bi bi-arrow-right"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Seção: Último Diagnóstico -->
+                    <div class="section-box mb-4" id="last-diagnostic-section">
+                        <h2 class="section-title">
+                            <i class="bi bi-activity me-2"></i>
+                            Seu Último Diagnóstico
+                        </h2>
+
+                        <div id="diagnostic-content">
+                            <!-- Carregado via JavaScript -->
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Carregando...</span>
+                                </div>
+                                <p class="text-muted mt-3">Carregando diagnóstico...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção: Mapa de Saúde Interativo -->
+                    <div class="section-box mb-4" id="health-map-section" style="display: none;">
+                        <h2 class="section-title">
+                            <i class="bi bi-pie-chart me-2"></i>
+                            Mapa de Saúde Interativo
+                        </h2>
+
+                        <div class="health-map-container">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <!-- SVG será gerado aqui -->
+                                    <div id="health-map-svg-container" class="text-center">
+                                        <!-- SVG dinâmico -->
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="health-categories-list" id="health-categories-list">
+                                        <!-- Lista de categorias com percentuais -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção: Histórico Completo -->
+                    <div class="section-box" id="history-section">
+                        <h2 class="section-title">
+                            <i class="bi bi-graph-up me-2"></i>
+                            Histórico de Diagnósticos
+                        </h2>
+
+                        <div id="history-list">
+                            <!-- Carregado via JavaScript -->
+                            <div class="text-center py-5">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Carregando...</span>
+                                </div>
+                                <p class="text-muted mt-3">Carregando histórico...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- API Client -->
+    <script src="/js/api.js?v=2"></script>
+
+    <!-- Ocea Chart Generator -->
+    <script src="/js/oceaChartGenerator.js?v=1"></script>
+
+    <!-- Dashboard Script -->
+    <script src="/js/dashboard.js?v=3"></script>
+
+</body>
+</html>
