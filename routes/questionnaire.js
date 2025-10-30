@@ -379,25 +379,6 @@ router.post('/complete', protect, async (req, res) => {
     const diagnostic = result.rows[0];
     console.log('Diagnóstico criado com ID:', diagnostic.id);
 
-    // 3. Gerar imagem do mapa de saúde (em background, não bloqueia resposta)
-    const chartImageGenerator = require('../utils/chartImageGenerator');
-
-    // Preparar objeto completo do diagnóstico para geração de imagem
-    const diagnosticForImage = {
-      ...diagnostic,
-      questionnaire_data: questionnaire_data || {}
-    };
-
-    // Executar geração de imagem em background (não aguarda)
-    chartImageGenerator.generateChartImage(diagnosticForImage, req.user.id)
-      .then(imagePath => {
-        console.log(`✅ Imagem do mapa de saúde gerada: ${imagePath}`);
-      })
-      .catch(error => {
-        console.error('❌ Erro ao gerar imagem do mapa de saúde:', error);
-        // Não falha a requisição se a imagem não for gerada
-      });
-
     res.json({
       success: true,
       data: {

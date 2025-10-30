@@ -17,7 +17,8 @@
       "Read(//c/Users/User/Downloads/**)",
       "Bash(find:*)",
       "Bash(awk:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npm uninstall:*)"
     ],
     "deny": [],
     "ask": []
