@@ -1,7 +1,7 @@
 {
   "name": "health-diagnostic-backend",
-  "version": "1.0.0",
-  "description": "Backend MVP para sistema de diagnóstico de saúde personalizado",
+  "version": "1.0.1",
+  "description": "Backend MVP para sistema de diagnóstico de saúde personalizado - SVG Rendering",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
