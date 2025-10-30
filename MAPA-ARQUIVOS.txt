@@ -1,0 +1,168 @@
+═══════════════════════════════════════════════════════════════════════
+  📂 MAPA DE UPLOAD - De onde para onde
+═══════════════════════════════════════════════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────────┐
+│  💻 NO SEU COMPUTADOR (Windows)                                     │
+└─────────────────────────────────────────────────────────────────────┘
+
+📁 C:\Users\User\teste-claude\backend\
+│
+├─ 📄 server.js
+│     │
+│     │  📤 ENVIAR PARA ➜ /backend/server.js
+│     │
+│     └─ Substituir o arquivo antigo (fazer backup antes!)
+│
+├─ 📁 middleware\
+│  │
+│  └─ 📄 diagnosticMonitor.js
+│        │
+│        │  📤 ENVIAR PARA ➜ /backend/middleware/diagnosticMonitor.js
+│        │
+│        └─ Criar a pasta "middleware" se não existir!
+│
+├─ 📁 routes\
+│  │
+│  └─ 📄 analytics.js
+│        │
+│        │  📤 ENVIAR PARA ➜ /backend/routes/analytics.js
+│        │
+│        └─ Adicionar na pasta routes existente
+│
+├─ 📁 database\
+│  │
+│  └─ 📄 create-analytics-table.js
+│        │
+│        │  📤 ENVIAR PARA ➜ /backend/database/create-analytics-table.js
+│        │
+│        └─ Adicionar na pasta database existente
+│
+└─ 📁 questionario\
+   │
+   ├─ 📄 auto-save.js
+   │     │
+   │     │  📤 ENVIAR PARA ➜ /questionario/auto-save.js
+   │     │
+   │     └─ Arquivo NOVO
+   │
+   ├─ 📄 analytics.js
+   │     │
+   │     │  📤 ENVIAR PARA ➜ /questionario/analytics.js
+   │     │
+   │     └─ Arquivo NOVO
+   │
+   ├─ 📄 intro.html
+   │     │
+   │     │  📤 ENVIAR PARA ➜ /questionario/intro.html
+   │     │
+   │     └─ SUBSTITUIR o arquivo antigo
+   │
+   ├─ 📄 1-nutricao.html
+   │     │
+   │     │  📤 ENVIAR PARA ➜ /questionario/1-nutricao.html
+   │     │
+   │     └─ SUBSTITUIR o arquivo antigo
+   │
+   ├─ 📄 2-digestiva.html
+   │     │
+   │     │  📤 ENVIAR PARA ➜ /questionario/2-digestiva.html
+   │     │
+   │     └─ SUBSTITUIR o arquivo antigo
+   │
+   ├─ 📄 3-fisica.html
+   │     │
+   │     │  📤 ENVIAR PARA ➜ /questionario/3-fisica.html
+   │     │
+   │     └─ SUBSTITUIR o arquivo antigo
+   │
+   ├─ 📄 4-sono.html
+   │     │
+   │     │  📤 ENVIAR PARA ➜ /questionario/4-sono.html
+   │     │
+   │     └─ SUBSTITUIR o arquivo antigo
+   │
+   ├─ 📄 5-mental.html
+   │     │
+   │     │  📤 ENVIAR PARA ➜ /questionario/5-mental.html
+   │     │
+   │     └─ SUBSTITUIR o arquivo antigo
+   │
+   ├─ 📄 6-hormonal.html
+   │     │
+   │     │  📤 ENVIAR PARA ➜ /questionario/6-hormonal.html
+   │     │
+   │     └─ SUBSTITUIR o arquivo antigo
+   │
+   └─ 📄 7-sintomas.html
+         │
+         │  📤 ENVIAR PARA ➜ /questionario/7-sintomas.html
+         │
+         └─ SUBSTITUIR o arquivo antigo
+
+
+┌─────────────────────────────────────────────────────────────────────┐
+│  🌐 NA HOSTINGER (Servidor Web)                                     │
+└─────────────────────────────────────────────────────────────────────┘
+
+📁 /home/u123456789/domains/oceasupplements.com/public_html/
+│
+├─ 📁 backend/
+│  │
+│  ├─ 📄 server.js  ⬅️ SUBSTITUIR
+│  │
+│  ├─ 📁 middleware/  ⬅️ CRIAR se não existir
+│  │  └─ 📄 diagnosticMonitor.js  ⬅️ ADICIONAR (novo)
+│  │
+│  ├─ 📁 routes/
+│  │  └─ 📄 analytics.js  ⬅️ ADICIONAR (novo)
+│  │
+│  └─ 📁 database/
+│     └─ 📄 create-analytics-table.js  ⬅️ ADICIONAR (novo)
+│
+└─ 📁 questionario/
+   │
+   ├─ 📄 auto-save.js  ⬅️ ADICIONAR (novo)
+   ├─ 📄 analytics.js  ⬅️ ADICIONAR (novo)
+   ├─ 📄 intro.html  ⬅️ SUBSTITUIR
+   ├─ 📄 1-nutricao.html  ⬅️ SUBSTITUIR
+   ├─ 📄 2-digestiva.html  ⬅️ SUBSTITUIR
+   ├─ 📄 3-fisica.html  ⬅️ SUBSTITUIR
+   ├─ 📄 4-sono.html  ⬅️ SUBSTITUIR
+   ├─ 📄 5-mental.html  ⬅️ SUBSTITUIR
+   ├─ 📄 6-hormonal.html  ⬅️ SUBSTITUIR
+   └─ 📄 7-sintomas.html  ⬅️ SUBSTITUIR
+
+
+═══════════════════════════════════════════════════════════════════════
+  📋 RESUMO SIMPLES
+═══════════════════════════════════════════════════════════════════════
+
+BACKEND (4 arquivos):
+  1. server.js                       → backend/server.js
+  2. middleware/diagnosticMonitor.js → backend/middleware/diagnosticMonitor.js
+  3. routes/analytics.js             → backend/routes/analytics.js
+  4. database/create-analytics-table.js → backend/database/create-analytics-table.js
+
+FRONTEND (10 arquivos):
+  5. questionario/auto-save.js       → questionario/auto-save.js
+  6. questionario/analytics.js       → questionario/analytics.js
+  7. questionario/intro.html         → questionario/intro.html
+  8. questionario/1-nutricao.html    → questionario/1-nutricao.html
+  9. questionario/2-digestiva.html   → questionario/2-digestiva.html
+  10. questionario/3-fisica.html     → questionario/3-fisica.html
+  11. questionario/4-sono.html       → questionario/4-sono.html
+  12. questionario/5-mental.html     → questionario/5-mental.html
+  13. questionario/6-hormonal.html   → questionario/6-hormonal.html
+  14. questionario/7-sintomas.html   → questionario/7-sintomas.html
+
+═══════════════════════════════════════════════════════════════════════
+  ⚠️  ATENÇÃO
+═══════════════════════════════════════════════════════════════════════
+
+  • Faça BACKUP antes de substituir qualquer arquivo
+  • Se a pasta "middleware" não existir, CRIE ela primeiro
+  • Mantenha a mesma estrutura de pastas
+  • Após upload, reinicie o servidor Node.js
+
+═══════════════════════════════════════════════════════════════════════

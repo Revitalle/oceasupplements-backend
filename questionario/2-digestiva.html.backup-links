@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saúde Digestiva - Ocea Supplements</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- CSS Customizado -->
+    <link rel="stylesheet" href="estilos-questionario.css?v=7">
+
+    <style>
+        :root {
+            --primary-color: #2C5F2D;
+            --secondary-color: #97BC62;
+            --accent-color: #FFB81C;
+            --neutral-bg: #F7F4EF;
+            --text-dark: #2c2c2c;
+            --brown-detail: #8B7355;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--neutral-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header fixo */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #007c8c;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* Tamanho específico do logo - testando */
+        .logo img {
+            height: 40px !important;
+            width: auto !important;
+        }
+
+        .user-greeting {
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .btn-logout {
+            background: white;
+            color: #007c8c;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        /* Imagem de capa */
+        .cover-image {
+            width: 100%;
+            height: 267px; /* Reduzido em 1/3: era 400px */
+            object-fit: cover;
+            margin-top: 70px;
+        }
+
+        @media (min-width: 1024px) {
+            .cover-image {
+                height: 333px; /* Reduzido em 1/3: era 500px */
+            }
+        }
+
+        /* Barra de progresso - BEM MAIS FINA */
+        .progress-container {
+            background: white;
+            padding: 0.75rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-wrapper {
+            position: relative;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: visible;
+        }
+
+        .progress-bar-custom {
+            height: 100%;
+            background: linear-gradient(90deg, #007c8c, var(--secondary-color));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .progress-thumb {
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            background: #007c8c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.7rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        /* Questionário */
+        .questionnaire-section {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            color: #007c8c;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-description {
+            color: #666;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .question-block {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 1.33rem; /* Reduzido em 1/3: era 2rem */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .question-number {
+            color: var(--secondary-color);
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Radio buttons estilizados - 2 COLUNAS */
+        .radio-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        /* Em mobile, volta para 1 coluna */
+        @media (max-width: 768px) {
+            .radio-group {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .radio-option {
+            background: var(--neutral-bg);
+            border: 3px solid transparent;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .radio-option:hover {
+            border-color: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        .radio-option.selected {
+            border-color: var(--primary-color);
+            background: #e8f5e9;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-color);
+        }
+
+        .radio-option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 1rem;
+        }
+
+        /* Range slider personalizado */
+        .slider-container {
+            padding: 1rem 0;
+        }
+
+        .slider-wrapper {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            /* Degradê de turquesa → amarelo → vermelho */
+            background: linear-gradient(to right,
+                #007c8c 0%,    /* Turquesa no 0 */
+                #F0AD4E 50%,   /* Amarelo no 5 */
+                #D9534F 100%   /* Vermelho no 10 */
+            );
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: none;
+        }
+
+        .slider-value {
+            display: none; /* Ocultar o número verde */
+        }
+
+        /* Checkboxes estilizados */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .checkbox-option {
+            background: var(--neutral-bg);
+            border: 3px solid transparent;
+            border-radius: 12px;
+            padding: 0.75rem 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .checkbox-option:hover {
+            border-color: var(--secondary-color);
+        }
+
+        .checkbox-option.selected {
+            border-color: var(--primary-color);
+            background: #e8f5e9;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-color);
+        }
+
+        .checkbox-option label {
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        /* Botões de navegação - Estilo Puríssima */
+        .navigation-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 3rem 0;
+            gap: 0.66rem;
+        }
+
+        /* Botão Principal (Próxima Etapa) */
+        .btn-next {
+            background: #007c8c;
+            color: #FFFFFF;
+            padding: 16px 48px;
+            border-radius: 50px;
+            border: none;
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: auto;
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.5;
+            box-shadow: 0 4px 12px rgba(0, 124, 140, 0.3);
+            white-space: nowrap;
+        }
+
+        .btn-next:hover {
+            background: #005F6B;
+            box-shadow: 0 6px 16px rgba(0, 124, 140, 0.4);
+        }
+
+        .btn-next:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* Texto dentro do botão */
+        .btn-next .btn-text-bold {
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-next .btn-text-normal {
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+
+        /* Link Voltar (Editar Respostas Anteriores) */
+        .btn-prev {
+            background: none;
+            border: none;
+            color: #2c2c2c;
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .btn-prev:hover {
+            color: #007c8c;
+        }
+
+        .btn-prev::before {
+            content: "‹";
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .question-block {
+                padding: 1.5rem;
+            }
+
+            .btn-next {
+                font-size: 14px;
+                padding: 14px 32px;
+            }
+
+            .btn-prev {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header fixo -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="/assets/images/logo-ocea.png?v=1761678914" alt="Ocea Supplements">
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <span class="user-greeting" id="user-greeting"></span>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="bi bi-box-arrow-right"></i> Sair
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Imagem de capa -->
+    <picture>
+        <source media="(min-width: 1024px)" srcset="/assets/images/questionario/headers/2-digestiva.png">
+        <img src="/assets/images/questionario/headers/2-digestiva-mobile.png" alt="Saúde Digestiva" class="cover-image">
+    </picture>
+
+    <!-- Barra de progresso -->
+    <div class="progress-container">
+        <div class="container">
+            <div class="progress-wrapper">
+                <div class="progress-bar-custom" id="progress-bar" style="width: 28%">
+                    <div class="progress-thumb">28%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Questionário -->
+    <section class="questionnaire-section">
+
+        <h1 class="section-title">
+            🌿 Saúde Digestiva
+        </h1>
+        <p class="section-description">
+            O intestino é o segundo cérebro do corpo. Vamos entender como ele está funcionando.
+        </p>
+
+        <form id="digestiva-form">
+
+            <!-- Pergunta 1 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 1 DE 4</div>
+                <div class="question-text">Como você classifica seu trânsito intestinal?</div>
+                <div class="radio-group">
+                    <div class="radio-option" data-question="transito_intestinal">
+                        <input type="radio" name="transito_intestinal" value="Normal" id="transito_1">
+                        <label for="transito_1">Normal (evacuação diária, sem desconforto)</label>
+                    </div>
+                    <div class="radio-option" data-question="transito_intestinal">
+                        <input type="radio" name="transito_intestinal" value="Constipado" id="transito_2">
+                        <label for="transito_2">Constipado (dificuldade ou menos de 3x por semana)</label>
+                    </div>
+                    <div class="radio-option" data-question="transito_intestinal">
+                        <input type="radio" name="transito_intestinal" value="Irregular" id="transito_3">
+                        <label for="transito_3">Irregular (varia bastante)</label>
+                    </div>
+                    <div class="radio-option" data-question="transito_intestinal">
+                        <input type="radio" name="transito_intestinal" value="Diarreia frequente" id="transito_4">
+                        <label for="transito_4">Diarreia frequente</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pergunta 2 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 2 DE 4</div>
+                <div class="question-text">Sente inchaço, gases ou desconforto abdominal após as refeições?</div>
+                <div class="radio-group">
+                    <div class="radio-option" data-question="inchaco_gases">
+                        <input type="radio" name="inchaco_gases" value="Nunca" id="gases_1">
+                        <label for="gases_1">Nunca</label>
+                    </div>
+                    <div class="radio-option" data-question="inchaco_gases">
+                        <input type="radio" name="inchaco_gases" value="Raramente" id="gases_2">
+                        <label for="gases_2">Raramente</label>
+                    </div>
+                    <div class="radio-option" data-question="inchaco_gases">
+                        <input type="radio" name="inchaco_gases" value="Às vezes" id="gases_3">
+                        <label for="gases_3">Às vezes</label>
+                    </div>
+                    <div class="radio-option" data-question="inchaco_gases">
+                        <input type="radio" name="inchaco_gases" value="Frequentemente" id="gases_4">
+                        <label for="gases_4">Frequentemente</label>
+                    </div>
+                    <div class="radio-option" data-question="inchaco_gases">
+                        <input type="radio" name="inchaco_gases" value="Sempre" id="gases_5">
+                        <label for="gases_5">Sempre</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pergunta 3 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 3 DE 4</div>
+                <div class="question-text">Já foi diagnosticado com alguma condição digestiva? (Pode selecionar mais de uma)</div>
+                <div class="checkbox-group">
+                    <div class="checkbox-option" data-question="condicao_digestiva">
+                        <input type="checkbox" name="condicao_digestiva" value="Não" id="condicao_1">
+                        <label for="condicao_1">Não</label>
+                    </div>
+                    <div class="checkbox-option" data-question="condicao_digestiva">
+                        <input type="checkbox" name="condicao_digestiva" value="Refluxo" id="condicao_2">
+                        <label for="condicao_2">Refluxo/DRGE</label>
+                    </div>
+                    <div class="checkbox-option" data-question="condicao_digestiva">
+                        <input type="checkbox" name="condicao_digestiva" value="SII" id="condicao_3">
+                        <label for="condicao_3">Síndrome do Intestino Irritável (SII)</label>
+                    </div>
+                    <div class="checkbox-option" data-question="condicao_digestiva">
+                        <input type="checkbox" name="condicao_digestiva" value="Gastrite" id="condicao_4">
+                        <label for="condicao_4">Gastrite</label>
+                    </div>
+                    <div class="checkbox-option" data-question="condicao_digestiva">
+                        <input type="checkbox" name="condicao_digestiva" value="Outra" id="condicao_5">
+                        <label for="condicao_5">Outra condição</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pergunta 4 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 4 DE 4</div>
+                <div class="question-text">Usa probióticos ou prebióticos regularmente?</div>
+                <div class="radio-group">
+                    <div class="radio-option" data-question="probioticos">
+                        <input type="radio" name="probioticos" value="Não" id="probio_1">
+                        <label for="probio_1">Não</label>
+                    </div>
+                    <div class="radio-option" data-question="probioticos">
+                        <input type="radio" name="probioticos" value="Sim - Probióticos" id="probio_2">
+                        <label for="probio_2">Sim - Probióticos (bactérias benéficas)</label>
+                    </div>
+                    <div class="radio-option" data-question="probioticos">
+                        <input type="radio" name="probioticos" value="Sim - Prebióticos" id="probio_3">
+                        <label for="probio_3">Sim - Prebióticos (fibras alimentares)</label>
+                    </div>
+                    <div class="radio-option" data-question="probioticos">
+                        <input type="radio" name="probioticos" value="Sim - Ambos" id="probio_4">
+                        <label for="probio_4">Sim - Ambos (simbióticos)</label>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        <!-- Botões de navegação -->
+        <div class="navigation-buttons">
+            <button type="button" class="btn-next" onclick="saveAndContinue()">
+                <span class="btn-text-bold">PRÓXIMA ETAPA</span> | <span class="btn-text-normal">Atividade Física</span>
+            </button>
+            <button type="button" class="btn-prev" onclick="goBack()">Editar Respostas Anteriores</button>
+        </div>
+
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- API Client -->
+    <script src="/js/api.js"></script>
+
+    <script>
+        // =============================================
+        // INICIALIZAÇÃO
+        // =============================================
+
+        async function init() {
+            // Verificar autenticação
+            if (!API.Auth.isAuthenticated()) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Exibir nome do usuário
+            try {
+                const response = await API.Auth.getCurrentUser();
+                if (response.success && response.data && response.data.name) {
+                    const firstName = response.data.name.split(' ')[0];
+                    document.getElementById('user-greeting').textContent = `Olá, ${firstName}`;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar usuário:', error);
+            }
+
+            // Carregar dados salvos (se houver)
+            loadSavedData();
+
+            // Configurar event listeners
+            setupEventListeners();
+        }
+
+        // =============================================
+        // EVENT LISTENERS
+        // =============================================
+
+        function setupEventListeners() {
+            // Radio buttons - adicionar classe selected
+            document.querySelectorAll('.radio-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionName = this.dataset.question;
+                    // Remover selected de todas as opções da mesma pergunta
+                    document.querySelectorAll(`.radio-option[data-question="${questionName}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    // Adicionar selected na opção clicada
+                    this.classList.add('selected');
+                    // Marcar o radio
+                    this.querySelector('input[type="radio"]').checked = true;
+                });
+            });
+
+            // Checkboxes - adicionar classe selected
+            document.querySelectorAll('.checkbox-option').forEach(option => {
+                option.addEventListener('click', function(e) {
+                    if (e.target.tagName !== 'INPUT') {
+                        const checkbox = this.querySelector('input[type="checkbox"]');
+                        checkbox.checked = !checkbox.checked;
+                    }
+
+                    if (this.querySelector('input[type="checkbox"]').checked) {
+                        this.classList.add('selected');
+                    } else {
+                        this.classList.remove('selected');
+                    }
+
+                    // Se selecionar "Não", desmarcar outras
+                    const checkbox = this.querySelector('input[type="checkbox"]');
+                    if (checkbox.value === 'Não' && checkbox.checked) {
+                        document.querySelectorAll('input[name="condicao_digestiva"]').forEach(cb => {
+                            if (cb.value !== 'Não') {
+                                cb.checked = false;
+                                cb.closest('.checkbox-option').classList.remove('selected');
+                            }
+                        });
+                    } else if (checkbox.checked && checkbox.value !== 'Não') {
+                        const naoCheckbox = document.querySelector('input[name="condicao_digestiva"][value="Não"]');
+                        if (naoCheckbox) {
+                            naoCheckbox.checked = false;
+                            naoCheckbox.closest('.checkbox-option').classList.remove('selected');
+                        }
+                    }
+                });
+            });
+        }
+
+        // =============================================
+        // VALIDAÇÃO DO FORMULÁRIO
+        // =============================================
+
+        function validateForm() {
+            const formData = getFormData();
+            const missingFields = [];
+
+            if (!formData.transito_intestinal) missingFields.push({ name: 'Como está seu trânsito intestinal?', element: document.querySelector('input[name="transito_intestinal"]') });
+            if (!formData.inchaco_gases) missingFields.push({ name: 'Sente inchaço ou gases frequentemente?', element: document.querySelector('input[name="inchaco_gases"]') });
+            if (formData.condicao_digestiva.length === 0) missingFields.push({ name: 'Tem alguma condição digestiva diagnosticada?', element: document.querySelector('input[name="condicao_digestiva"]') });
+            if (!formData.probioticos) missingFields.push({ name: 'Usa probióticos ou prebióticos regularmente?', element: document.querySelector('input[name="probioticos"]') });
+
+            if (missingFields.length > 0) {
+                alert(`Por favor, responda a seguinte pergunta antes de continuar:\n\n${missingFields[0].name}`);
+
+                const firstMissingBlock = missingFields[0].element.closest('.question-block');
+                if (firstMissingBlock) {
+                    firstMissingBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstMissingBlock.style.border = '3px solid #F0AD4E';
+                    setTimeout(() => {
+                        firstMissingBlock.style.border = '';
+                    }, 2000);
+                }
+
+                return false;
+            }
+
+            return true;
+        }
+
+        // =============================================
+        // COLETAR DADOS DO FORMULÁRIO
+        // =============================================
+
+        function getFormData() {
+            // Coletar condições digestivas (múltiplas)
+            const condicoesDigestivas = [];
+            document.querySelectorAll('input[name="condicao_digestiva"]:checked').forEach(checkbox => {
+                condicoesDigestivas.push(checkbox.value);
+            });
+
+            return {
+                transito_intestinal: document.querySelector('input[name="transito_intestinal"]:checked')?.value || null,
+                inchaco_gases: document.querySelector('input[name="inchaco_gases"]:checked')?.value || null,
+                condicao_digestiva: condicoesDigestivas,
+                probioticos: document.querySelector('input[name="probioticos"]:checked')?.value || null
+            };
+        }
+
+        // =============================================
+        // SALVAR E CONTINUAR
+        // =============================================
+
+        function saveAndContinue() {
+            if (!validateForm()) {
+                return;
+            }
+
+            const formData = getFormData();
+
+            console.log('Dados de Saúde Digestiva:', formData);
+
+            // Salvar no localStorage temporariamente
+            localStorage.setItem('anamnese_digestiva', JSON.stringify(formData));
+
+            // TODO: Salvar na API quando estiver implementada
+            // await API.Anamnese.saveSection('digestiva', formData);
+
+            // Redirecionar para próxima seção
+            window.location.href = '/questionario/3-fisica.html';
+        }
+
+        // =============================================
+        // CARREGAR DADOS SALVOS
+        // =============================================
+
+        function loadSavedData() {
+            const savedData = localStorage.getItem('anamnese_digestiva');
+            if (!savedData) return;
+
+            try {
+                const data = JSON.parse(savedData);
+
+                // Restaurar radio buttons
+                if (data.transito_intestinal) {
+                    const radio = document.querySelector(`input[name="transito_intestinal"][value="${data.transito_intestinal}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        radio.closest('.radio-option').classList.add('selected');
+                    }
+                }
+
+                if (data.inchaco_gases) {
+                    const radio = document.querySelector(`input[name="inchaco_gases"][value="${data.inchaco_gases}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        radio.closest('.radio-option').classList.add('selected');
+                    }
+                }
+
+                if (data.probioticos) {
+                    const radio = document.querySelector(`input[name="probioticos"][value="${data.probioticos}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        radio.closest('.radio-option').classList.add('selected');
+                    }
+                }
+
+                // Restaurar checkboxes (condições digestivas)
+                if (data.condicao_digestiva && Array.isArray(data.condicao_digestiva)) {
+                    data.condicao_digestiva.forEach(value => {
+                        const checkbox = document.querySelector(`input[name="condicao_digestiva"][value="${value}"]`);
+                        if (checkbox) {
+                            checkbox.checked = true;
+                            checkbox.closest('.checkbox-option').classList.add('selected');
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados salvos:', error);
+            }
+        }
+
+        // =============================================
+        // NAVEGAÇÃO
+        // =============================================
+
+        function goBack() {
+            window.location.href = '/questionario/1-nutricao.html';
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair? Seu progresso será salvo.')) {
+                API.Auth.logout();
+            }
+        }
+
+        // =============================================
+        // INICIAR AO CARREGAR PÁGINA
+        // =============================================
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+
+
+    
+    <!-- Analytics Module -->
+    <script src="analytics.js"></script>
+    <script>
+        // Inicializar analytics para esta página
+        Analytics.init('digestiva');
+    </script>
+
+    <!-- Auto-Save Module -->
+    <script src="auto-save.js"></script>
+    <script>
+        // Inicializar auto-save para esta página
+        AutoSave.init('digestiva');
+    </script>
+
+</body>
+</html>

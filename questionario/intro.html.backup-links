@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antes de começarmos - Ocea Supplements</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- CSS Customizado -->
+    <link rel="stylesheet" href="estilos-questionario.css?v=7">
+
+    <style>
+        /* Sobrescrever estilos globais com novo layout */
+        .logo img {
+            height: 40px !important;
+            width: auto !important;
+        }
+
+        .cover-image {
+            height: 267px !important;
+        }
+
+        @media (min-width: 1024px) {
+            .cover-image {
+                height: 333px !important;
+            }
+        }
+
+        .progress-wrapper {
+            height: 8px !important;
+        }
+
+        .progress-thumb {
+            width: 32px !important;
+            height: 32px !important;
+            font-size: 0.7rem !important;
+        }
+
+        .btn-logout:hover {
+            background: var(--accent-color) !important;
+            color: white !important;
+        }
+
+        /* Estilos específicos para layout de tabela Purissima */
+        .form-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .form-row {
+            display: flex;
+            border-bottom: 1px solid #e9ecef;
+            transition: background 0.2s;
+        }
+
+        .form-row:last-child {
+            border-bottom: none;
+        }
+
+        .form-row:hover {
+            background: #f8f9fa;
+        }
+
+        .form-row.error {
+            background: #fff5f5;
+            border-left: 4px solid #D9534F;
+        }
+
+        .form-label-col {
+            flex: 0 0 35%;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c2c2c;
+            display: flex;
+            align-items: center;
+            border-right: 1px solid #e9ecef;
+        }
+
+        .form-input-col {
+            flex: 1;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-input-col input,
+        .form-input-col select {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-input-col input.invalid {
+            border-color: #D9534F;
+        }
+
+        .form-input-col input:focus,
+        .form-input-col select:focus {
+            outline: none;
+            border-color: #007c8c;
+            box-shadow: 0 0 0 3px rgba(44, 95, 45, 0.1);
+        }
+
+        .error-message {
+            color: #D9534F;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .radio-inline {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .radio-inline label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        .radio-inline input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #007c8c;
+        }
+
+        /* IMC Display */
+        .imc-display {
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .imc-display h4 {
+            color: #007c8c;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .imc-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007c8c;
+        }
+
+        .imc-category {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+
+            .form-label-col {
+                flex: 1;
+                border-right: none;
+                border-bottom: 1px solid #e9ecef;
+            }
+
+            .form-input-col input {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="/assets/images/logo-ocea.png?v=1761678914" alt="Ocea Supplements">
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <span class="user-greeting" id="user-greeting"></span>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="bi bi-box-arrow-right"></i> Sair
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Imagem de capa -->
+    <picture>
+        <source media="(min-width: 1024px)" srcset="/assets/images/questionario/headers/intro.png">
+        <img src="/assets/images/questionario/headers/intro-mobile.png" alt="Antes de começarmos" class="cover-image">
+    </picture>
+
+    <!-- Barra de progresso -->
+    <div class="progress-container">
+        <div class="container">
+            <div class="progress-wrapper">
+                <div class="progress-bar-custom" style="width: 0%">
+                    <div class="progress-thumb">0%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Questionário -->
+    <section class="questionnaire-section">
+
+        <h1 class="section-title">
+            📋 Antes de começarmos
+        </h1>
+        <p class="section-description">
+            Precisamos conhecer um pouco mais sobre você para criar uma fórmula sob medida.<br>
+            Seus dados são confidenciais e serão utilizados exclusivamente para seu diagnóstico Ocea.
+        </p>
+
+        <form id="intro-form" class="form-table">
+
+            <!-- Nome Completo -->
+            <div class="form-row" id="row-nome">
+                <div class="form-label-col">
+                    Nome Completo
+                </div>
+                <div class="form-input-col">
+                    <input type="text" id="nome_completo" name="nome_completo" required
+                           placeholder="Digite seu nome completo">
+                    <span class="error-message" id="error-nome">Digite apenas letras (mínimo 3 caracteres)</span>
+                </div>
+            </div>
+
+            <!-- Data de Nascimento -->
+            <div class="form-row" id="row-data">
+                <div class="form-label-col">
+                    Data de Nascimento
+                </div>
+                <div class="form-input-col">
+                    <input type="text" id="data_nascimento" name="data_nascimento" required
+                           placeholder="DD/MM/AAAA" maxlength="10">
+                    <span class="error-message" id="error-data">Digite uma data válida (DD/MM/AAAA)</span>
+                </div>
+            </div>
+
+            <!-- Sexo -->
+            <div class="form-row" id="row-sexo">
+                <div class="form-label-col">
+                    Sexo
+                </div>
+                <div class="form-input-col">
+                    <div class="radio-inline">
+                        <label>
+                            <input type="radio" name="sexo" value="Masculino" required>
+                            Masculino
+                        </label>
+                        <label>
+                            <input type="radio" name="sexo" value="Feminino" required>
+                            Feminino
+                        </label>
+                    </div>
+                    <span class="error-message" id="error-sexo">Selecione uma opção</span>
+                </div>
+            </div>
+
+            <!-- Peso -->
+            <div class="form-row" id="row-peso">
+                <div class="form-label-col">
+                    Peso (kg)
+                </div>
+                <div class="form-input-col">
+                    <input type="text" id="peso" name="peso" required
+                           placeholder="Ex: 70" maxlength="6">
+                    <span class="error-message" id="error-peso">Digite 2 ou mais números (mínimo 30kg, máximo 300kg)</span>
+                </div>
+            </div>
+
+            <!-- Altura -->
+            <div class="form-row" id="row-altura">
+                <div class="form-label-col">
+                    Altura (cm)
+                </div>
+                <div class="form-input-col">
+                    <input type="text" id="altura" name="altura" required
+                           placeholder="Ex: 170" maxlength="3">
+                    <span class="error-message" id="error-altura">Digite pelo menos 3 números (mínimo 100cm, máximo 250cm)</span>
+                </div>
+            </div>
+
+        </form>
+
+        <!-- IMC Display -->
+        <div id="imc-display" class="imc-display" style="display: none;">
+            <h4>Seu IMC (Índice de Massa Corporal)</h4>
+            <div class="imc-value" id="imc-valor">--</div>
+            <div class="imc-category" id="imc-categoria">--</div>
+        </div>
+
+        <!-- Botões de navegação -->
+        <div class="navigation-buttons">
+            <button type="button" class="btn-next" onclick="saveAndContinue()">
+                <span class="btn-text-bold">PRÓXIMA ETAPA</span> | <span class="btn-text-normal">Nutrição</span>
+            </button>
+        </div>
+
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- API Client -->
+    <script src="/js/api.js"></script>
+
+    <script>
+        // =============================================
+        // CARREGAR ÚLTIMA ANAMNESE DA API
+        // =============================================
+
+        async function loadLastQuestionnaireFromAPI() {
+            try {
+                console.log('Buscando última anamnese do backend...');
+                const response = await API.Questionnaire.getLastQuestionnaire();
+
+                if (response.success && response.data && response.data.questionnaire_data) {
+                    console.log('Última anamnese encontrada:', response.data);
+
+                    // Carregar dados de cada seção no localStorage
+                    const data = response.data.questionnaire_data;
+
+                    if (data.intro) localStorage.setItem('anamnese_intro', JSON.stringify(data.intro));
+                    if (data.nutricao) localStorage.setItem('anamnese_nutricao', JSON.stringify(data.nutricao));
+                    if (data.digestiva) localStorage.setItem('anamnese_digestiva', JSON.stringify(data.digestiva));
+                    if (data.fisica) localStorage.setItem('anamnese_fisica', JSON.stringify(data.fisica));
+                    if (data.sono) localStorage.setItem('anamnese_sono', JSON.stringify(data.sono));
+                    if (data.mental) localStorage.setItem('anamnese_mental', JSON.stringify(data.mental));
+                    if (data.hormonal) localStorage.setItem('anamnese_hormonal', JSON.stringify(data.hormonal));
+                    if (data.sintomas) localStorage.setItem('anamnese_sintomas', JSON.stringify(data.sintomas));
+
+                    console.log('Dados da última anamnese carregados com sucesso!');
+                } else {
+                    console.log('Nenhuma anamnese anterior encontrada. Iniciando nova.');
+                }
+            } catch (error) {
+                console.error('Erro ao carregar última anamnese:', error);
+                // Não bloquear - usuário pode preencher do zero
+            }
+        }
+
+        // =============================================
+        // INICIALIZAÇÃO
+        // =============================================
+
+        async function init() {
+            // Verificar autenticação
+            if (!API.Auth.isAuthenticated()) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Exibir nome do usuário
+            try {
+                const response = await API.Auth.getCurrentUser();
+                if (response.success && response.data && response.data.name) {
+                    const firstName = response.data.name.split(' ')[0];
+                    document.getElementById('user-greeting').textContent = `Olá, ${firstName}`;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar usuário:', error);
+            }
+
+            // Tentar carregar última anamnese da API
+            await loadLastQuestionnaireFromAPI();
+
+            // Carregar dados salvos do localStorage (prioridade maior)
+            loadSavedData();
+
+            // Configurar event listeners
+            setupEventListeners();
+        }
+
+        // =============================================
+        // EVENT LISTENERS
+        // =============================================
+
+        function setupEventListeners() {
+            // Nome - apenas letras
+            const nomeInput = document.getElementById('nome_completo');
+            nomeInput.addEventListener('input', function(e) {
+                // Permitir apenas letras, espaços e acentos
+                e.target.value = e.target.value.replace(/[^a-zA-ZÀ-ÿ\s]/g, '');
+                validateNome();
+            });
+            nomeInput.addEventListener('blur', validateNome);
+
+            // Data de nascimento - apenas números e máscara
+            const dataInput = document.getElementById('data_nascimento');
+            dataInput.addEventListener('input', function(e) {
+                // Remover tudo que não é número
+                let value = e.target.value.replace(/\D/g, '');
+
+                // Aplicar máscara DD/MM/AAAA
+                if (value.length >= 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2);
+                }
+                if (value.length >= 5) {
+                    value = value.substring(0, 5) + '/' + value.substring(5, 9);
+                }
+
+                e.target.value = value;
+            });
+            dataInput.addEventListener('blur', validateData);
+
+            // Sexo
+            document.querySelectorAll('input[name="sexo"]').forEach(radio => {
+                radio.addEventListener('change', validateSexo);
+            });
+
+            // Peso - apenas números e ponto/vírgula
+            const pesoInput = document.getElementById('peso');
+            pesoInput.addEventListener('input', function(e) {
+                // Permitir apenas números, ponto e vírgula
+                e.target.value = e.target.value.replace(/[^\d.,]/g, '').replace(',', '.');
+                validatePeso();
+                calcularIMC();
+            });
+            pesoInput.addEventListener('blur', validatePeso);
+
+            // Altura - apenas números
+            const alturaInput = document.getElementById('altura');
+            alturaInput.addEventListener('input', function(e) {
+                // Permitir apenas números
+                e.target.value = e.target.value.replace(/\D/g, '');
+                validateAltura();
+                calcularIMC();
+            });
+            alturaInput.addEventListener('blur', validateAltura);
+        }
+
+        // =============================================
+        // VALIDAÇÕES INDIVIDUAIS
+        // =============================================
+
+        function validateNome() {
+            const input = document.getElementById('nome_completo');
+            const value = input.value.trim();
+            const row = document.getElementById('row-nome');
+            const error = document.getElementById('error-nome');
+
+            if (value.length < 3) {
+                input.classList.add('invalid');
+                row.classList.add('error');
+                error.classList.add('show');
+                return false;
+            } else {
+                input.classList.remove('invalid');
+                row.classList.remove('error');
+                error.classList.remove('show');
+                return true;
+            }
+        }
+
+        function validateData() {
+            const input = document.getElementById('data_nascimento');
+            const value = input.value;
+            const row = document.getElementById('row-data');
+            const error = document.getElementById('error-data');
+
+            // Contar apenas números (sem as barras)
+            const apenasNumeros = value.replace(/\D/g, '');
+
+            // Deve ter exatamente 8 dígitos numéricos
+            if (apenasNumeros.length !== 8) {
+                input.classList.add('invalid');
+                row.classList.add('error');
+                error.textContent = 'Digite 8 números (DD/MM/AAAA)';
+                error.classList.add('show');
+                return false;
+            }
+
+            // Verificar formato DD/MM/AAAA
+            if (value.length !== 10 || !/^\d{2}\/\d{2}\/\d{4}$/.test(value)) {
+                input.classList.add('invalid');
+                row.classList.add('error');
+                error.classList.add('show');
+                return false;
+            }
+
+            // Verificar se a data é válida
+            const [dia, mes, ano] = value.split('/').map(Number);
+            const data = new Date(ano, mes - 1, dia);
+
+            if (data.getDate() !== dia || data.getMonth() !== mes - 1 || data.getFullYear() !== ano) {
+                input.classList.add('invalid');
+                row.classList.add('error');
+                error.textContent = 'Data inválida';
+                error.classList.add('show');
+                return false;
+            }
+
+            // Verificar se não é data futura
+            if (data > new Date()) {
+                input.classList.add('invalid');
+                row.classList.add('error');
+                error.textContent = 'Data não pode ser no futuro';
+                error.classList.add('show');
+                return false;
+            }
+
+            input.classList.remove('invalid');
+            row.classList.remove('error');
+            error.classList.remove('show');
+            error.textContent = 'Digite uma data válida (DD/MM/AAAA)';
+            return true;
+        }
+
+        function validateSexo() {
+            const checked = document.querySelector('input[name="sexo"]:checked');
+            const row = document.getElementById('row-sexo');
+            const error = document.getElementById('error-sexo');
+
+            if (!checked) {
+                row.classList.add('error');
+                error.classList.add('show');
+                return false;
+            } else {
+                row.classList.remove('error');
+                error.classList.remove('show');
+                return true;
+            }
+        }
+
+        function validatePeso() {
+            const input = document.getElementById('peso');
+            const value = parseFloat(input.value);
+            const row = document.getElementById('row-peso');
+            const error = document.getElementById('error-peso');
+
+            // Contar apenas dígitos (sem ponto ou vírgula)
+            const apenasNumeros = input.value.replace(/[^\d]/g, '');
+
+            // Peso deve ter 2 ou mais números
+            if (isNaN(value) || value < 30 || value > 300 || apenasNumeros.length < 2) {
+                input.classList.add('invalid');
+                row.classList.add('error');
+                error.classList.add('show');
+                return false;
+            } else {
+                input.classList.remove('invalid');
+                row.classList.remove('error');
+                error.classList.remove('show');
+                return true;
+            }
+        }
+
+        function validateAltura() {
+            const input = document.getElementById('altura');
+            const value = parseInt(input.value);
+            const row = document.getElementById('row-altura');
+            const error = document.getElementById('error-altura');
+
+            // Altura deve ter pelo menos 3 caracteres
+            if (isNaN(value) || value < 100 || value > 250 || input.value.trim().length < 3) {
+                input.classList.add('invalid');
+                row.classList.add('error');
+                error.classList.add('show');
+                return false;
+            } else {
+                input.classList.remove('invalid');
+                row.classList.remove('error');
+                error.classList.remove('show');
+                return true;
+            }
+        }
+
+        // =============================================
+        // VALIDAÇÃO COMPLETA DO FORMULÁRIO
+        // =============================================
+
+        function validateForm() {
+            const validations = [
+                { fn: validateNome, field: 'nome_completo', label: 'Nome Completo' },
+                { fn: validateData, field: 'data_nascimento', label: 'Data de Nascimento' },
+                { fn: validateSexo, field: 'sexo', label: 'Sexo' },
+                { fn: validatePeso, field: 'peso', label: 'Peso' },
+                { fn: validateAltura, field: 'altura', label: 'Altura' }
+            ];
+
+            let firstInvalid = null;
+
+            for (let validation of validations) {
+                if (!validation.fn()) {
+                    if (!firstInvalid) {
+                        firstInvalid = validation;
+                    }
+                }
+            }
+
+            return firstInvalid;
+        }
+
+        // =============================================
+        // CALCULAR IMC
+        // =============================================
+
+        function calcularIMC() {
+            const peso = parseFloat(document.getElementById('peso').value);
+            const altura = parseInt(document.getElementById('altura').value);
+
+            if (peso && altura && peso >= 30 && altura >= 100) {
+                const alturaMetros = altura / 100;
+                const imc = peso / (alturaMetros * alturaMetros);
+                const imcArredondado = imc.toFixed(1);
+
+                let categoria = '';
+                if (imc < 18.5) {
+                    categoria = 'Abaixo do peso';
+                } else if (imc < 25) {
+                    categoria = 'Peso normal';
+                } else if (imc < 30) {
+                    categoria = 'Sobrepeso';
+                } else {
+                    categoria = 'Obesidade';
+                }
+
+                document.getElementById('imc-valor').textContent = imcArredondado;
+                document.getElementById('imc-categoria').textContent = categoria;
+                document.getElementById('imc-display').style.display = 'block';
+
+                return { imc: imcArredondado, categoria };
+            } else {
+                document.getElementById('imc-display').style.display = 'none';
+            }
+            return null;
+        }
+
+        // =============================================
+        // SALVAR E CONTINUAR
+        // =============================================
+
+        function saveAndContinue() {
+            // Validar todos os campos
+            const firstInvalid = validateForm();
+
+            if (firstInvalid) {
+                // Mostrar alerta
+                alert(`Por favor, preencha corretamente o campo: ${firstInvalid.label}`);
+
+                // Scroll até o primeiro campo inválido
+                const row = document.getElementById(`row-${firstInvalid.field.replace('_', '-')}`);
+                if (row) {
+                    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
+                // Focar no campo
+                const field = document.getElementById(firstInvalid.field);
+                if (field) {
+                    setTimeout(() => field.focus(), 500);
+                }
+
+                return;
+            }
+
+            // Verificar idade mínima
+            const dataNascimento = document.getElementById('data_nascimento').value;
+            const idade = calcularIdade(dataNascimento);
+
+            if (idade < 13) {
+                alert('Você precisa ter pelo menos 13 anos para preencher este questionário.');
+                return;
+            }
+
+            // Coletar dados
+            const formData = {
+                nome_completo: document.getElementById('nome_completo').value.trim(),
+                data_nascimento: dataNascimento,
+                idade: idade,
+                sexo: document.querySelector('input[name="sexo"]:checked').value,
+                peso: parseFloat(document.getElementById('peso').value),
+                altura: parseInt(document.getElementById('altura').value)
+            };
+
+            // Calcular IMC
+            const imcData = calcularIMC();
+            if (imcData) {
+                formData.imc = parseFloat(imcData.imc);
+                formData.imc_categoria = imcData.categoria;
+            }
+
+            console.log('Dados da Intro:', formData);
+
+            // Salvar no localStorage
+            localStorage.setItem('anamnese_intro', JSON.stringify(formData));
+
+            // Redirecionar
+            window.location.href = '/questionario/1-nutricao.html';
+        }
+
+        // =============================================
+        // CALCULAR IDADE
+        // =============================================
+
+        function calcularIdade(dataNascimento) {
+            const [dia, mes, ano] = dataNascimento.split('/').map(Number);
+            const nascimento = new Date(ano, mes - 1, dia);
+            const hoje = new Date();
+
+            let idade = hoje.getFullYear() - nascimento.getFullYear();
+            const m = hoje.getMonth() - nascimento.getMonth();
+
+            if (m < 0 || (m === 0 && hoje.getDate() < nascimento.getDate())) {
+                idade--;
+            }
+
+            return idade;
+        }
+
+        // =============================================
+        // CARREGAR DADOS SALVOS
+        // =============================================
+
+        function loadSavedData() {
+            const savedData = localStorage.getItem('anamnese_intro');
+            if (!savedData) return;
+
+            try {
+                const data = JSON.parse(savedData);
+
+                if (data.nome_completo) document.getElementById('nome_completo').value = data.nome_completo;
+                if (data.data_nascimento) document.getElementById('data_nascimento').value = data.data_nascimento;
+                if (data.sexo) document.querySelector(`input[name="sexo"][value="${data.sexo}"]`).checked = true;
+                if (data.peso) document.getElementById('peso').value = data.peso;
+                if (data.altura) document.getElementById('altura').value = data.altura;
+
+                calcularIMC();
+            } catch (error) {
+                console.error('Erro ao carregar dados salvos:', error);
+            }
+        }
+
+        // =============================================
+        // NAVEGAÇÃO
+        // =============================================
+
+        function goBack() {
+            window.location.href = '/dashboard.html';
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair? Seu progresso será salvo.')) {
+                API.Auth.logout();
+            }
+        }
+
+        // =============================================
+        // INICIAR
+        // =============================================
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+
+    
+    <!-- Analytics Module -->
+    <script src="analytics.js"></script>
+    <script>
+        // Inicializar analytics para esta página
+        Analytics.init('intro');
+    </script>
+
+    <!-- Auto-Save Module -->
+    <script src="auto-save.js"></script>
+    <script>
+        // Inicializar auto-save para esta página
+        AutoSave.init('intro');
+    </script>
+
+</body>
+</html>

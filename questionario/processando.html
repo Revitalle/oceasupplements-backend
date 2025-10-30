@@ -227,7 +227,7 @@
                 setTimeout(() => {
                     // TODO: Obter o diagnostic_id real da API
                     const diagnosticId = localStorage.getItem('last_diagnostic_id') || '1';
-                    window.location.href = `/resultado.html?diagnostic_id=${diagnosticId}`;
+                    window.location.href = `/backend/questionario/resultado.html?diagnostic_id=${diagnosticId}`;
                 }, 500);
             }
         }

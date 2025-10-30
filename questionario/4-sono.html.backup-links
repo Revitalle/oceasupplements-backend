@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sono e Descanso - Ocea Supplements</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- CSS Customizado -->
+    <link rel="stylesheet" href="estilos-questionario.css?v=7">
+
+    <style>
+        :root {
+            --primary-color: #2C5F2D;
+            --secondary-color: #97BC62;
+            --accent-color: #FFB81C;
+            --neutral-bg: #F7F4EF;
+            --text-dark: #2c2c2c;
+            --brown-detail: #8B7355;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--neutral-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header fixo */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #007c8c;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        /* Tamanho específico do logo - testando */
+        .logo img {
+            height: 40px !important;
+            width: auto !important;
+        }
+
+        .user-greeting {
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .btn-logout {
+            background: white;
+            color: #007c8c;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        /* Imagem de capa */
+        .cover-image {
+            width: 100%;
+            height: 267px; /* Reduzido em 1/3: era 400px */
+            object-fit: cover;
+            margin-top: 70px;
+        }
+
+        @media (min-width: 1024px) {
+            .cover-image {
+                height: 333px; /* Reduzido em 1/3: era 500px */
+            }
+        }
+
+        /* Barra de progresso - BEM MAIS FINA */
+        .progress-container {
+            background: white;
+            padding: 0.75rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .progress-wrapper {
+            position: relative;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: visible;
+        }
+
+        .progress-bar-custom {
+            height: 100%;
+            background: linear-gradient(90deg, #007c8c, var(--secondary-color));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+
+        .progress-thumb {
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            background: #007c8c;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.7rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        /* Questionário */
+        .questionnaire-section {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-title {
+            color: #007c8c;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-description {
+            color: #666;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .question-block {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 1.33rem; /* Reduzido em 1/3: era 2rem */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .question-number {
+            color: var(--secondary-color);
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Radio buttons estilizados - 2 COLUNAS */
+        .radio-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        /* Em mobile, volta para 1 coluna */
+        @media (max-width: 768px) {
+            .radio-group {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .radio-option {
+            background: var(--neutral-bg);
+            border: 3px solid transparent;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .radio-option:hover {
+            border-color: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        .radio-option.selected {
+            border-color: var(--primary-color);
+            background: #e8f5e9;
+        }
+
+        .radio-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-color);
+        }
+
+        .radio-option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 1rem;
+        }
+
+        /* Range slider personalizado */
+        .slider-container {
+            padding: 1rem 0;
+        }
+
+        .slider-wrapper {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            /* Degradê de turquesa → amarelo → vermelho */
+            background: linear-gradient(to right,
+                #007c8c 0%,    /* Turquesa no 0 */
+                #F0AD4E 50%,   /* Amarelo no 5 */
+                #D9534F 100%   /* Vermelho no 10 */
+            );
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            border: none;
+        }
+
+        .slider-value {
+            display: none; /* Ocultar o número verde */
+        }
+
+        /* Checkboxes estilizados */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .checkbox-option {
+            background: var(--neutral-bg);
+            border: 3px solid transparent;
+            border-radius: 12px;
+            padding: 0.75rem 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .checkbox-option:hover {
+            border-color: var(--secondary-color);
+        }
+
+        .checkbox-option.selected {
+            border-color: var(--primary-color);
+            background: #e8f5e9;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-color);
+        }
+
+        .checkbox-option label {
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        /* Botões de navegação - Estilo Puríssima */
+        .navigation-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 3rem 0;
+            gap: 0.66rem;
+        }
+
+        /* Botão Principal (Próxima Etapa) */
+        .btn-next {
+            background: #007c8c;
+            color: #FFFFFF;
+            padding: 16px 48px;
+            border-radius: 50px;
+            border: none;
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: auto;
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.5;
+            box-shadow: 0 4px 12px rgba(0, 124, 140, 0.3);
+            white-space: nowrap;
+        }
+
+        .btn-next:hover {
+            background: #005F6B;
+            box-shadow: 0 6px 16px rgba(0, 124, 140, 0.4);
+        }
+
+        .btn-next:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* Texto dentro do botão */
+        .btn-next .btn-text-bold {
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-next .btn-text-normal {
+            font-weight: 400;
+            text-transform: uppercase;
+        }
+
+        /* Link Voltar (Editar Respostas Anteriores) */
+        .btn-prev {
+            background: none;
+            border: none;
+            color: #2c2c2c;
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .btn-prev:hover {
+            color: #007c8c;
+        }
+
+        .btn-prev::before {
+            content: "‹";
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .question-block {
+                padding: 1.5rem;
+            }
+
+            .btn-next {
+                font-size: 14px;
+                padding: 14px 32px;
+            }
+
+            .btn-prev {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header fixo -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <img src="/assets/images/logo-ocea.png?v=1761678914" alt="Ocea Supplements">
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <span class="user-greeting" id="user-greeting"></span>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="bi bi-box-arrow-right"></i> Sair
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Imagem de capa -->
+    <picture>
+        <source media="(min-width: 1024px)" srcset="/assets/images/questionario/headers/4-sono.png">
+        <img src="/assets/images/questionario/headers/4-sono-mobile.png" alt="Sono e Descanso" class="cover-image">
+    </picture>
+
+    <!-- Barra de progresso -->
+    <div class="progress-container">
+        <div class="container">
+            <div class="progress-wrapper">
+                <div class="progress-bar-custom" id="progress-bar" style="width: 57%">
+                    <div class="progress-thumb">57%</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Questionário -->
+    <section class="questionnaire-section">
+
+        <h1 class="section-title">
+            💤 Sono e Descanso
+        </h1>
+        <p class="section-description">
+            A qualidade do sono é fundamental para sua saúde física e mental.
+        </p>
+
+        <form id="sono-form">
+
+            <!-- Pergunta 1 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 1 DE 3</div>
+                <div class="question-text">Quantas horas você dorme por noite em média?</div>
+                <div class="radio-group">
+                    <div class="radio-option" data-question="horas_sono">
+                        <input type="radio" name="horas_sono" value="<5" id="horas_1">
+                        <label for="horas_1">Menos de 5 horas</label>
+                    </div>
+                    <div class="radio-option" data-question="horas_sono">
+                        <input type="radio" name="horas_sono" value="5-6" id="horas_2">
+                        <label for="horas_2">5 a 6 horas</label>
+                    </div>
+                    <div class="radio-option" data-question="horas_sono">
+                        <input type="radio" name="horas_sono" value="7-8" id="horas_3">
+                        <label for="horas_3">7 a 8 horas (ideal)</label>
+                    </div>
+                    <div class="radio-option" data-question="horas_sono">
+                        <input type="radio" name="horas_sono" value=">8" id="horas_4">
+                        <label for="horas_4">Mais de 8 horas</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pergunta 2 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 2 DE 3</div>
+                <div class="question-text">Avalie a qualidade do seu sono</div>
+                <div class="slider-container">
+                    <div class="slider-labels">
+                        <span>0 - Péssimo</span>
+                        <span>10 - Excelente</span>
+                    </div>
+                    <div class="slider-markers">
+                        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+                    </div>
+                    <input type="range" name="qualidade_sono" min="0" max="10" value="0" step="1" id="slider_qualidade">
+                    <div class="slider-value" id="value_qualidade">0</div>
+                </div>
+            </div>
+
+            <!-- Pergunta 3 -->
+            <div class="question-block">
+                <div class="question-number">PERGUNTA 3 DE 3</div>
+                <div class="question-text">Tem dificuldade para adormecer ou acorda frequentemente durante a noite?</div>
+                <div class="radio-group">
+                    <div class="radio-option" data-question="dificuldade_dormir">
+                        <input type="radio" name="dificuldade_dormir" value="Nunca" id="dificuldade_1">
+                        <label for="dificuldade_1">Nunca (durmo facilmente)</label>
+                    </div>
+                    <div class="radio-option" data-question="dificuldade_dormir">
+                        <input type="radio" name="dificuldade_dormir" value="Raramente" id="dificuldade_2">
+                        <label for="dificuldade_2">Raramente</label>
+                    </div>
+                    <div class="radio-option" data-question="dificuldade_dormir">
+                        <input type="radio" name="dificuldade_dormir" value="Às vezes" id="dificuldade_3">
+                        <label for="dificuldade_3">Às vezes</label>
+                    </div>
+                    <div class="radio-option" data-question="dificuldade_dormir">
+                        <input type="radio" name="dificuldade_dormir" value="Frequentemente" id="dificuldade_4">
+                        <label for="dificuldade_4">Frequentemente</label>
+                    </div>
+                    <div class="radio-option" data-question="dificuldade_dormir">
+                        <input type="radio" name="dificuldade_dormir" value="Sempre" id="dificuldade_5">
+                        <label for="dificuldade_5">Sempre (insônia crônica)</label>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+
+        <!-- Botões de navegação -->
+        <div class="navigation-buttons">
+            <button type="button" class="btn-next" onclick="saveAndContinue()">
+                <span class="btn-text-bold">PRÓXIMA ETAPA</span> | <span class="btn-text-normal">Saúde Mental</span>
+            </button>
+            <button type="button" class="btn-prev" onclick="goBack()">Editar Respostas Anteriores</button>
+        </div>
+
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- API Client -->
+    <script src="/js/api.js"></script>
+
+    <script>
+        // =============================================
+        // INICIALIZAÇÃO
+        // =============================================
+
+        async function init() {
+            // Verificar autenticação
+            if (!API.Auth.isAuthenticated()) {
+                window.location.href = '/login.html';
+                return;
+            }
+
+            // Exibir nome do usuário
+            try {
+                const response = await API.Auth.getCurrentUser();
+                if (response.success && response.data && response.data.name) {
+                    const firstName = response.data.name.split(' ')[0];
+                    document.getElementById('user-greeting').textContent = `Olá, ${firstName}`;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar usuário:', error);
+            }
+
+            // Carregar dados salvos (se houver)
+            loadSavedData();
+
+            // Configurar event listeners
+            setupEventListeners();
+        }
+
+        // =============================================
+        // EVENT LISTENERS
+        // =============================================
+
+        function setupEventListeners() {
+            // Radio buttons - adicionar classe selected
+            document.querySelectorAll('.radio-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionName = this.dataset.question;
+                    // Remover selected de todas as opções da mesma pergunta
+                    document.querySelectorAll(`.radio-option[data-question="${questionName}"]`).forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    // Adicionar selected na opção clicada
+                    this.classList.add('selected');
+                    // Marcar o radio
+                    this.querySelector('input[type="radio"]').checked = true;
+                });
+            });
+
+            // Slider - atualizar valor exibido
+            const sliderQualidade = document.getElementById('slider_qualidade');
+            const valueQualidade = document.getElementById('value_qualidade');
+
+            sliderQualidade.addEventListener('input', function() {
+                valueQualidade.textContent = this.value;
+            });
+        }
+
+        // =============================================
+        // VALIDAÇÃO DO FORMULÁRIO
+        // =============================================
+
+        function validateForm() {
+            const formData = getFormData();
+            const missingFields = [];
+
+            if (!formData.horas_sono) missingFields.push({ name: 'Quantas horas você dorme por noite em média?', element: document.querySelector('input[name="horas_sono"]') });
+            if (!formData.dificuldade_dormir) missingFields.push({ name: 'Tem dificuldade para adormecer ou acorda frequentemente durante a noite?', element: document.querySelector('input[name="dificuldade_dormir"]') });
+
+            if (missingFields.length > 0) {
+                alert(`Por favor, responda a seguinte pergunta antes de continuar:\n\n${missingFields[0].name}`);
+
+                // Scroll até a primeira pergunta não respondida
+                const firstMissingBlock = missingFields[0].element.closest('.question-block');
+                if (firstMissingBlock) {
+                    firstMissingBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstMissingBlock.style.border = '3px solid #F0AD4E';
+                    setTimeout(() => {
+                        firstMissingBlock.style.border = '';
+                    }, 2000);
+                }
+
+                return false;
+            }
+
+            return true;
+        }
+
+        // =============================================
+        // COLETAR DADOS DO FORMULÁRIO
+        // =============================================
+
+        function getFormData() {
+            return {
+                horas_sono: document.querySelector('input[name="horas_sono"]:checked')?.value || null,
+                qualidade_sono: parseInt(document.getElementById('slider_qualidade').value),
+                dificuldade_dormir: document.querySelector('input[name="dificuldade_dormir"]:checked')?.value || null
+            };
+        }
+
+        // =============================================
+        // SALVAR E CONTINUAR
+        // =============================================
+
+        function saveAndContinue() {
+            // Validar formulário antes de continuar
+            if (!validateForm()) {
+                return;
+            }
+
+            const formData = getFormData();
+
+            console.log('Dados de Sono:', formData);
+
+            // Salvar no localStorage temporariamente
+            localStorage.setItem('anamnese_sono', JSON.stringify(formData));
+
+            // TODO: Salvar na API quando estiver implementada
+            // await API.Anamnese.saveSection('sono', formData);
+
+            // Redirecionar para próxima seção
+            window.location.href = '/questionario/5-mental.html';
+        }
+
+        // =============================================
+        // CARREGAR DADOS SALVOS
+        // =============================================
+
+        function loadSavedData() {
+            const savedData = localStorage.getItem('anamnese_sono');
+            if (!savedData) return;
+
+            try {
+                const data = JSON.parse(savedData);
+
+                // Restaurar radio buttons
+                if (data.horas_sono) {
+                    const radio = document.querySelector(`input[name="horas_sono"][value="${data.horas_sono}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        radio.closest('.radio-option').classList.add('selected');
+                    }
+                }
+
+                if (data.dificuldade_dormir) {
+                    const radio = document.querySelector(`input[name="dificuldade_dormir"][value="${data.dificuldade_dormir}"]`);
+                    if (radio) {
+                        radio.checked = true;
+                        radio.closest('.radio-option').classList.add('selected');
+                    }
+                }
+
+                // Restaurar slider
+                if (data.qualidade_sono !== null) {
+                    document.getElementById('slider_qualidade').value = data.qualidade_sono;
+                    document.getElementById('value_qualidade').textContent = data.qualidade_sono;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados salvos:', error);
+            }
+        }
+
+        // =============================================
+        // NAVEGAÇÃO
+        // =============================================
+
+        function goBack() {
+            window.location.href = '/questionario/3-fisica.html';
+        }
+
+        function logout() {
+            if (confirm('Tem certeza que deseja sair? Seu progresso será salvo.')) {
+                API.Auth.logout();
+            }
+        }
+
+        // =============================================
+        // INICIAR AO CARREGAR PÁGINA
+        // =============================================
+
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+
+
+    
+    <!-- Analytics Module -->
+    <script src="analytics.js"></script>
+    <script>
+        // Inicializar analytics para esta página
+        Analytics.init('sono');
+    </script>
+
+    <!-- Auto-Save Module -->
+    <script src="auto-save.js"></script>
+    <script>
+        // Inicializar auto-save para esta página
+        AutoSave.init('sono');
+    </script>
+
+</body>
+</html>

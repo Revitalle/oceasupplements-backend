@@ -23,7 +23,7 @@
   const Analytics = {
     // Configuração
     config: {
-      apiEndpoint: '/api/v1/analytics/events',
+      apiEndpoint: 'https://web-production-f401a.up.railway.app/api/v1/analytics/events',
       enableConsoleLog: true,
       sessionTimeout: 30 * 60 * 1000, // 30 minutos
       sendInterval: 5000, // Enviar eventos a cada 5 segundos
@@ -273,7 +273,7 @@
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + localStorage.getItem('token')
+              'Authorization': 'Bearer ' + (localStorage.getItem('auth_token') || '')
             },
             body: JSON.stringify(payload)
           });
