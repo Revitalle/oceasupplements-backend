@@ -70,6 +70,16 @@ const limiter = rateLimit({
 app.use('/api/', limiter);
 
 // =============================================
+// ARQUIVOS ESTÁTICOS
+// =============================================
+
+// Servir arquivos do questionário
+app.use('/questionario', express.static(path.join(__dirname, 'questionario')));
+
+// Servir assets (imagens, etc)
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+
+// =============================================
 // ROTAS
 // =============================================
 
