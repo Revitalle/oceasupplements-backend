@@ -29,8 +29,19 @@ const PORT = process.env.PORT || 3000;
 // MIDDLEWARES GLOBAIS
 // =============================================
 
-// Segurança
-app.use(helmet());
+// Segurança com CSP configurado
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://fonts.googleapis.com"],
+      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdn.jsdelivr.net"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", "http://localhost:3000", "https://web-production-f401a.up.railway.app"]
+    }
+  }
+}));
 
 // CORS - Permitir requisições do frontend
 const allowedOrigins = process.env.ALLOWED_ORIGINS
